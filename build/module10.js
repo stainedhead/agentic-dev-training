@@ -96,7 +96,7 @@ async function build() {
       { n:"3", head:"Every tool must justify its existence", color:C.green,
         body:"Self-contained, non-overlapping, purpose-specific. If you can\u2019t explain in one sentence what a tool does and when it\u2019s called, don\u2019t build it yet. Tool proliferation creates chaos." },
       { n:"4", head:"Folder structure IS context engineering", color:C.steel,
-        body:"How you organise the project communicates intent to the agent. CLAUDE.md at root, specs in /specs, ADRs in /adr, agent docs in /agent_docs. Structure first, then prompt." },
+        body:"How you organize the project communicates intent to the agent. CLAUDE.md at root, specs in /specs, ADRs in /adr, agent docs in /agent_docs. Structure first, then prompt." },
       { n:"5", head:"Design for Agent Experience (AX)", color:C.iceBlue,
         body:"Just as you design APIs for Developer Experience (DX), design your system for Agent Experience. OpenAPI schemas, llms.txt, MCP-compatible interfaces, parseable formats." },
       { n:"6", head:"Observability before deployment", color:C.accent,
@@ -218,7 +218,7 @@ async function build() {
     });
   }
 
-  // SLIDE 6 — Programme Scope Bridge
+  // SLIDE 6 — Program Scope Bridge
   {
     const s = pres.addSlide();
     s.background = { color:C.navy };
@@ -314,7 +314,7 @@ async function build() {
         fix:"One tool, one responsibility. If two tools share 50% of their purpose, merge or split them more radically." },
       { n:"03", head:"Design without observability",
         impact:"First production incident is untraceable. No spans, no logs, no evaluation baseline. Fix requires full observability retrofit.",
-        fix:"Observability is a design artefact, not an operational afterthought. Specify what to trace in the design doc." },
+        fix:"Observability is a design artifact, not an operational afterthought. Specify what to trace in the design doc." },
       { n:"04", head:"No explicit agent permission model",
         impact:"Agent accumulates permissions organically as features are added. Audit reveals least-privilege was never applied.",
         fix:"Define agent permissions as a table in the design doc. Review it in the security gate before writing any code." },
@@ -413,7 +413,7 @@ async function build() {
       }
     });
 
-    s.addText("The goal of this training programme: move your teams from Level 2 to Level 3 within 90 days, with a clear path to Level 4.", {
+    s.addText("The goal of this training program: move your teams from Level 2 to Level 3 within 90 days, with a clear path to Level 4.", {
       x:0.35, y:5.35, w:9.3, h:0.24, fontSize:11, color:C.muted, italic:true, margin:0
     });
   }
@@ -451,12 +451,12 @@ async function build() {
     });
   }
 
-  // SLIDE 12 — Programme Wrap-Up
+  // SLIDE 12 — Program Wrap-Up
   {
     const s = pres.addSlide();
     s.background = { color:C.navy };
     s.addShape(pres.shapes.RECTANGLE, { x:9.82, y:0, w:0.18, h:5.625, fill:{ color:C.accent } });
-    s.addText("PROGRAMME WRAP-UP  \u00B7  MODULE 10 SUMMARY", { x:0.4, y:0.22, w:9, h:0.45, fontSize:13, color:C.iceBlue, bold:true, charSpacing:3, margin:0 });
+    s.addText("PROGRAM WRAP-UP  \u00B7  MODULE 10 SUMMARY", { x:0.4, y:0.22, w:9, h:0.45, fontSize:13, color:C.iceBlue, bold:true, charSpacing:3, margin:0 });
 
     s.addShape(pres.shapes.RECTANGLE, { x:0.35, y:0.82, w:5.5, h:3.82, fill:{ color:C.mid, transparency:20 }, shadow:shadow() });
     s.addShape(pres.shapes.RECTANGLE, { x:0.35, y:0.82, w:5.5, h:0.48, fill:{ color:C.iceBlue, transparency:15 } });
@@ -489,7 +489,7 @@ async function build() {
     s.addText(plan.join("\n\n"), { x:6.2, y:1.4, w:3.35, h:3.1, fontSize:11, color:C.pale, margin:0 });
 
     s.addShape(pres.shapes.RECTANGLE, { x:0.35, y:4.75, w:9.3, h:0.62, fill:{ color:C.green, transparency:15 } });
-    s.addText("\u2705  Programme Complete  \u00B7  Enterprise Agentic Practices  \u00B7  10 Modules  \u00B7  Delivered", {
+    s.addText("\u2705  Program Complete  \u00B7  Enterprise Agentic Practices  \u00B7  10 Modules  \u00B7  Delivered", {
       x:0.35, y:4.75, w:9.3, h:0.62, fontSize:14, color:C.white, bold:true, align:"center", valign:"middle", margin:0
     });
   }

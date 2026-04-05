@@ -392,7 +392,7 @@ async function build() {
       { n:"07", group:"Human Control", label:"Contact Humans with Tools",        note:"HITL is just another tool call — not a framework" },
       { n:"08", group:"Human Control", label:"Own Your Control Plane",           note:"Interrupt, pause, resume — agents need kill switches" },
       { n:"09", group:"Ops",           label:"Compact Errors into Context",      note:"Errors are signal — summarise and continue, don't crash" },
-      { n:"10", group:"Ops",           label:"Small, Focused Context Windows",   note:"Tight context = predictable behaviour" },
+      { n:"10", group:"Ops",           label:"Small, Focused Context Windows",   note:"Tight context = predictable behavior" },
       { n:"11", group:"Ops",           label:"Trigger from Events, Not Cron",    note:"Agents are reactive — wire to events not schedules" },
       { n:"12", group:"Ops",           label:"Stateless Reducer Architecture",   note:"Replay any agent run from its event log" },
     ];
@@ -470,7 +470,7 @@ async function build() {
       s.addText("Claude Code / Copilot: " + p.example, { x: x + 0.72, y: y + 1.18, w: w - 0.85, h: 0.64, fontSize: 9.5, color: C.white, italic: true, valign: "middle", margin: 0 });
     }
 
-    s.addText("Understanding these patterns helps you reason about Claude Code behaviour and design production systems when the time comes.", {
+    s.addText("Understanding these patterns helps you reason about Claude Code behavior and design production systems when the time comes.", {
       x: 0.35, y: 5.42, w: 9.3, h: 0.24, fontSize: 9.5, color: C.iceBlue, italic: true, align: "center", margin: 0
     });
   }

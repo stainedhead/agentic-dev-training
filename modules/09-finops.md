@@ -86,7 +86,7 @@ Tools like LLMLingua compress prompts using a small model before sending to the 
 Enforce limits at every level. Each layer enforces its own limit independently.
  
 ```
-Organisation budget     ← Monthly cap, total AI spend
+Organization budget     ← Monthly cap, total AI spend
   └── Team budget       ← Monthly cap per team
         └── Feature budget   ← Daily cap per product feature
               └── Session token limit  ← Max tokens per agent session

@@ -2,7 +2,7 @@
 
 ## Learning Objectives
 
-- Understand that coding agents are reviewers across all SDLC artefacts — not just code
+- Understand that coding agents are reviewers across all SDLC artifacts — not just code
 - Design review cycles that balance autonomy with oversight
 - Apply human-in-the-loop (HITL) patterns at the right granularity
 - Implement agent-to-agent review (evaluator pattern)
@@ -17,7 +17,7 @@ Review is where agentic development differs most visibly from traditional softwa
 
 Coding agents change this equation significantly. An agent can review a PR against a specification in seconds. It can read a proposed architecture document alongside the entire codebase and identify conflicts a human reviewer would miss. It can check whether API documentation is still accurate after a refactor. It can walk a new team member through a complex subsystem at whatever depth they need.
 
-**Review in an agentic team is not just code review.** It spans every artefact produced in the SDLC — and an agent is a capable reviewer at every stage.
+**Review in an agentic team is not just code review.** It spans every artifact produced in the SDLC — and an agent is a capable reviewer at every stage.
 
 Spotify's engineering teams found that the key is not reducing human review — it is making human review *better targeted*: humans spend their attention on decisions that require human judgment, while agents handle pattern-matching, consistency checks, and completeness verification that don't.
 
@@ -27,9 +27,9 @@ Spotify's engineering teams found that the key is not reducing human review — 
 
 ### 1. The Full Scope of Agent Review
 
-Before designing review cycles, establish what an agent can review. The answer is: any artefact that can be expressed in text and evaluated against criteria.
+Before designing review cycles, establish what an agent can review. The answer is: any artifact that can be expressed in text and evaluated against criteria.
 
-| Artefact | What the agent reviews against | Typical output |
+| Artifact | What the agent reviews against | Typical output |
 |----------|-------------------------------|----------------|
 | **PRD** | Completeness checklist, existing system constraints, prior ADRs | Gaps, conflicts, open questions |
 | **Design / architecture proposal** | Existing codebase, architecture principles, security patterns | Violations, missing considerations, alternatives |
@@ -210,7 +210,7 @@ Agents can explain team processes by reading CLAUDE.md, PRODUCT.md, and the task
 | "How does this code work?" | ✅ Agent reads and explains accurately | Optional |
 | "Why was this design decision made?" | ✅ Agent reads ADRs and history | Optional |
 | "What does this team value in code reviews?" | ✅ Agent reads CLAUDE.md and standards | Supplement |
-| "How do I grow in this organisation?" | ❌ Not appropriate | ✅ Human |
+| "How do I grow in this organization?" | ❌ Not appropriate | ✅ Human |
 | "What should I work on next?" | ❌ Not appropriate | ✅ Human |
 | "Is my approach to this problem right?" | ✅ Agent can review the approach | ✅ Human validates |
 
@@ -238,7 +238,7 @@ Agents can explain team processes by reading CLAUDE.md, PRODUCT.md, and the task
 4. Write the PR description template for this specific task.
 5. What is the escalation path if something goes wrong at 2am?
 
-**Part 2 — Expand to the full artefact set.** For each artefact below, define: (a) what the agent reviews it against, (b) what structured output it produces, (c) where the human gate sits.
+**Part 2 — Expand to the full artifact set.** For each artifact below, define: (a) what the agent reviews it against, (b) what structured output it produces, (c) where the human gate sits.
 
 - A PRD for a new feature
 - An architecture proposal for a new service

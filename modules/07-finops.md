@@ -89,7 +89,7 @@ For enterprise accountability, every agent run must be attributable:
 ```
 Who triggered it?     → User ID / service account
 What for?             → Business purpose / ticket ID
-Which team owns it?   → Cost centre / squad
+Which team owns it?   → Cost center / squad
 What model was used?  → Model version and tier
 What did it cost?     → Actual token count × price
 ```

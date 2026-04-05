@@ -27,7 +27,7 @@ async function build() {
       {text:"  |  ",options:{color:C.muted}},{text:"Level: ",options:{bold:true,color:C.muted}},{text:"Intermediate",options:{color:C.muted}}
     ], { x:0.4, y:4.3, w:5, h:0.38, fontSize:13, margin:0 });
     // Right: review loop visual
-    const steps = [{l:"Artefact",c:C.navy},{l:"Agent Reviews",c:C.teal},{l:"Structured Output",c:C.accent},{l:"Human Gate",c:C.green},{l:"\u2713 Proceed / \u21BA Revise",c:C.steel}];
+    const steps = [{l:"Artifact",c:C.navy},{l:"Agent Reviews",c:C.teal},{l:"Structured Output",c:C.accent},{l:"Human Gate",c:C.green},{l:"\u2713 Proceed / \u21BA Revise",c:C.steel}];
     for (let i = 0; i < steps.length; i++) {
       const st = steps[i];
       const y = 0.65 + i * 0.95;
@@ -44,8 +44,8 @@ async function build() {
     s.addText("LEARNING OBJECTIVES", { x:0.4, y:0, w:9.2, h:0.82, fontSize:13, color:C.white, bold:true, charSpacing:3, valign:"middle", margin:0 });
     s.addText("By the end of this module you will be able to:", { x:0.35, y:0.9, w:9.3, h:0.28, fontSize:11, color:C.muted, italic:true, margin:0 });
     const objs = [
-      { icon: FaLayerGroup,      color: C.accent, title: "Review Across All SDLC Artefacts",  body: "Understand that coding agents are reviewers across ALL artefacts \u2014 not just code. PRDs, specs, architecture proposals, docs, and ADRs are all in scope." },
-      { icon: FaClipboardCheck,  color: C.teal,   title: "Design HITL Review Cycles",         body: "Apply human-in-the-loop patterns (approval gate, checkpoint, exception escalation, spot check) at the right granularity for each artefact and risk level." },
+      { icon: FaLayerGroup,      color: C.accent, title: "Review Across All SDLC Artifacts",  body: "Understand that coding agents are reviewers across ALL artifacts \u2014 not just code. PRDs, specs, architecture proposals, docs, and ADRs are all in scope." },
+      { icon: FaClipboardCheck,  color: C.teal,   title: "Design HITL Review Cycles",         body: "Apply human-in-the-loop patterns (approval gate, checkpoint, exception escalation, spot check) at the right granularity for each artifact and risk level." },
       { icon: FaGavel,           color: C.green,  title: "Implement Agent-to-Agent Review",   body: "Use a dedicated evaluator agent to review generator agent output before it reaches a human \u2014 catching pattern failures at scale." },
       { icon: FaUserGraduate,    color: C.steel,  title: "Use Agents as Educators",           body: "Leverage agents to explain codebase, design decisions, and team processes to new team members on demand \u2014 without interrupting senior developers." },
     ];
@@ -67,12 +67,12 @@ async function build() {
     const s = pres.addSlide(); s.background = { color: C.white };
     s.addShape(pres.shapes.RECTANGLE, { x:0, y:0, w:10, h:0.82, fill:{color:C.navy} });
     s.addText("THE FULL SCOPE OF AGENT REVIEW", { x:0.4, y:0, w:9, h:0.82, fontSize:13, color:C.white, bold:true, charSpacing:3, valign:"middle", margin:0 });
-    s.addText("Any artefact expressible in text and evaluable against criteria is reviewable by an agent", { x:0.4, y:0.9, w:9.2, h:0.3, fontSize:12, color:C.muted, italic:true, margin:0 });
+    s.addText("Any artifact expressible in text and evaluable against criteria is reviewable by an agent", { x:0.4, y:0.9, w:9.2, h:0.3, fontSize:12, color:C.muted, italic:true, margin:0 });
 
     // Table
     const colX = [0.35, 2.55, 6.0];
     const colW = [2.1, 3.35, 3.6];
-    const headers = ["Artefact", "Reviewed against", "Typical output"];
+    const headers = ["Artifact", "Reviewed against", "Typical output"];
     const hColors = [C.navy, C.navy, C.navy];
     const hTextColors = [C.white, C.white, C.white];
 
@@ -418,8 +418,8 @@ async function build() {
     const lessons = [
       {head:"Sandboxing = predictability",        body:"Agent in container with minimal permissions and binaries. Intentional restriction \u2192 more predictable behavior + security."},
       {head:"Verifier \u2260 optional",            body:"Without verifiers, agents produced code that \u201Csimply doesn\u2019t work.\u201D The verification loop isn\u2019t overhead \u2014 it\u2019s what makes automation viable."},
-      {head:"Agent review spans all artefacts",   body:"Review was applied not just to code PRs but to specs, documentation, and architecture proposals \u2014 catching issues before they became code."},
-      {head:"Coverage requirement changed everything", body:"Requiring test coverage on changed files eliminated failure mode 2. Agents could no longer hide wrong behaviour behind passing CI."},
+      {head:"Agent review spans all artifacts",   body:"Review was applied not just to code PRs but to specs, documentation, and architecture proposals \u2014 catching issues before they became code."},
+      {head:"Coverage requirement changed everything", body:"Requiring test coverage on changed files eliminated failure mode 2. Agents could no longer hide wrong behavior behind passing CI."},
     ];
     lessons.forEach((l,i) => {
       const col = i % 2, row = Math.floor(i / 2);
@@ -440,7 +440,7 @@ async function build() {
     const steps = [
       {n:"1",t:"Design a review cycle (lint scenario)",min:"15 min",
        d:"Your team wants an agent to fix all flake8 lint errors across a 200,000-line Python codebase (~800 files). Map the review cycle: where are the human gates? Write the interrupt conditions, the evaluator agent\u2019s checklist, the PR description template, and the 2am escalation path."},
-      {n:"2",t:"Define review for 4 artefact types",min:"15 min",
+      {n:"2",t:"Define review for 4 artifact types",min:"15 min",
        d:"For each: (a) a PRD for a new feature, (b) an architecture proposal for a new service, (c) the API docs after a sprint, (d) a new team member\u2019s first PR \u2014 define: what does the agent review it against? What structured output does it produce? Where is the human gate?"},
       {n:"3",t:"Education scenario: onboard a new developer",min:"15 min",
        d:"A developer has just joined your team and needs to understand the authentication flow. Write the prompt you would give Claude Code to educate them. What context (CLAUDE.md, PRODUCT.md, specific files) would you make sure is loaded? What would the agent get right that a wiki page would not?"},
@@ -466,7 +466,7 @@ async function build() {
     s.addText("DISCUSSION QUESTIONS", {x:0.35,y:0.82,w:5.5,h:0.48,fontSize:11,color:C.white,bold:true,charSpacing:2,align:"center",valign:"middle",margin:0});
     s.addText([
       "Q1.  In the lint scenario, who is accountable if an agent-generated change breaks production at 2am?",
-      "Q2.  Which SDLC artefact on your team has never been formally reviewed? What would an agent find if you pointed one at it today?",
+      "Q2.  Which SDLC artifact on your team has never been formally reviewed? What would an agent find if you pointed one at it today?",
       "Q3.  If you deployed an evaluator agent on your PR process this week, what would it need to check?",
       "Q4.  What question would you most want to ask an agent about your own codebase right now?",
     ].join("\n\n"), {x:0.5,y:1.4,w:5.1,h:3.1,fontSize:11.5,color:C.pale,margin:0});
@@ -475,7 +475,7 @@ async function build() {
     s.addShape(pres.shapes.RECTANGLE, {x:6.05,y:0.82,w:3.6,h:0.48,fill:{color:C.accent,transparency:10}});
     s.addText("KEY TAKEAWAYS", {x:6.05,y:0.82,w:3.6,h:0.48,fontSize:11,color:C.white,bold:true,charSpacing:2,align:"center",valign:"middle",margin:0});
     s.addText([
-      "\u00B7 Agents review ALL SDLC artefacts, not just code",
+      "\u00B7 Agents review ALL SDLC artifacts, not just code",
       "\u00B7 Match HITL pattern to risk and reversibility",
       "\u00B7 Evaluator agent catches failures before humans",
       "\u00B7 Interrupt conditions must be defined upfront",

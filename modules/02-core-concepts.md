@@ -51,7 +51,7 @@ The total amount of text (tokens) the model can "see" at once. Everything outsid
 - **User prompt** — the input from the human (or orchestrating agent) for this turn.
 
 ### Eval (Evaluation)
-A test that assesses agent behaviour. Unlike unit tests (which check deterministic code), evals check probabilistic outputs. Good evals include: factual correctness, tool call accuracy, refusal behaviour, latency, and cost per task.
+A test that assesses agent behavior. Unlike unit tests (which check deterministic code), evals check probabilistic outputs. Good evals include: factual correctness, tool call accuracy, refusal behavior, latency, and cost per task.
 
 ### Compaction / Context Compression
 Summarising or truncating older context to make room for new information. Essential for long-running agents. Must be designed carefully — compacting the wrong information causes agents to "forget" critical state.
@@ -60,10 +60,10 @@ Summarising or truncating older context to make room for new information. Essent
 
 ## Multi-Agent Patterns
 
-These patterns describe how multiple agents coordinate. They appear in two contexts relevant to this programme:
+These patterns describe how multiple agents coordinate. They appear in two contexts relevant to this program:
 
 1. **Inside your coding agent** — Claude Code internally uses planning, tool execution, and self-evaluation in loops that follow these patterns. Understanding them helps you reason about why the agent behaves as it does.
-2. **In production agent systems your team may eventually build** — when your output is itself an agent system (e.g., on AWS Bedrock/Agent Core), you will design using these patterns explicitly. That is out of scope for this programme, but the vocabulary is shared.
+2. **In production agent systems your team may eventually build** — when your output is itself an agent system (e.g., on AWS Bedrock/Agent Core), you will design using these patterns explicitly. That is out of scope for this program, but the vocabulary is shared.
 
 ### Pattern 1: Sequential Pipeline
 
@@ -117,7 +117,7 @@ A lightweight routing agent examines the request and delegates to the right spec
 
 **Tracing across agents.** Each agent invocation must carry a shared `trace_id` so you can reconstruct the full execution graph in your observability platform. Without this, debugging multi-agent failures is nearly impossible.
 
-**Version pinning.** Pin model versions in production agents. A model upgrade mid-task can change behaviour in ways that break downstream agents.
+**Version pinning.** Pin model versions in production agents. A model upgrade mid-task can change behavior in ways that break downstream agents.
 
 ---
 

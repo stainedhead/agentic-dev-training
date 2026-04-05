@@ -123,7 +123,7 @@ async function build() {
     s.background = { color:C.navy };
 
     s.addText("THE PROJECT-TO-PRODUCT SHIFT", { x:0.4, y:0.22, w:9, h:0.45, fontSize:13, color:C.iceBlue, bold:true, charSpacing:3, margin:0 });
-    s.addText("This is the most important mental model change in the programme. Everything else depends on it.", { x:0.4, y:0.72, w:9, h:0.36, fontSize:15, color:C.white, italic:true, margin:0 });
+    s.addText("This is the most important mental model change in the program. Everything else depends on it.", { x:0.4, y:0.72, w:9, h:0.36, fontSize:15, color:C.white, italic:true, margin:0 });
 
     const rows = [
       ["Dimension",          "Project Mindset",                        "Product Mindset"],
@@ -187,7 +187,7 @@ async function build() {
       {
         icon: FaChartLine, color: C.green, label: "The Business",
         must: ["What business capabilities does this system enable?", "What are the north star metrics?", "What\u2019s the cost of downtime or quality failure?", "What is the competitive differentiation this system provides?"],
-        agent: "Agents that understand business context prioritise correctly and avoid building features that conflict with strategy."
+        agent: "Agents that understand business context prioritize correctly and avoid building features that conflict with strategy."
       },
       {
         icon: FaLayerGroup, color: C.steel, label: "The Codebase",
@@ -465,7 +465,7 @@ async function build() {
         detail: "Linter, formatter, type checker, complexity check, security pattern check. Agent self-corrects formatting issues before the human sees the diff.",
       },
       {
-        name: "Design & Artefact Review", color:C.steel,
+        name: "Design & Artifact Review", color:C.steel,
         trigger: "Before human review",
         detail: "Agent reads the proposal alongside the codebase and flags: conflicts with existing architecture, missing edge cases, undefined NFRs, ADR violations. Humans review with findings already surfaced.",
       },

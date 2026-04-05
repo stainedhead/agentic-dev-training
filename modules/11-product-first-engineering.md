@@ -41,7 +41,7 @@ The agent builds what the team understands. If the team does not know the produc
  
 **The Architecture** — What are the core bounded contexts? What are the integration contracts? Where are the known weak spots? What constraints shaped the current design? ADRs, architecture docs, and schema definitions prevent architectural violations.
  
-**The Business** — What capabilities does this system enable? What are the north star metrics? What is the cost of downtime or quality failure? What is the competitive differentiation? Agents that understand business context prioritise correctly.
+**The Business** — What capabilities does this system enable? What are the north star metrics? What is the cost of downtime or quality failure? What is the competitive differentiation? Agents that understand business context prioritize correctly.
  
 **The Codebase** — What are the dominant patterns? Where is the most-changed code (hotspots)? Where is the highest-risk code (complexity)? What does the test coverage picture look like? Map hotspots and complexity so agents make safer changes.
  
@@ -133,7 +133,7 @@ Agents make hygiene economically viable at scale. Tasks that would take a sprint
  
 **Code quality enforcement** — Pre-PR agent hook: linter, formatter, type checker, complexity check, security pattern check. Agent self-corrects formatting issues before the human sees the diff.
 
-**Design and artefact review** — Before any spec or design goes to human review, run an agent review pass first. The agent reads the proposal alongside the existing codebase and flags: conflicts with existing architecture, missing edge cases, undefined non-functional requirements, and violations of ADR constraints. Humans then review the proposal with the agent's findings already surfaced — not starting from a blank read.
+**Design and artifact review** — Before any spec or design goes to human review, run an agent review pass first. The agent reads the proposal alongside the existing codebase and flags: conflicts with existing architecture, missing edge cases, undefined non-functional requirements, and violations of ADR constraints. Humans then review the proposal with the agent's findings already surfaced — not starting from a blank read.
 
 **Team education and onboarding** — Agents are available as on-demand educators at any depth. New team members use Claude Code to understand the codebase, design decisions, and team processes without interrupting senior developers. Rotating role holders use agents to quickly build context in the part of the system they are stepping into. Encode the starting questions in CLAUDE.md so every onboarding session is consistent: *"Read PRODUCT.md and the adr/ folder. Explain the three most important architectural constraints in this system and why they exist."*
  
@@ -141,7 +141,7 @@ Agents make hygiene economically viable at scale. Tasks that would take a sprint
  
 ## Enterprise Considerations
  
-**Organisational resistance.** The project mindset is deeply embedded in most enterprise cultures — tied to budget cycles, headcount planning, and success metrics. Product thinking requires explicit leadership endorsement and changes to how teams are resourced and measured.
+**Organizational resistance.** The project mindset is deeply embedded in most enterprise cultures — tied to budget cycles, headcount planning, and success metrics. Product thinking requires explicit leadership endorsement and changes to how teams are resourced and measured.
  
 **Portfolio management.** Product teams need standing allocation, not project-by-project budget approval. Work with finance to establish a product budget model that includes a floor for hygiene and NFR investment.
  

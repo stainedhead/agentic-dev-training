@@ -6,7 +6,7 @@ By the end of this module you will be able to:
 - Explain why three equal peers with rotating roles is the optimal unit for agentic product delivery
 - Describe the scope and responsibilities of each of the three roles: Solution Architect, Spec Engineer, and DevOps Guardian
 - Design a role rotation schedule that builds shared understanding and prevents knowledge silos
-- Navigate system-level collaboration and avoid local optimisations that harm the wider organisation
+- Navigate system-level collaboration and avoid local optimisations that harm the wider organization
 - Advocate for NFR health and technical debt prevention using business language
  
 ---
@@ -54,7 +54,7 @@ These are roles, not job titles. Every team member holds all three roles over ti
 **Tagline:** Transforms approved PRDs into executable specifications and agentic delivery.
  
 **Responsibilities:**
-- Takes approved PRDs and produces complete SDD artefacts
+- Takes approved PRDs and produces complete SDD artifacts
 - Writes requirements.md, plan.md, tasks.md, test specs, acceptance criteria
 - Orchestrates agentic teams for code, tests, and documentation delivery
 - Verifies all agent output against acceptance criteria
@@ -191,7 +191,7 @@ A product team that optimises only for its own product will eventually damage th
  
 ## Enterprise Considerations
  
-**Organisational change management.** The three-person equal-peers model is a significant departure from traditional team hierarchies. It requires explicit sponsorship from engineering leadership. The hardest cultural change is the equality — many organisations reflexively want a "team lead."
+**Organizational change management.** The three-person equal-peers model is a significant departure from traditional team hierarchies. It requires explicit sponsorship from engineering leadership. The hardest cultural change is the equality — many organizations reflexively want a "team lead."
  
 **Scaling beyond three.** If the product genuinely needs more capacity, the answer is a second three-person team working on a related product, not adding a fourth person to the existing team. Two teams of three communicate through Product Owner alignment and shared ADRs.
  
@@ -229,7 +229,7 @@ A product team that optimises only for its own product will eventually damage th
  
 **The tech debt framing exercise is consistently the highest-rated activity.** Most engineers know there is debt but have never framed it in terms a PO will respond to. When they translate "our test coverage is low" into "we are paying 30% of our velocity on insurance we never collect," they leave with something they can actually use.
  
-**Close the programme here.** This is Module 12. Take ten minutes at the end to review the full programme — what changed in each participant's thinking, and what they are committing to do differently.
+**Close the program here.** This is Module 12. Take ten minutes at the end to review the full program — what changed in each participant's thinking, and what they are committing to do differently.
  
 ---
  
@@ -238,6 +238,6 @@ A product team that optimises only for its own product will eventually damage th
 - Team Topologies — Matthew Skelton and Manuel Pais — the definitive guide to team structure for fast software delivery
 - The Mythical Man-Month — Frederick Brooks — still the canonical reference on why adding people to a late project makes it later
 - Accelerate — Nicole Forsgren, Jez Humble, Gene Kim — data on what actually predicts software delivery performance
-- Shape Up — Basecamp — an alternative to Scrum that emphasises small teams and fixed time horizons
+- Shape Up — Basecamp — an alternative to Scrum that emphasizes small teams and fixed time horizons
 - Marty Cagan: Empowered — Product teams vs feature teams
  

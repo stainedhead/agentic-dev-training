@@ -212,7 +212,7 @@ async function build() {
           "Tag requests by team, feature, and customer",
           "Standardise API key naming conventions",
           "Enforce one key per team/feature boundary",
-          "Chargeback to cost centres by consumption",
+          "Chargeback to cost centers by consumption",
           "Track cost-per-user for SaaS products",
         ]
       },

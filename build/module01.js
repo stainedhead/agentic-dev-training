@@ -485,14 +485,14 @@ async function build() {
   }
 
   // ══════════════════════════════════════════════════════════════════
-  // SLIDE 9 — Programme Scope: Coding Agents vs. Production Agents
+  // SLIDE 9 — Program Scope: Coding Agents vs. Production Agents
   // ══════════════════════════════════════════════════════════════════
   {
     const s = pres.addSlide();
     s.background = { color: C.offWhite };
 
     s.addShape(pres.shapes.RECTANGLE, { x: 0, y: 0, w: 10, h: 0.82, fill: { color: C.navy } });
-    s.addText("PROGRAMME SCOPE  ·  TWO KINDS OF AGENT", {
+    s.addText("PROGRAM SCOPE  ·  TWO KINDS OF AGENT", {
       x: 0.4, y: 0, w: 9, h: 0.82,
       fontSize: 13, color: C.white, bold: true, charSpacing: 3, valign: "middle", margin: 0
     });
@@ -670,7 +670,7 @@ async function build() {
       "Where on the autonomy spectrum are your team's current AI tools?",
       "Look at the SDLC phase table. Which phase beyond code generation could deliver the biggest value for your team?",
       "What would need to be true about a task's spec before you'd trust an agent with it?",
-      "How does your organisation's risk culture affect where you set your HITL gates?",
+      "How does your organization's risk culture affect where you set your HITL gates?",
     ];
     s.addText(questions.map((q, i) => `Q${i+1}.  ${q}`).join("\n\n"), {
       x: 0.5, y: 1.52, w: 5.2, h: 2.9, fontSize: 11.5, color: C.pale, margin: 0

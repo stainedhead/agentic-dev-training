@@ -5,12 +5,12 @@
 - Articulate the difference between a chat interface and an agentic system
 - Map use cases to the correct point on the autonomy spectrum
 - Identify when *not* to use an agent
-- Understand the scope of this programme: coding agents, not production agents
+- Understand the scope of this program: coding agents, not production agents
 - Map coding agent value across every phase of the SDLC — not just code generation
 
 ---
 
-## Programme Scope — What Kind of Agent Are We Talking About?
+## Program Scope — What Kind of Agent Are We Talking About?
 
 Before building a mental model, we need to establish scope. The word "agent" covers two very different things in enterprise practice, and conflating them causes confusion throughout the SDLC.
 
@@ -27,17 +27,17 @@ The tools we use in this practice:
 
 Both tools sit at the **supervised agent** point on the autonomy spectrum — they can take multi-step actions, but a developer remains in the loop to review and approve. This is the right default for enterprise codebases.
 
-### Production Agents — Out of Scope for This Programme
+### Production Agents — Out of Scope for This Program
 
 **Production agents** are AI systems that operate as runtime components of your product or platform — customer-facing bots, autonomous workflow automations, orchestration services. Examples include agents built on AWS Bedrock / Amazon Agent Core, Azure AI Foundry, or custom orchestration frameworks.
 
 Production agents have fundamentally different concerns: runtime reliability, cost at scale, customer data handling, regulatory compliance, and blast radius in live environments.
 
-> This programme does **not** cover production agent architecture. If your team is building agents that run in production pipelines, refer to the Enterprise AI Platform practice for guidance on AWS Bedrock, Agent Core, and agentic service design.
+> This program does **not** cover production agent architecture. If your team is building agents that run in production pipelines, refer to the Enterprise AI Platform practice for guidance on AWS Bedrock, Agent Core, and agentic service design.
 
 ### Why the Distinction Matters
 
-The SDLC practices in this programme — context engineering, spec-driven development, CI/CD hygiene, observability of the development loop — are all oriented around **how developers work with coding agents day-to-day**. These practices apply whether you are eventually deploying a traditional application or a production agent. The coding agent is always the development tool; the production agent is sometimes the thing being built.
+The SDLC practices in this program — context engineering, spec-driven development, CI/CD hygiene, observability of the development loop — are all oriented around **how developers work with coding agents day-to-day**. These practices apply whether you are eventually deploying a traditional application or a production agent. The coding agent is always the development tool; the production agent is sometimes the thing being built.
 
 ---
 
@@ -67,7 +67,7 @@ Most teams start by using coding agents for implementation only — generating f
 
 The highest-value applications are often at the **beginning** of the lifecycle (ideation, design review, PRD quality) and at the **edges** (documentation accuracy, team education, ongoing hygiene). These are the phases where quality problems are cheapest to fix and where human time is most often wasted on work an agent could do better.
 
-A mature agentic practice covers all rows of the table above. The modules in this programme are organised to build toward that coverage, one phase at a time.
+A mature agentic practice covers all rows of the table above. The modules in this program are organized to build toward that coverage, one phase at a time.
 
 ---
 
@@ -123,7 +123,7 @@ Key properties of a true agent:
 - **Autonomy** — decides its own next step
 - **Goal orientation** — works toward a defined outcome, not just a single response
 
-**Claude Code in agent mode** is the canonical coding agent example in this programme. Given a task like "add an endpoint for user profile updates, write the tests, and open a PR", Claude Code will: read relevant files, plan the implementation, write the code, run the tests, fix failures autonomously, and raise a PR — all without prompting at each step. The developer reviews the PR.
+**Claude Code in agent mode** is the canonical coding agent example in this program. Given a task like "add an endpoint for user profile updates, write the tests, and open a PR", Claude Code will: read relevant files, plan the implementation, write the code, run the tests, fix failures autonomously, and raise a PR — all without prompting at each step. The developer reviews the PR.
 
 ### 4. The Autonomy Spectrum
 
@@ -139,7 +139,7 @@ Key properties of a true agent:
  Risk: Low     Risk: Low-Med    Risk: Med         Risk: High
 ```
 
-**Enterprise default: Supervised Agent.** Full autonomy is appropriate only for low-stakes, reversible actions in sandboxed environments. For anything touching production data, financial systems, or customer-facing behaviour, require human approval at meaningful checkpoints.
+**Enterprise default: Supervised Agent.** Full autonomy is appropriate only for low-stakes, reversible actions in sandboxed environments. For anything touching production data, financial systems, or customer-facing behavior, require human approval at meaningful checkpoints.
 
 ### 5. Choosing the Right Mode
 
@@ -194,7 +194,7 @@ Share your map with a peer. Where are the biggest gaps? Where is the highest-val
 
 ## Facilitator Notes
 
-Open with the scope clarification — draw the two-column distinction (Coding Agent vs. Production Agent) on a whiteboard before any slides. Teams who have already been building production agents on Bedrock will try to map those experiences onto the programme; anchor them back to the SDLC context immediately.
+Open with the scope clarification — draw the two-column distinction (Coding Agent vs. Production Agent) on a whiteboard before any slides. Teams who have already been building production agents on Bedrock will try to map those experiences onto the program; anchor them back to the SDLC context immediately.
 
 Discussion prompt: *"Where on this spectrum is your team operating today with Claude Code or Copilot? Where do you want to be in 12 months?"*
 

@@ -68,7 +68,7 @@ async function build() {
     s.addText("By the end of this module you will be able to:", { x: 0.35, y: 0.9, w: 9.3, h: 0.28, fontSize: 11, color: C.muted, italic: true, margin: 0 });
 
     const objs = [
-      { icon: FaExchangeAlt, color: C.accent, title: "Distinguish Historical vs. Modern PRD",   body: "Understand how the PRD has evolved from a human alignment document to an agent-operationalisable artefact." },
+      { icon: FaExchangeAlt, color: C.accent, title: "Distinguish Historical vs. Modern PRD",   body: "Understand how the PRD has evolved from a human alignment document to an agent-operationalisable artifact." },
       { icon: FaFileContract, color: C.teal,  title: "Write Agent-Operationalisable PRDs",      body: "Produce PRDs with numbered requirements, explicit non-goals, acceptance criteria, and surfaced open questions." },
       { icon: FaLayerGroup,  color: C.green,  title: "Understand the Automated Spec Suite",     body: "See how an approved PRD automatically generates SPEC.md, ARCHITECTURE.md, PLAN.md, TASKS.md, and schema docs." },
       { icon: FaSitemap,     color: C.steel,  title: "Apply the PRD \u2192 Spec Pipeline",      body: "Walk the full pipeline: PRD \u2192 Spec \u2192 Plan \u2192 Tasks \u2192 Architecture \u2192 Code \u2192 PR, with the human as decision-maker at each stage." },
@@ -95,7 +95,7 @@ async function build() {
     s.background = { color: C.navy };
 
     s.addText("THE HISTORICAL PRD", { x: 0.4, y: 0.22, w: 9, h: 0.45, fontSize: 13, color: C.iceBlue, bold: true, charSpacing: 3, margin: 0 });
-    s.addText("A human artefact written in isolation \u2014 useful for human teams, unusable by agents", { x: 0.4, y: 0.72, w: 9, h: 0.36, fontSize: 15, color: C.white, italic: true, margin: 0 });
+    s.addText("A human artifact written in isolation \u2014 useful for human teams, unusable by agents", { x: 0.4, y: 0.72, w: 9, h: 0.36, fontSize: 15, color: C.white, italic: true, margin: 0 });
 
     // Table header
     const colX = [0.35, 3.2, 6.6];
@@ -278,7 +278,7 @@ async function build() {
     s.addText("PRD \u2192 SPEC SUITE PIPELINE", { x: 0.4, y: 0, w: 9, h: 0.82, fontSize: 13, color: C.white, bold: true, charSpacing: 3, valign: "middle", margin: 0 });
     s.addText("The approved PRD is the beginning of an automated pipeline \u2014 not the end of the documentation chain", { x: 0.4, y: 0.9, w: 9.2, h: 0.3, fontSize: 12, color: C.muted, italic: true, margin: 0 });
 
-    // PRD box (top centre)
+    // PRD box (top center)
     s.addShape(pres.shapes.RECTANGLE, { x: 3.3, y: 1.3, w: 3.4, h: 0.72, fill: { color: C.navy }, shadow: shadow() });
     s.addText("APPROVED PRD", { x: 3.3, y: 1.3, w: 3.4, h: 0.4, fontSize: 14, color: C.white, bold: true, align: "center", valign: "middle", margin: 0 });
     s.addText("human intent + agent-verified, codebase-aware", { x: 3.3, y: 1.7, w: 3.4, h: 0.3, fontSize: 9.5, color: C.pale, align: "center", margin: 0 });
@@ -286,8 +286,8 @@ async function build() {
     // Down arrow from PRD
     s.addText("\u2193 Agent generates:", { x: 3.6, y: 2.06, w: 2.8, h: 0.3, fontSize: 11, color: C.teal, bold: true, align: "center", margin: 0 });
 
-    // 5 generated artefacts
-    const artefacts = [
+    // 5 generated artifacts
+    const artifacts = [
       { label: "SPEC.md",          sub: "How the system works",       color: C.accent },
       { label: "ARCHITECTURE.md",  sub: "Components & integrations",  color: C.teal },
       { label: "SCHEMA DOCS",      sub: "Data models, API contracts",  color: C.navy },
@@ -295,8 +295,8 @@ async function build() {
       { label: "TASKS.md",         sub: "Discrete agent work units",   color: C.steel },
     ];
 
-    for (let i = 0; i < artefacts.length; i++) {
-      const a = artefacts[i];
+    for (let i = 0; i < artifacts.length; i++) {
+      const a = artifacts[i];
       const x = 0.35 + i * 1.88;
       s.addShape(pres.shapes.RECTANGLE, { x, y: 2.44, w: 1.72, h: 1.2, fill: { color: C.white }, shadow: shadow() });
       s.addShape(pres.shapes.RECTANGLE, { x, y: 2.44, w: 1.72, h: 0.42, fill: { color: a.color } });
@@ -325,17 +325,17 @@ async function build() {
   }
 
   // ══════════════════════════════════════════════════════════════════
-  // SLIDE 8 — What Each Artefact Contains
+  // SLIDE 8 — What Each Artifact Contains
   // ══════════════════════════════════════════════════════════════════
   {
     const s = pres.addSlide();
     s.background = { color: C.white };
 
     s.addShape(pres.shapes.RECTANGLE, { x: 0, y: 0, w: 10, h: 0.82, fill: { color: C.navy } });
-    s.addText("WHAT EACH ARTEFACT CONTAINS", { x: 0.4, y: 0, w: 9, h: 0.82, fontSize: 13, color: C.white, bold: true, charSpacing: 3, valign: "middle", margin: 0 });
-    s.addText("Each file is agent-generated, human-reviewed \u2014 no artefact proceeds without approval", { x: 0.4, y: 0.9, w: 9.2, h: 0.3, fontSize: 12, color: C.muted, italic: true, margin: 0 });
+    s.addText("WHAT EACH ARTIFACT CONTAINS", { x: 0.4, y: 0, w: 9, h: 0.82, fontSize: 13, color: C.white, bold: true, charSpacing: 3, valign: "middle", margin: 0 });
+    s.addText("Each file is agent-generated, human-reviewed \u2014 no artifact proceeds without approval", { x: 0.4, y: 0.9, w: 9.2, h: 0.3, fontSize: 12, color: C.muted, italic: true, margin: 0 });
 
-    const artefacts = [
+    const artifacts = [
       { name: "SPEC.md",           color: C.accent, desc: "The technical translation of the PRD. How the system will be built: component design, API contracts, error handling, security model, test strategy." },
       { name: "ARCHITECTURE.md",   color: C.teal,   desc: "Which existing components are involved, how new components integrate, data flow, trust boundaries. Generated from PRD + agent reading of existing codebase." },
       { name: "Schema docs",       color: C.navy,   desc: "Data models, database schemas, API request/response shapes, event payload definitions. Agent generates from functional requirements; human reviews for correctness." },
@@ -343,8 +343,8 @@ async function build() {
       { name: "TASKS.md",          color: C.steel,  desc: "Discrete, agent-executable work units. Each task has: a description, acceptance criteria, files it will touch, and a definition of done. Tasks are small enough each produces a reviewable PR." },
     ];
 
-    for (let i = 0; i < artefacts.length; i++) {
-      const a = artefacts[i];
+    for (let i = 0; i < artifacts.length; i++) {
+      const a = artifacts[i];
       const col = i % 2;
       const row = Math.floor(i / 2);
       const x = col === 0 ? 0.35 : 5.15;
@@ -352,7 +352,7 @@ async function build() {
       const w = 4.6;
       const h = 1.28;
       if (i === 4) {
-        // Last item centred
+        // Last item centerd
         const cx = 2.7;
         s.addShape(pres.shapes.RECTANGLE, { x: cx, y, w: 4.6, h, fill: { color: C.offWhite }, shadow: shadow() });
         s.addShape(pres.shapes.RECTANGLE, { x: cx, y, w: 0.07, h, fill: { color: a.color } });
@@ -427,7 +427,7 @@ async function build() {
 
     const cards = [
       {
-        title: "PRD as a compliance artefact",
+        title: "PRD as a compliance artifact",
         color: C.accent,
         body: "For regulated changes, the approved PRD (with its audit trail of agent-flagged issues and human resolutions) is evidence of due diligence before development. Store it with your change management records."
       },
@@ -522,7 +522,7 @@ async function build() {
       "\u00B7 Non-goals + Open questions are critical",
       "\u00B7 Approved PRD generates the full spec suite",
       "\u00B7 Human shifts from writer to decision-maker",
-      "\u00B7 PRD is a compliance artefact in regulated envs",
+      "\u00B7 PRD is a compliance artifact in regulated envs",
     ];
     s.addText(tks.join("\n\n"), { x: 6.2, y: 1.4, w: 3.35, h: 3.1, fontSize: 11.5, color: C.pale, margin: 0 });
 

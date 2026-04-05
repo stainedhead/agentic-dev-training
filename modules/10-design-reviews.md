@@ -11,7 +11,7 @@ By the end of this module you will be able to:
 
 ---
 
-## Programme Scope Note
+## Program Scope Note
 
 This module bridges two concerns:
 
@@ -27,7 +27,7 @@ Both parts use the same vocabulary and the same review discipline. The differenc
  
 Speed of AI-generated code makes design discipline more important, not less. Bad architectural decisions that once took a team weeks to accumulate can now be embedded across an entire codebase in hours.
  
-The numbers are stark. Gartner projects that 40% of agentic AI projects will be cancelled by end of 2027 due to escalating costs, unclear business value, or inadequate risk controls. Despite 93% of IT leaders intending to deploy agents, only 2% have done so at scale. The gap is almost entirely architectural, not capability.
+The numbers are stark. Gartner projects that 40% of agentic AI projects will be canceled by end of 2027 due to escalating costs, unclear business value, or inadequate risk controls. Despite 93% of IT leaders intending to deploy agents, only 2% have done so at scale. The gap is almost entirely architectural, not capability.
  
 Security cannot be retrofitted. Sandboxing, identity, kill switches — all must be designed in from day one. Adding them after deployment is 10× harder and 10× more expensive.
  
@@ -39,13 +39,13 @@ Security cannot be retrofitted. Sandboxing, identity, kill switches — all must
  
 Six principles distilled from Anthropic engineering, Spotify Honk, and 12-Factor Agents:
  
-**P1 — Reduced flexibility equals predictability.** Spotify's core design decision. Intentionally constrain what the agent can do. Less flexibility means more reliable behaviour, plus secondary security benefits. Before adding a capability, ask: does the agent actually need this?
+**P1 — Reduced flexibility equals predictability.** Spotify's core design decision. Intentionally constrain what the agent can do. Less flexibility means more reliable behavior, plus secondary security benefits. Before adding a capability, ask: does the agent actually need this?
  
 **P2 — Infrastructure outside the agent.** Slack communications, git push, prompt authoring — all handled outside the agent. The agent focuses only on its specialised task. No scope creep inside the agent boundary.
  
 **P3 — Every tool must justify its existence.** Self-contained, non-overlapping, purpose-specific. If you cannot articulate why a tool exists and what it uniquely enables, remove it. Every tool is a potential escalation path and an attack surface.
  
-**P4 — Folder structure is context engineering.** How you organise your project communicates intent to the agent. Design the file structure as carefully as the agent logic itself. Anthropic: "The folder and file structure of an agent becomes a form of context engineering."
+**P4 — Folder structure is context engineering.** How you organize your project communicates intent to the agent. Design the file structure as carefully as the agent logic itself. Anthropic: "The folder and file structure of an agent becomes a form of context engineering."
  
 **P5 — Design for the failure mode, not the happy path.** Agents excel at happy paths. Design explicitly for: context window exhaustion, tool failures, scope drift, and adversarial inputs. Your failure handling will be invoked more often than you expect.
  

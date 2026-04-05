@@ -21,7 +21,7 @@ Understanding that evolution is the starting point for agentic development.
 
 ### The Historical PRD
 
-The traditional PRD was a human artefact. A product manager or business analyst spent days or weeks writing it, often in isolation from the codebase it would eventually touch.
+The traditional PRD was a human artifact. A product manager or business analyst spent days or weeks writing it, often in isolation from the codebase it would eventually touch.
 
 **Characteristics:**
 
@@ -152,7 +152,7 @@ The modern PRD is not the end of the documentation chain — it is the beginning
   └──────────┘
 ```
 
-### What Each Artefact Contains
+### What Each Artifact Contains
 
 **SPEC.md** — The technical translation of the PRD. How the system will be built: component design, API contracts, error handling, security model, test strategy. Written by the agent, reviewed by a human domain expert before implementation begins.
 
@@ -198,7 +198,7 @@ The human never reviews a diff without first having approved the plan that produ
 
 ## Enterprise Considerations
 
-**PRD as a compliance artefact.** For regulated changes, the approved PRD (with its audit trail of agent-flagged issues and human resolutions) is evidence of due diligence before development. Store it with your change management records.
+**PRD as a compliance artifact.** For regulated changes, the approved PRD (with its audit trail of agent-flagged issues and human resolutions) is evidence of due diligence before development. Store it with your change management records.
 
 **Centralised PRD templates.** Maintain a corporate PRD template in your shared `CLAUDE.md` baseline. This ensures every agent-generated PRD covers compliance, security, and data handling requirements — not just functional ones.
 

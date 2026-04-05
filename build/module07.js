@@ -71,7 +71,7 @@ async function build() {
 
     const pillars = [
       {n:"01",icon:FaChartLine,label:"Continuous\nMonitoring",color:C.navy,
-       what:"Real-time tracking of agent actions, decisions, and tool calls. Surface anomalies, unexpected behaviour, and performance drift before humans notice.",
+       what:"Real-time tracking of agent actions, decisions, and tool calls. Surface anomalies, unexpected behavior, and performance drift before humans notice.",
        what2:"Track: request volume, latency, token cost, tool invocation frequency, error rate, model version drift.",
        tool:"Azure AI Foundry, Dynatrace, Datadog LLM Observability"},
       {n:"02",icon:FaStream,label:"Tracing",color:C.accent,
@@ -135,8 +135,8 @@ async function build() {
 
     const mgroups = [
       {group:"Reliability",color:C.accent,metrics:[
-        {m:"MTTD",full:"Mean Time to Detect unsafe/unexpected behaviour"},
-        {m:"MTTI",full:"Mean Time to Intervene once unsafe behaviour detected"},
+        {m:"MTTD",full:"Mean Time to Detect unsafe/unexpected behavior"},
+        {m:"MTTI",full:"Mean Time to Intervene once unsafe behavior detected"},
         {m:"Agent PR failure mode ratio",full:"% of PRs in each of the 3 failure modes (CI fail / wrong / nonsensical)"},
         {m:"Task success rate by tier",full:"Success rate segmented by task complexity tier"},
       ]},
@@ -248,15 +248,15 @@ async function build() {
   {
     const s = pres.addSlide(); s.background = { color: C.navy };
     s.addText("OBSERVABILITY-FIRST CULTURE", {x:0.4,y:0.22,w:9,h:0.45,fontSize:13,color:C.iceBlue,bold:true,charSpacing:3,margin:0});
-    s.addText("Gartner: 40% of agentic AI projects will be cancelled by 2027 due to unclear business value and inadequate risk controls", {x:0.4,y:0.72,w:9,h:0.36,fontSize:14,color:C.white,italic:true,margin:0});
+    s.addText("Gartner: 40% of agentic AI projects will be canceled by 2027 due to unclear business value and inadequate risk controls", {x:0.4,y:0.72,w:9,h:0.36,fontSize:14,color:C.white,italic:true,margin:0});
 
     const principles = [
       {head:"Observe before you optimise",body:"Don\u2019t tune agents based on intuition. Collect baseline traces first, then let data drive improvement. You cannot optimise what you cannot see."},
       {head:"Every trace tells a story",body:"A trace is a forensic record of an agent\u2019s decisions. Treat it like a flight data recorder \u2014 invaluable after an incident, essential for continuous improvement."},
-      {head:"Make cost visible to engineers",body:"Token spend is engineering spend. Show per-request cost on every PR. Engineers who see the cost of their prompt design change their behaviour."},
+      {head:"Make cost visible to engineers",body:"Token spend is engineering spend. Show per-request cost on every PR. Engineers who see the cost of their prompt design change their behavior."},
       {head:"Evaluation is continuous, not periodic",body:"Don\u2019t evaluate quality quarterly. Run evaluation on every significant agent run. Automated Judge + human spot-checks. Quality drift is invisible without it."},
       {head:"Security and observability are the same problem",body:"Every observability gap is a security gap. An agent action you can\u2019t see is an agent action you can\u2019t audit, control, or roll back."},
-      {head:"Build trust through transparency",body:"44% of organisations rely on manual methods to monitor agent interactions. The path to full automation runs through full visibility first."},
+      {head:"Build trust through transparency",body:"44% of organizations rely on manual methods to monitor agent interactions. The path to full automation runs through full visibility first."},
     ];
 
     [[0,1,2],[3,4,5]].forEach((group,col) => {

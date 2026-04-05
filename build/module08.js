@@ -91,7 +91,7 @@ async function build() {
     const facts = [
       { head:"They need identity",  body:"Unique service accounts, Kubernetes pod identities, or workload identities — not generic shared credentials. Each agent = one identity." },
       { head:"They need privileges", body:"Strict, scoped permissions per tool. Default-deny, explicit-allow. Every tool is a potential escalation path." },
-      { head:"They need oversight", body:"80% of IT leaders report agents acting outside expected behaviour (Strata, 2025). Legacy IAM was not designed for this scale." },
+      { head:"They need oversight", body:"80% of IT leaders report agents acting outside expected behavior (Strata, 2025). Legacy IAM was not designed for this scale." },
       { head:"They need traceability", body:"Every agent action must map to an identity, an intent, and a timestamp. Without audit trails, compliance fails and incidents can't be investigated." },
     ];
 
@@ -151,7 +151,7 @@ async function build() {
     s.background = { color:C.offWhite };
     s.addShape(pres.shapes.RECTANGLE, { x:0, y:0, w:10, h:0.82, fill:{ color:C.teal } });
     s.addText("SANDBOXING  \u2014  SPOTIFY\u2019S DESIGN PHILOSOPHY", { x:0.4, y:0, w:9, h:0.82, fontSize:13, color:C.white, bold:true, charSpacing:3, valign:"middle", margin:0 });
-    s.addText("\u201CIntentional flexibility reduction = more predictable behaviour + secondary security benefits\u201D  \u2014 Spotify Engineering (Honk Part 3)", { x:0.4, y:0.9, w:9.2, h:0.32, fontSize:11.5, color:C.muted, italic:true, margin:0 });
+    s.addText("\u201CIntentional flexibility reduction = more predictable behavior + secondary security benefits\u201D  \u2014 Spotify Engineering (Honk Part 3)", { x:0.4, y:0.9, w:9.2, h:0.32, fontSize:11.5, color:C.muted, italic:true, margin:0 });
 
     // Left — what to sandbox
     const sandboxItems = [
@@ -238,7 +238,7 @@ async function build() {
     s.addText("KILL SWITCH PATTERNS", { x:0.35, y:1.28, w:4.55, h:0.42, fontSize:11, color:C.white, bold:true, charSpacing:2, align:"center", valign:"middle", margin:0 });
 
     const killPatterns = [
-      { head:"Hard stop (immediate)", body:"Terminate agent container. Revoke all credentials. Quarantine the agent namespace. Use when: unexpected behaviour detected or security incident." },
+      { head:"Hard stop (immediate)", body:"Terminate agent container. Revoke all credentials. Quarantine the agent namespace. Use when: unexpected behavior detected or security incident." },
       { head:"Graceful pause", body:"Agent completes current tool call, saves state to NOTES.md, awaits human instruction. Use when: review needed before proceeding." },
       { head:"HITL escalation gate", body:"Agent reaches a pre-defined checkpoint and cannot proceed without explicit human approval. Use when: irreversible action required." },
       { head:"Budget exhaustion", body:"Agent automatically stops when token/cost budget is exceeded. Prevents runaway loops from burning compute. Use as a secondary safety net." },
@@ -324,7 +324,7 @@ async function build() {
 
     const checks = [
       { cat:"Identity & Access", color:C.accent, items:["Agent has unique identity (not shared creds)?","Least-privilege tool permissions applied?","JIT provisioning (no standing admin rights)?","Secrets in Vault/KMS (not in prompts/memory)?"] },
-      { cat:"Sandboxing", color:C.teal, items:["Agent runs in isolated container?","Network egress allowlist configured?","Execution timeout defined and enforced?","Binary allowlist minimised?"] },
+      { cat:"Sandboxing", color:C.teal, items:["Agent runs in isolated container?","Network egress allowlist configured?","Execution timeout defined and enforced?","Binary allowlist minimized?"] },
       { cat:"Threat Mitigations", color:C.green, items:["Input validation for prompt injection?","Output sanitisation before shell/DB/browser?","HITL gate for irreversible actions?","Cost budget and token limits set?"] },
       { cat:"Audit & Response", color:C.steel, items:["Full audit trail enabled (prompts, tools, outputs)?","Kill switch mechanism tested?","SIEM/SOAR alerts configured?","Incident response runbook written?"] },
     ];
@@ -354,7 +354,7 @@ async function build() {
     const decisions = [
       { head:"Sandboxed container by design", color:C.accent,
         detail:"Agent runs with limited permissions, few binaries, and virtually no access to surrounding systems. Not as an afterthought \u2014 as the primary design constraint.",
-        result:"Predictable behaviour AND security. Intentional flexibility reduction serves both goals simultaneously." },
+        result:"Predictable behavior AND security. Intentional flexibility reduction serves both goals simultaneously." },
       { head:"Infrastructure outside the agent", color:C.teal,
         detail:"Slack interactions, git push, prompt authoring all happen OUTSIDE the agent boundary. The agent only touches code. The blast radius of any failure is contained.",
         result:"Even if the agent misbehaves, it cannot send unauthorised messages, push to wrong branches, or escalate beyond code changes." },
@@ -391,7 +391,7 @@ async function build() {
       { n:"2", t:"OWASP threat pass", min:"8 min", d:"Run your agent through the OWASP GenAI Top 10. For LLM01 (Prompt Injection) and LLM06 (Excessive Agency): what\u2019s your specific risk? What mitigation applies?" },
       { n:"3", t:"Kill switch design", min:"7 min", d:"Define the three conditions under which your agent must immediately stop. What triggers hard stop vs graceful pause vs HITL gate? Who has the authority to trigger each?" },
       { n:"4", t:"Audit trail spec", min:"5 min", d:"List the 5 most important things to log about your agent\u2019s actions. For each: what format, what retention, who can access, and what alert fires if the log is missing?" },
-      { n:"5", t:"Pre-deployment checklist", min:"5 min", d:"Work through the slide 9 checklist for your agent. Which boxes can you check today? Which require new infrastructure? Prioritise the top 3 gaps." },
+      { n:"5", t:"Pre-deployment checklist", min:"5 min", d:"Work through the slide 9 checklist for your agent. Which boxes can you check today? Which require new infrastructure? Prioritize the top 3 gaps." },
     ];
 
     steps.forEach((st, i) => {
@@ -416,10 +416,10 @@ async function build() {
     s.addShape(pres.shapes.RECTANGLE, { x:0.35, y:0.82, w:5.5, h:0.48, fill:{ color:C.iceBlue, transparency:15 } });
     s.addText("DISCUSSION QUESTIONS", { x:0.35, y:0.82, w:5.5, h:0.48, fontSize:11, color:C.white, bold:true, charSpacing:2, align:"center", valign:"middle", margin:0 });
     const qs = [
-      "Q1.  Which OWASP GenAI threat is your organisation least prepared for today? What would remediation require?",
+      "Q1.  Which OWASP GenAI threat is your organization least prepared for today? What would remediation require?",
       "Q2.  Non-human identities outnumber humans 50:1. Does your current IAM system treat agents as first-class identities?",
       "Q3.  Could you answer a compliance audit about every action your current agents took last week? What\u2019s missing?",
-      "Q4.  Where in your organisation would a compromised agent cause the most damage? Is that pathway protected?",
+      "Q4.  Where in your organization would a compromised agent cause the most damage? Is that pathway protected?",
     ];
     s.addText(qs.join("\n\n"), { x:0.5, y:1.4, w:5.1, h:3.1, fontSize:11.5, color:C.pale, margin:0 });
 

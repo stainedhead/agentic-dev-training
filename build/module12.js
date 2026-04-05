@@ -99,7 +99,7 @@ async function build() {
       s.addText(n.label, { x:n.x-0.52, y:n.y-0.08, w:1.04, h:0.8, fontSize:10, color:C.white, bold:true, align:"center", valign:"middle", margin:0 });
     });
 
-    // Centre: Product Owner
+    // Center: Product Owner
     s.addShape(pres.shapes.OVAL, { x:cx-0.52, y:cy-0.3, w:1.04, h:0.72, fill:{ color:C.roleOwner, transparency:20 } });
     s.addText("Product\nOwner", { x:cx-0.52, y:cy-0.28, w:1.04, h:0.68, fontSize:9.5, color:C.pale, align:"center", valign:"middle", margin:0 });
 
@@ -176,7 +176,7 @@ async function build() {
       {
         head: "No coordination tax",
         color: C.teal,
-        body: "Three people: 3 communication paths, minimal meeting overhead, no organisational politics, no consensus-building paralysis. Every person can hold the full team\u2019s state in their head at once."
+        body: "Three people: 3 communication paths, minimal meeting overhead, no organizational politics, no consensus-building paralysis. Every person can hold the full team\u2019s state in their head at once."
       },
       {
         head: "Complete accountability",
@@ -233,7 +233,7 @@ async function build() {
         icon: FaClipboardList,
         tagline: "Transforms PRDs into executable specifications",
         scope: [
-          "Takes approved PRDs and produces complete SDD artefacts",
+          "Takes approved PRDs and produces complete SDD artifacts",
           "Writes requirements.md, plan.md, tasks.md, test specs",
           "Orchestrates agentic teams for code, tests, and documentation",
           "Verifies agent output against acceptance criteria",
@@ -380,7 +380,7 @@ async function build() {
     s.addText("TEAM  \u2014  NFR & HEALTH ADVOCACY", { x:5.1, y:1.28, w:4.55, h:0.46, fontSize:11, color:C.white, bold:true, charSpacing:1.5, align:"center", valign:"middle", margin:0 });
 
     const nfrs = [
-      { nfr:"Performance",   desc:"Advocate for performance budgets. Flag when velocity is being prioritised at the cost of system responsiveness." },
+      { nfr:"Performance",   desc:"Advocate for performance budgets. Flag when velocity is being prioritized at the cost of system responsiveness." },
       { nfr:"Reliability",   desc:"Push back on feature volume when test coverage, error handling, or observability is below standard." },
       { nfr:"Security",      desc:"Surface security debt before it becomes a breach. Demand time for OWASP checklist maintenance." },
       { nfr:"Maintainability", desc:"Flag when code complexity is growing unsustainably. Advocate for refactoring as first-class delivery." },
@@ -612,27 +612,27 @@ async function build() {
   }
 
   // ══════════════════════════════════════════════════════════════════
-  // SLIDE 12 — Programme Close
+  // SLIDE 12 — Program Close
   // ══════════════════════════════════════════════════════════════════
   {
     const s = pres.addSlide();
     s.background = { color:C.navy };
 
     s.addShape(pres.shapes.RECTANGLE, { x:9.82, y:0, w:0.18, h:5.625, fill:{ color:C.accent } });
-    s.addText("DISCUSSION  +  PROGRAMME CLOSE", { x:0.4, y:0.22, w:9, h:0.45, fontSize:13, color:C.iceBlue, bold:true, charSpacing:3, margin:0 });
+    s.addText("DISCUSSION  +  PROGRAM CLOSE", { x:0.4, y:0.22, w:9, h:0.45, fontSize:13, color:C.iceBlue, bold:true, charSpacing:3, margin:0 });
 
     s.addShape(pres.shapes.RECTANGLE, { x:0.35, y:0.82, w:5.5, h:2.72, fill:{ color:C.mid, transparency:20 }, shadow:shadow() });
     s.addShape(pres.shapes.RECTANGLE, { x:0.35, y:0.82, w:5.5, h:0.48, fill:{ color:C.iceBlue, transparency:15 } });
     s.addText("DISCUSSION QUESTIONS", { x:0.35, y:0.82, w:5.5, h:0.48, fontSize:11, color:C.white, bold:true, charSpacing:2, align:"center", valign:"middle", margin:0 });
     const qs = [
-      "Q1.  What is the single biggest cultural barrier to adopting the three-person equal-peers model in your organisation?",
+      "Q1.  What is the single biggest cultural barrier to adopting the three-person equal-peers model in your organization?",
       "Q2.  If you had to start a new product team from scratch today, who would your three people be? Why?",
       "Q3.  What would it take for your Product Owner to agree to a standing 20% NFR/hygiene allocation? What evidence would change their mind?",
       "Q4.  What\u2019s one local optimisation your team makes today that you know is harming another team?",
     ];
     s.addText(qs.join("\n\n"), { x:0.5, y:1.4, w:5.1, h:2.0, fontSize:11, color:C.pale, margin:0 });
 
-    // Full programme summary
+    // Full program summary
     s.addShape(pres.shapes.RECTANGLE, { x:6.05, y:0.82, w:3.6, h:2.72, fill:{ color:C.mid, transparency:20 }, shadow:shadow() });
     s.addShape(pres.shapes.RECTANGLE, { x:6.05, y:0.82, w:3.6, h:0.48, fill:{ color:C.accent, transparency:10 } });
     s.addText("KEY TAKEAWAYS", { x:6.05, y:0.82, w:3.6, h:0.48, fontSize:11, color:C.white, bold:true, charSpacing:2, align:"center", valign:"middle", margin:0 });
@@ -646,10 +646,10 @@ async function build() {
     ];
     s.addText(tks.join("\n"), { x:6.2, y:1.4, w:3.35, h:2.0, fontSize:12, color:C.pale, margin:0 });
 
-    // Complete programme view
+    // Complete program view
     s.addShape(pres.shapes.RECTANGLE, { x:0.35, y:3.68, w:9.3, h:1.72, fill:{ color:C.mid, transparency:15 }, shadow:shadow() });
     s.addShape(pres.shapes.RECTANGLE, { x:0.35, y:3.68, w:9.3, h:0.4, fill:{ color:C.accent, transparency:10 } });
-    s.addText("ENTERPRISE AGENTIC PRACTICES  \u2014  12-MODULE PROGRAMME  COMPLETE", {
+    s.addText("ENTERPRISE AGENTIC PRACTICES  \u2014  12-MODULE PROGRAM  COMPLETE", {
       x:0.35, y:3.68, w:9.3, h:0.4, fontSize:12, color:C.white, bold:true, charSpacing:2, align:"center", valign:"middle", margin:0
     });
 

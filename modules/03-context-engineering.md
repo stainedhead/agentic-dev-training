@@ -3,15 +3,15 @@
 ## Learning Objectives
 
 - Define context engineering and explain why it supersedes "prompt engineering"
-- Build a `CLAUDE.md` / rules file that meaningfully improves agent behaviour
+- Build a `CLAUDE.md` / rules file that meaningfully improves agent behavior
 - Apply just-in-time context loading, compaction strategies, and CI/CD hygiene for context files
-- Understand the Definition of Done as a context artefact
+- Understand the Definition of Done as a context artifact
 
 ---
 
 ## Background
 
-"Prompt engineering" implies tweaking a single string. **Context engineering** is the discipline of designing everything that goes into the model's context window at runtime — system prompts, rules files, product documentation, test results, code snippets, memory retrievals, tool outputs — to maximise the probability of correct, safe, and useful agent behaviour.
+"Prompt engineering" implies tweaking a single string. **Context engineering** is the discipline of designing everything that goes into the model's context window at runtime — system prompts, rules files, product documentation, test results, code snippets, memory retrievals, tool outputs — to maximize the probability of correct, safe, and useful agent behavior.
 
 Anthropic engineering teams have called this the most important skill for agentic development. It is engineering, not magic.
 
@@ -95,7 +95,7 @@ Long-running agents accumulate context. Compaction strategies:
 | **Key-fact extraction** | For decisions/state | Requires good extraction prompt |
 | **Full truncation** | Never in production | Catastrophic forgetting |
 
-Always test compaction behaviour with representative long-running tasks. Compaction bugs are subtle and often only surface in edge cases.
+Always test compaction behavior with representative long-running tasks. Compaction bugs are subtle and often only surface in edge cases.
 
 ### 7. CI/CD for Context Files
 

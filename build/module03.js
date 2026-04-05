@@ -128,10 +128,10 @@ async function build() {
     s.addText("\u2014 Thoughtworks, 2025", { x: 0.65, y: 1.92, w: 8.7, h: 0.22, fontSize: 10, color: C.muted, align: "center", margin: 0 });
 
     const points = [
-      { icon: FaBolt,      color: C.accent,  head: "The Core Discipline",    body: "Context engineering is the art and science of deciding what goes into the agent\u2019s context window, when, and in what form \u2014 to maximise useful work per token." },
+      { icon: FaBolt,      color: C.accent,  head: "The Core Discipline",    body: "Context engineering is the art and science of deciding what goes into the agent\u2019s context window, when, and in what form \u2014 to maximize useful work per token." },
       { icon: FaLayerGroup,color: C.teal,    head: "Why It\u2019s Different from Prompting", body: "Agents run for hundreds of tool calls across long tasks. A single prompt doesn\u2019t cut it. Context must be curated, compacted, and refreshed dynamically." },
       { icon: FaFilter,    color: C.green,   head: "The Central Constraint", body: "All LLMs have a finite context window. Everything the agent can \u201Csee\u201D must fit. Poor context engineering fills that window with noise instead of signal." },
-      { icon: FaCode,      color: C.steel,   head: "Folder = Context",       body: "Anthropic: \u201CThe folder and file structure of an agent becomes a form of context engineering.\u201D How you organise your project IS how you communicate intent to the agent." },
+      { icon: FaCode,      color: C.steel,   head: "Folder = Context",       body: "Anthropic: \u201CThe folder and file structure of an agent becomes a form of context engineering.\u201D How you organize your project IS how you communicate intent to the agent." },
     ];
 
     for (let i = 0; i < 4; i++) {
@@ -381,7 +381,7 @@ async function build() {
 
     s.addShape(pres.shapes.RECTANGLE, { x: 0.35, y: 2.82, w: 4.55, h: 2.6, fill: { color: C.mid, transparency: 18 } });
     s.addShape(pres.shapes.RECTANGLE, { x: 0.35, y: 2.82, w: 4.55, h: 0.4, fill: { color: C.green, transparency: 15 } });
-    s.addText("\u2713  WHAT TO KEEP  (maximise recall)", { x: 0.45, y: 2.82, w: 4.35, h: 0.4, fontSize: 11, color: C.white, bold: true, valign: "middle", margin: 0 });
+    s.addText("\u2713  WHAT TO KEEP  (maximize recall)", { x: 0.45, y: 2.82, w: 4.35, h: 0.4, fontSize: 11, color: C.white, bold: true, valign: "middle", margin: 0 });
     s.addText(keep.map(k => `\u2022 ${k}`).join("\n"), { x: 0.5, y: 3.28, w: 4.3, h: 2.0, fontSize: 11, color: C.pale, margin: 0 });
 
     s.addShape(pres.shapes.RECTANGLE, { x: 5.1, y: 2.82, w: 4.55, h: 2.6, fill: { color: C.mid, transparency: 18 } });

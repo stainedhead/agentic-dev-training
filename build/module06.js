@@ -60,7 +60,7 @@ async function build() {
     }
   }
 
-  // SLIDE 3 — Background & Programme Scope Note
+  // SLIDE 3 — Background & Program Scope Note
   {
     const s = pres.addSlide(); s.background = { color: C.navy };
     s.addText("BACKGROUND  \u2014  WHY OBSERVABILITY IS DIFFERENT FOR AGENTS", {x:0.4,y:0.22,w:9,h:0.45,fontSize:13,color:C.iceBlue,bold:true,charSpacing:3,margin:0});
@@ -69,7 +69,7 @@ async function build() {
     // Scope note panel
     s.addShape(pres.shapes.RECTANGLE, {x:0.35,y:1.28,w:9.3,h:1.62,fill:{color:C.accent,transparency:10},shadow:shadow()});
     s.addShape(pres.shapes.RECTANGLE, {x:0.35,y:1.28,w:9.3,h:0.42,fill:{color:C.accent,transparency:0}});
-    s.addText("PROGRAMME SCOPE NOTE  \u2014  TWO LEVELS", {x:0.48,y:1.28,w:9.0,h:0.42,fontSize:12,color:C.white,bold:true,charSpacing:2,valign:"middle",margin:0});
+    s.addText("PROGRAM SCOPE NOTE  \u2014  TWO LEVELS", {x:0.48,y:1.28,w:9.0,h:0.42,fontSize:12,color:C.white,bold:true,charSpacing:2,valign:"middle",margin:0});
     s.addText("This module covers observability, reliability, and security concepts at two levels:", {x:0.5,y:1.78,w:9.0,h:0.28,fontSize:12,color:C.pale,margin:0});
     s.addText("\u25A0  Your coding agent workflows (Claude Code, Copilot) \u2014 monitoring the development loop: what did the agent do, what did it cost, where did it go wrong?", {x:0.5,y:2.08,w:9.0,h:0.36,fontSize:11.5,color:C.white,margin:0});
     s.addText("\u25A0  Production agent systems (AWS Bedrock, Agent Core) \u2014 what governance and instrumentation production agents require before going live.", {x:0.5,y:2.46,w:9.0,h:0.36,fontSize:11.5,color:C.iceBlue,margin:0});
@@ -138,7 +138,7 @@ async function build() {
       {q:"3. Are AC tests present and correct?", how:"Every AC must have a corresponding test. Read the test names against the acceptance criteria \u2014 not just line coverage.",color:C.green},
       {q:"4. Are there hallucinated APIs or deps?",how:"Agents invent APIs and package versions that don\u2019t exist. Check every import, every external call, every version number.",color:C.steel},
       {q:"5. Is technical debt being introduced?",how:"Agents optimise for passing tests, not maintainability. Check for: magic numbers, duplicated logic, missing error handling, no comments.",color:C.navy},
-      {q:"6. Does behaviour match intent?",       how:"Run the feature mentally against your AC. Did the agent build what you wanted, even if tests pass? Functional correctness matters.",color:C.accent},
+      {q:"6. Does behavior match intent?",       how:"Run the feature mentally against your AC. Did the agent build what you wanted, even if tests pass? Functional correctness matters.",color:C.accent},
     ];
     [[0,1,2],[3,4,5]].forEach((group,col) => {
       group.forEach((idx,row) => {
@@ -239,7 +239,7 @@ async function build() {
       {n:"01",l:"Deploy",      c:C.navy,  d:"Agent opens PR. Human reviews and merges. Agent output enters production."},
       {n:"02",l:"Observe",     c:C.teal,  d:"Monitor for regressions, user feedback, performance issues. Agents help here too (log analysis, alerting)."},
       {n:"03",l:"Detect Drift",c:C.accent,d:"Identify where agent output diverged from intent: new bugs, edge cases missed, scope that should have been in spec."},
-      {n:"04",l:"Update Spec", c:C.green, d:"Update SPEC.md with clarifications, new AC, or corrected non-goals. Update CLAUDE.md or Skills if agent behaviour needs tuning."},
+      {n:"04",l:"Update Spec", c:C.green, d:"Update SPEC.md with clarifications, new AC, or corrected non-goals. Update CLAUDE.md or Skills if agent behavior needs tuning."},
       {n:"05",l:"Re-run Agent",c:C.steel, d:"Apply the updated spec to the fix or new feature. Better context \u2192 better agent output. The loop compounds."},
     ];
     phases.forEach((ph,i) => {

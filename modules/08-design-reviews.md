@@ -29,7 +29,7 @@ The goal of an agentic design review is not to slow things down. It is to preven
 | Model upgrade for a production agent | ✅ Recommended |
 | Prompt/rules file change for a production agent | Lightweight review |
 | Cost or performance optimisation only | Lightweight review |
-| Bug fix with no behaviour change | No formal review needed |
+| Bug fix with no behavior change | No formal review needed |
 
 ### 2. Review Board Composition
 
@@ -103,7 +103,7 @@ An agent with access to every system "just in case." Always restrict to minimum 
 An agent designed to run to completion no matter what. Every production agent must have defined conditions under which it stops and escalates.
 
 **Anti-pattern: Unreviewed Prompt Changes**  
-Prompt and rules file changes treated as "just config" and not code-reviewed. These changes directly alter agent behaviour and must go through the same review process as code.
+Prompt and rules file changes treated as "just config" and not code-reviewed. These changes directly alter agent behavior and must go through the same review process as code.
 
 **Anti-pattern: Testing Only Happy Paths**  
 Eval suites that only test successful cases. Agentic systems fail in complex, multi-step ways. Test failure modes: tool unavailability, partial data, ambiguous instructions, adversarial inputs.
@@ -141,9 +141,9 @@ Gate each phase transition on: eval score threshold, zero critical incidents in 
 
 ## Enterprise Considerations
 
-**Design review as an audit artefact.** Completed design review documents are evidence of due diligence. Store them with your change management records. Reference them in incident post-mortems.
+**Design review as an audit artifact.** Completed design review documents are evidence of due diligence. Store them with your change management records. Reference them in incident post-mortems.
 
-**Review cadence for long-running agents.** Conduct a lightweight review annually for any agent that has been in production for more than a year. The threat landscape, the business context, and the agent's actual behaviour may all have shifted.
+**Review cadence for long-running agents.** Conduct a lightweight review annually for any agent that has been in production for more than a year. The threat landscape, the business context, and the agent's actual behavior may all have shifted.
 
 **Cross-team agents.** If an agent spans multiple teams' systems, the review board must include representation from all affected teams. Do not let one team's agent make production decisions about another team's data without that team's input.
 
@@ -165,9 +165,9 @@ Using the design review template:
 
 ## Facilitator Notes
 
-The exercise scenario deliberately has several problems: it reads from an HR database (PII concerns), it automatically assigns work to people without their consent (autonomy concerns), and it sends emails on behalf of the organisation (communication concerns). These should emerge naturally from the review process.
+The exercise scenario deliberately has several problems: it reads from an HR database (PII concerns), it automatically assigns work to people without their consent (autonomy concerns), and it sends emails on behalf of the organization (communication concerns). These should emerge naturally from the review process.
 
-Discussion: *"What is the minimum information you would need before approving any new agentic system at this organisation?"*
+Discussion: *"What is the minimum information you would need before approving any new agentic system at this organization?"*
 
 ---
 
