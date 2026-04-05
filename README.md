@@ -36,6 +36,48 @@ The curriculum is grounded in real-world practice at leading engineering organis
 
 ---
 
+## Building the Slides
+
+Slides are generated from the `build/module*.js` scripts using [pptxgenjs](https://gitbrent.github.io/PptxGenJS/). A `Makefile` handles incremental builds — only modules whose markdown source is newer than the existing `.pptx` are rebuilt.
+
+### Prerequisites
+
+```bash
+cd build && npm install   # first time only
+```
+
+Or via Make:
+
+```bash
+make install
+```
+
+### Incremental build (recommended)
+
+```bash
+make         # build only slides that are out of date
+```
+
+### Clean and rebuild all
+
+```bash
+make clean   # remove all slides/*.pptx
+make         # rebuild everything
+```
+
+### Other targets
+
+| Command | Effect |
+|---------|--------|
+| `make all` | Build stale slides (same as `make`) |
+| `make clean` | Remove all generated `.pptx` files |
+| `make clean-all` | Clean + remove npm sentinel (forces reinstall) |
+| `make install` | Run `npm install` in `build/` |
+
+> To rebuild a single module manually: `cd build && node module03.js && cp Module_03_*.pptx ../slides/`
+
+---
+
 ## Repository Structure
 
 ```
