@@ -1,0 +1,195 @@
+# CLAUDE.md — Project Rules File Template
+
+> Copy this file to your project root as `CLAUDE.md` and customise each section.
+> This file is loaded by AI coding assistants (Claude Code, Cursor, Copilot) at the start of each session.
+> It is also version-controlled and code-reviewed like any other code.
+
+---
+
+## Project Overview
+
+**Project name:** [PROJECT_NAME]  
+**Purpose:** [One sentence: what does this system do?]  
+**Owner:** [Team name / squad]  
+**Primary language(s):** [e.g. Python 3.12, TypeScript 5.x]  
+**Framework(s):** [e.g. FastAPI, Next.js 14]
+
+---
+
+## Tech Stack
+
+```
+Language:     [Python 3.12 / TypeScript 5 / Go 1.22 / ...]
+Runtime:      [Node 20 / CPython / ...]
+Framework:    [FastAPI / Django / Next.js / ...]
+Database:     [PostgreSQL 16 / MongoDB / DynamoDB / ...]
+Cache:        [Redis 7 / ...]
+Queue:        [SQS / Kafka / ...]
+Cloud:        [AWS / Azure / GCP]
+IaC:          [Terraform / CDK / ...]
+CI/CD:        [GitHub Actions / Jenkins / ...]
+Observability:[Datadog / Honeycomb / ...]
+```
+
+---
+
+## Repository Structure
+
+```
+[PROJECT_NAME]/
+├── src/                    ← Application source
+│   ├── [module_a]/
+│   └── [module_b]/
+├── tests/                  ← All tests mirror src/ structure
+│   ├── unit/
+│   ├── integration/
+│   └── e2e/
+├── docs/                   ← Architecture and API docs
+├── infra/                  ← IaC (Terraform / CDK)
+├── scripts/                ← Developer utility scripts
+├── CLAUDE.md               ← This file
+└── README.md
+```
+
+---
+
+## Coding Conventions
+
+### Naming
+- Variables and functions: `snake_case` (Python) / `camelCase` (TypeScript)
+- Classes: `PascalCase`
+- Constants: `UPPER_SNAKE_CASE`
+- Files: `snake_case.py` / `kebab-case.ts`
+
+### Patterns to USE
+- [e.g. Repository pattern for data access]
+- [e.g. Dependency injection for services]
+- [e.g. Dataclasses / Pydantic models for data validation]
+
+### Patterns to AVOID
+- [e.g. God classes — split responsibilities]
+- [e.g. Direct database access outside the repository layer]
+- [e.g. Mutable global state]
+
+### Comments
+- Write comments for *why*, not *what*
+- Every public function/method has a docstring
+- TODO comments must include: author, date, ticket reference
+
+---
+
+## Architecture Constraints
+
+**Layering (strict — do not violate):**
+```
+API layer → Service layer → Repository layer → Database
+```
+
+- API layer: request/response handling only, no business logic
+- Service layer: all business logic lives here
+- Repository layer: all database access lives here; never bypass to raw SQL from services
+- External API calls: only from dedicated adapter classes in `src/adapters/`
+
+**What is off-limits:**
+- [ ] Never write directly to the production database from scripts or one-offs — use migrations
+- [ ] Never call external APIs from tests — mock them
+- [ ] Never bypass the auth middleware
+- [ ] [Add project-specific constraints]
+
+---
+
+## Testing Requirements
+
+**Coverage target:** [e.g. 80% line coverage, 70% branch coverage]
+
+**Test pyramid:**
+- Unit tests: all functions with logic; fast, no external dependencies
+- Integration tests: database interactions, repository layer
+- E2E tests: critical user journeys only
+
+**Test file naming:** `test_[module_name].py` / `[module-name].test.ts`
+
+**When writing tests:**
+1. Arrange → Act → Assert structure
+2. One assertion concept per test
+3. Use descriptive test names: `test_[given]_[when]_[then]`
+4. Mock all external dependencies (HTTP, DB, queues) in unit tests
+
+---
+
+## Security Rules (Non-Negotiable)
+
+- [ ] **Never** hard-code secrets, API keys, or passwords — use environment variables or secrets manager
+- [ ] **Never** log PII (names, emails, SSNs, financial data) — log IDs only
+- [ ] **Always** validate and sanitise external input before use
+- [ ] **Always** use parameterised queries — never string-concatenate SQL
+- [ ] **Always** check authorisation before returning data, not just authentication
+- [ ] Dependencies must be pinned to exact versions in production builds
+- [ ] Run `[security scanner]` on every PR
+
+---
+
+## Definition of Done
+
+A task is not complete until ALL of the following are true:
+
+- [ ] All new code has unit tests with passing coverage
+- [ ] All tests pass locally (`[test command]`)
+- [ ] All tests pass in CI
+- [ ] No new lint errors (`[lint command]`)
+- [ ] No secrets in code (automated scanner passes)
+- [ ] PR description filled out with: what changed, why, how, alternatives considered
+- [ ] Relevant documentation updated (API docs, README, architecture diagrams)
+- [ ] Migration scripts (if DB change) reviewed and tested on staging
+- [ ] Performance implications considered and noted in PR if relevant
+
+---
+
+## Running the Project Locally
+
+```bash
+# Install dependencies
+[install command]
+
+# Set up environment
+cp .env.example .env
+# Edit .env with your local values
+
+# Start dependencies (docker-compose or equivalent)
+[docker command]
+
+# Run the application
+[start command]
+
+# Run tests
+[test command]
+
+# Run linter
+[lint command]
+```
+
+---
+
+## Open Questions / Things to Check with a Human
+
+If you are unsure about any of the following, **stop and ask before proceeding**:
+
+- Any change to the authentication or authorisation flow
+- Any change to the database schema
+- Any new external service integration
+- Any change to public API contracts (breaking changes)
+- Any security-relevant change
+- Any change that touches more than [N] files
+
+---
+
+## Changelog
+
+| Date | Change | Author |
+|------|--------|--------|
+| [YYYY-MM-DD] | Initial version | [Author] |
+
+---
+
+*This file is maintained by the [TEAM] team. Raise a PR to propose changes.*
+
