@@ -42,7 +42,18 @@ agentic-dev-training/
 cd build && npm install
 ```
 
-### Build one module
+### Preferred: use Make (incremental)
+
+```bash
+make              # build only slides whose MD is newer than the PPTX
+make clean        # remove all slides/*.pptx and build/*.pptx
+make clean-all    # clean + remove npm sentinel (forces reinstall on next build)
+make install      # run npm install explicitly
+```
+
+Make compares timestamps automatically — if the PPTX is newer than the MD, that module is skipped. Run from the repo root (not inside `build/`).
+
+### Build one module manually
 
 ```bash
 cd build
@@ -50,7 +61,7 @@ node module03.js
 cp Module_03_*.pptx ../slides/
 ```
 
-### Build all
+### Build all manually
 
 ```bash
 cd build
