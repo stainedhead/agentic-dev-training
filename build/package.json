@@ -1,0 +1,27 @@
+{
+  "name": "agentic-training-build",
+  "version": "1.0.0",
+  "description": "Build system for Enterprise Agentic Practices training slides",
+  "scripts": {
+    "build": "node build-all.js",
+    "build:01": "node module01.js",
+    "build:02": "node module02.js",
+    "build:03": "node module03.js",
+    "build:04": "node module04.js",
+    "build:05": "node module05.js",
+    "build:06": "node module06.js",
+    "build:07": "node module07.js",
+    "build:08": "node module08.js",
+    "build:09": "node module09.js",
+    "build:10": "node module10.js",
+    "build:11": "node module11.js",
+    "build:12": "node module12.js"
+  },
+  "dependencies": {
+    "pptxgenjs": "^3.12.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "react-icons": "^5.0.0",
+    "sharp": "^0.33.0"
+  }
+}
