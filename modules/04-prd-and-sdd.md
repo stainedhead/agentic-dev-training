@@ -2,179 +2,239 @@
 
 ## Learning Objectives
 
-- Write a PRD that an agent can operationalise without constant human clarification
-- Distinguish between a PRD, a Technical Spec, and a Task Spec
-- Apply Spec-Driven Development (SDD) to an agentic workflow
-- Understand how automated testing (TDD) integrates with SDD in an agentic loop
+- Distinguish between the historical PRD and the modern agentic PRD
+- Write a PRD that an agent can operationalise, review, and extend
+- Understand how a modern PRD automatically generates the full spec suite
+- Apply the PRD → Spec → Plan → Tasks → Architecture pipeline in your workflow
 
 ---
 
 ## Background
 
-The single biggest failure mode for agentic development is **ambiguity at the specification layer**. When a human developer encounters ambiguity, they ask a question. An agent, especially in an autonomous loop, will make a decision — and that decision may not be the one you wanted. The solution is not to make agents better at guessing. The solution is to write better specifications.
+The PRD has existed for decades. What has changed is not the document's purpose — it still answers *what* and *why* — but who writes it, what it knows, how it stays current, and what it produces downstream.
 
-Spec-Driven Development existed before agents. Agents make it mandatory.
-
----
-
-## The Document Hierarchy
-
-```
-Product Requirements Document (PRD)
-        │
-        ▼
-Technical Specification (Spec)
-        │
-        ▼
-Task Spec / Implementation Plan
-        │
-        ▼
-Tests (written BEFORE code)
-        │
-        ▼
-Code
-        │
-        ▼
-Review & Merge
-```
-
-Each layer is more specific than the one above it. The PRD answers *what* and *why*. The spec answers *how*. The task spec answers *what exactly, in what order*. Tests make the spec machine-verifiable.
+Understanding that evolution is the starting point for agentic development.
 
 ---
 
-## Core Concepts
+## The Evolution of the PRD
 
-### 1. The PRD for Agentic Workflows
+### The Historical PRD
 
-A PRD written for human developers can afford to leave things implicit. Experienced developers fill in gaps from context and convention. A PRD written for an agentic workflow must be explicit about:
+The traditional PRD was a human artefact. A product manager or business analyst spent days or weeks writing it, often in isolation from the codebase it would eventually touch.
 
-**Required PRD sections:**
+**Characteristics:**
+
+| Dimension | Reality |
+|-----------|---------|
+| **Authorship** | One or two people, writing from memory and stakeholder interviews |
+| **Codebase awareness** | None — written without reading the existing system |
+| **Time to produce** | Days to weeks |
+| **Review process** | Slow — async comments, email chains, meetings |
+| **Drift** | Begins drifting from reality the day development starts; rarely updated |
+| **Completeness** | Implicitly incomplete — gaps filled by developers asking questions |
+| **Agent usability** | Low — ambiguous language, missing edge cases, no machine-verifiable criteria |
+
+The historical PRD was not a bad tool for its context. Human developers could fill gaps from experience and ask questions when stuck. The PRD was a starting point for a human conversation.
+
+The problem: agents cannot have that conversation. An agent encountering ambiguity does not ask — it decides. And that decision may not be the one you wanted.
+
+### The Modern Agentic PRD
+
+The modern PRD is written with an agent as a collaborator and read by an agent as its primary instruction set. It is not longer or more formal — it is more precise, more grounded, and continuously maintained.
+
+**Characteristics:**
+
+| Dimension | Reality |
+|-----------|---------|
+| **Authorship** | Human provides intent and context; agent drafts, expands, and stress-tests |
+| **Codebase awareness** | High — agent reads existing code, architecture docs, and ADRs before drafting |
+| **Time to produce** | Hours, not days — agent handles the prose; human handles the decisions |
+| **Review process** | Agent finds gaps, contradictions, and missing edge cases before human review |
+| **Drift** | Minimal — agent can re-check PRD against code at any time and flag divergence |
+| **Completeness** | Structurally enforced — agent flags every undefined edge case and open question |
+| **Agent usability** | High — numbered requirements, explicit non-goals, machine-readable acceptance criteria |
+
+**How an agent improves a PRD:**
+
+```
+Human writes intent (rough draft or bullet points)
+    ↓
+Agent reads existing codebase, ADRs, PRODUCT.md
+    ↓
+Agent drafts full PRD sections with codebase context
+    ↓
+Agent reviews its own draft:
+  - "Requirement FR-4 conflicts with the existing UserService contract"
+  - "Non-functional requirement for latency is undefined — what is the target?"
+  - "This feature touches PII — no data handling requirement is specified"
+    ↓
+Human reviews and resolves flagged issues
+    ↓
+PRD is approved — ready to generate the spec suite
+```
+
+---
+
+## The Modern PRD Structure
+
+A PRD written for agentic workflows must be explicit where the historical PRD could be vague.
+
+**Required sections:**
 
 | Section | What it specifies |
 |---------|------------------|
-| **Problem statement** | What is wrong or missing today? |
-| **Goals** | What does success look like? (measurable) |
-| **Non-goals** | Explicitly what is out of scope |
-| **Functional requirements** | What the system must do (numbered, testable) |
-| **Non-functional requirements** | Performance, security, reliability, compliance |
-| **Constraints** | Tech stack, existing systems, budget, timeline |
-| **Definition of Done** | The checklist that closes this PRD |
-| **Open questions** | Explicit list of things not yet decided |
+| **Problem statement** | What is wrong or missing today? (concrete, not abstract) |
+| **Goals** | What does success look like? (measurable outcomes, not features) |
+| **Non-goals** | Explicitly what is out of scope — tells the agent where to stop |
+| **Functional requirements** | Numbered, testable statements: "The system SHALL…" |
+| **Non-functional requirements** | Latency, throughput, security, compliance, cost ceiling |
+| **Constraints** | Existing systems the solution must integrate with or not break |
+| **Codebase context** | Which existing modules, services, or schemas are affected |
+| **Acceptance criteria** | The machine-verifiable conditions that close this PRD |
+| **Open questions** | Explicit list of unresolved decisions — agent flags these before speccing |
 
-The "Non-goals" and "Open questions" sections are the most important for agentic use. They tell the agent where to stop and ask rather than assume.
+> The **Non-goals** and **Open questions** sections are the most important for agents. They define the boundary of autonomous decision-making. Anything not listed as a non-goal is in scope. Any open question is a gap the agent will fill — with or without your input.
 
-See [`templates/prd-template.md`](../templates/prd-template.md).
+---
 
-### 2. Technical Specification
+## PRD → Spec Suite: The Automated Pipeline
 
-The spec translates PRD requirements into engineering decisions:
-
-- **Architecture** — what components exist, how they interact
-- **Data models** — schemas, types, relationships
-- **API contracts** — endpoints, request/response shapes, error codes
-- **Algorithm/logic** — pseudocode or formal description of non-trivial logic
-- **Security model** — auth, authorisation, data handling
-- **Test strategy** — what will be tested, how, at what layer
-
-A spec is the document you hand to the agent as context. It must be complete enough that the agent can write the first working implementation without asking questions.
-
-See [`templates/spec-template.md`](../templates/spec-template.md).
-
-### 3. Spec-Driven Development (SDD) Workflow
+The modern PRD is not the end of the documentation chain — it is the beginning of an automated pipeline that produces everything the agent needs to implement.
 
 ```
-1. Write PRD  ──────────────────────────────────────────────────────────── Human
-2. Review PRD (human + agent review for completeness)  ─────────────────── Human + Agent
-3. Write Spec  ─────────────────────────────────────────────────────────── Agent (with human review)
-4. Spec review  ────────────────────────────────────────────────────────── Human
-5. Write tests (TDD)  ──────────────────────────────────────────────────── Agent
-6. Test review  ────────────────────────────────────────────────────────── Human
-7. Write code to pass tests  ───────────────────────────────────────────── Agent
-8. Code passes tests + DoD  ────────────────────────────────────────────── Automated
-9. PR review  ──────────────────────────────────────────────────────────── Human (or Agent reviewer)
-10. Merge  ─────────────────────────────────────────────────────────────── Human approval
+ ┌─────────────────────────────────────────────────────┐
+ │                  APPROVED PRD                       │
+ │   (human intent + agent-verified, codebase-aware)   │
+ └──────────────────────┬──────────────────────────────┘
+                        │
+                        ▼  Agent generates:
+        ┌───────────────┼────────────────┐
+        │               │                │
+        ▼               ▼                ▼
+  ┌──────────┐   ┌──────────────┐  ┌──────────────────┐
+  │  SPEC.md │   │ ARCHITECTURE │  │   SCHEMA DOCS    │
+  │          │   │    .md       │  │  (data models,   │
+  │ How the  │   │              │  │   API contracts, │
+  │ system   │   │ Components,  │  │   event shapes)  │
+  │ works    │   │ integrations,│  └──────────────────┘
+  └────┬─────┘   │ constraints  │
+       │         └──────────────┘
+       ▼
+  ┌──────────┐
+  │  PLAN.md │
+  │          │
+  │ Ordered  │
+  │ approach,│
+  │ phases,  │
+  │ risks    │
+  └────┬─────┘
+       │
+       ▼
+  ┌──────────┐
+  │ TASKS.md │
+  │          │
+  │ Discrete │
+  │ agent    │
+  │ work     │
+  │ units +  │
+  │ AC each  │
+  └────┬─────┘
+       │
+       ▼  Agent implements:
+  ┌──────────┐
+  │   CODE   │  ← tests written first (TDD), then implementation
+  └────┬─────┘
+       │
+       ▼
+  ┌──────────┐
+  │    PR    │  ← human reviews decision, not diff
+  └──────────┘
 ```
 
-Note where humans appear: at specification boundaries and review gates. The agent generates; the human approves and unblocks.
+### What Each Artefact Contains
 
-### 4. Test-Driven Development (TDD) in an Agentic Loop
+**SPEC.md** — The technical translation of the PRD. How the system will be built: component design, API contracts, error handling, security model, test strategy. Written by the agent, reviewed by a human domain expert before implementation begins.
 
-TDD is the natural complement to SDD for agents. When you write tests first:
+**ARCHITECTURE.md** — Which existing components are involved, how new components integrate, what the data flow looks like, where the trust boundaries sit. Generated from the PRD + agent reading of the existing codebase.
 
-- The agent has a machine-verifiable definition of "done" — not an ambiguous description
-- The agent can iterate autonomously until tests pass, without needing human feedback on every attempt
-- Regressions are caught automatically
-- The test suite becomes an executable specification
+**Schema docs** — Data models, database schemas, API request/response shapes, event payload definitions. Agent generates from functional requirements; human reviews for correctness and alignment with existing data contracts.
 
-**The agentic TDD loop:**
+**PLAN.md** — The ordered approach: phases, sequencing rationale, dependencies between tasks, risks and mitigations. Allows the human to review the strategy before a line of code is written.
 
-```
-Spec → Agent writes tests → Tests fail (expected) →
-Agent writes code → Tests pass → Agent checks DoD → 
-DoD satisfied → Opens PR → Human reviews
-```
+**TASKS.md** — Discrete, agent-executable work units. Each task has: a description, acceptance criteria, the files it will touch, and a definition of done. Tasks are small enough that each produces a reviewable PR. The agent works through them sequentially or in parallel depending on dependencies.
 
-The agent iterates on steps 3-5 autonomously. Humans only re-enter at PR review.
+---
 
-### 5. CI/CD as a Gate
+## The Human's Role in This Pipeline
 
-CI/CD is your automated enforcement layer. In an agentic workflow:
+The pipeline is automated — but the human is not removed. The human's role shifts from *writer* to *decision-maker*.
 
-- **CI must run on every agent-generated commit** — not just human commits
-- **All agent PRs go through the same pipeline as human PRs** — no exceptions
-- **Test coverage thresholds** — agents tend to write tests for happy paths; enforce branch/line coverage
-- **Security scanning** — static analysis, dependency audit, secret scanning (agents can accidentally expose secrets)
-- **Lint and formatting** — agents occasionally drift from style; autoformat in CI
-- **Eval suite** — for AI-specific behaviour, run your eval suite in CI
+| Stage | Human does | Agent does |
+|-------|-----------|-----------|
+| PRD draft | Provides intent, resolves open questions | Drafts content, reads codebase, flags gaps |
+| PRD review | Approves intent and completeness | Checks for contradictions, missing edge cases, compliance gaps |
+| Spec generation | Reviews spec for domain correctness | Generates spec, architecture, schema docs from PRD |
+| Plan review | Approves sequencing and strategy | Generates plan and task breakdown |
+| Implementation | Reviews PRs | Implements tasks, writes tests, self-checks against AC |
+| Merge | Approves | Opens PR with full context |
 
-### 6. Hygiene and Continuous Improvement
+The human never reviews a diff without first having approved the plan that produced it. By the time code appears, every significant decision has already been made and documented.
 
-The SDD loop generates artefacts that need maintenance:
+---
 
-| Artefact | Hygiene practice |
-|----------|-----------------|
-| PRD | Archive when shipped; never delete |
-| Spec | Version-controlled; updated when implementation diverges |
-| Tests | Deleted tests require explicit justification in PR |
-| Rules files | Reviewed quarterly; stale rules removed |
-| DoD | Reviewed when a defect escapes through a gap |
+## Why This Works Better Than the Historical Approach
 
-**Continuous improvement trigger:** Every escaped defect (a bug that reached production) should prompt: "Which specification, test, or review step should have caught this? What do we change?"
+| Problem with historical PRD | How the modern approach resolves it |
+|-----------------------------|-------------------------------------|
+| Written without codebase knowledge | Agent reads codebase before drafting |
+| Gaps filled by developer judgment | Open questions surfaced before speccing; resolved by human |
+| Drifts from implementation | Agent can re-check PRD against merged code at any time |
+| Hard to review thoroughly | Agent reviews its own output against a checklist before human sees it |
+| Slow to produce | Agent handles prose; human handles decisions — hours not weeks |
+| Spec and code diverge | Tasks.md is the authoritative source; agent checks each task against AC |
 
 ---
 
 ## Enterprise Considerations
 
-**PRD as compliance artefact.** For regulated changes, the PRD is evidence that requirements were captured before development. Store it with your change management records.
+**PRD as a compliance artefact.** For regulated changes, the approved PRD (with its audit trail of agent-flagged issues and human resolutions) is evidence of due diligence before development. Store it with your change management records.
 
-**Agent-authored specs need human review.** Agents can write excellent specs, but they may confidently omit edge cases a human expert would catch. Always have a domain expert review agent-authored specs before development begins.
+**Centralised PRD templates.** Maintain a corporate PRD template in your shared `CLAUDE.md` baseline. This ensures every agent-generated PRD covers compliance, security, and data handling requirements — not just functional ones.
 
-**Traceability.** Requirement → Test → Code → Deployment should be traceable in your tooling. Tag PRs with requirement IDs. This is required for SOC 2 and similar frameworks.
+**Agent-authored specs need human review.** Agents generate excellent specs but may confidently omit edge cases that a domain expert would catch. The spec review is not optional — it is the last human checkpoint before autonomous implementation begins.
+
+**Traceability.** Requirement (PRD) → Test → Code → Deployment must be traceable in your tooling. Tag each task in `TASKS.md` with its requirement ID. Tag PRs with the task ID. This satisfies SOC 2 and similar traceability requirements without manual effort.
 
 ---
 
-## Exercise
+## Lab Exercise
 
-Take a real feature your team has recently shipped (or is planning to ship).
+**Time:** 30 minutes
 
-1. Write a one-page PRD using the template. Focus especially on: functional requirements (numbered), non-goals, and Definition of Done.
-2. Identify three edge cases the PRD doesn't address. Add them as open questions.
-3. Draft the first three test cases for the feature in your preferred testing framework. Write them before thinking about implementation.
-4. Swap PRDs with another participant. Review theirs for ambiguity — what would an agent misinterpret?
+1. **Write a rough PRD** (8 min) — Pick a real feature your team is planning. Write 5–10 bullet points covering: what problem it solves, what it must do, what it must not do, and how you'll know it's done.
+
+2. **Agent review pass** (7 min) — Open Claude Code. Paste your bullets and the relevant section of your codebase (or PRODUCT.md). Ask the agent: *"Review this as a PRD. What is ambiguous? What edge cases are missing? What open questions must be resolved before you could write a spec?"* Record the gaps it finds.
+
+3. **Resolve and formalise** (8 min) — Address the gaps the agent flagged. Produce a one-page PRD using the required sections above.
+
+4. **Generate the spec** (7 min) — Ask the agent to generate a SPEC.md from your approved PRD. Review the output: does it faithfully translate your intent? What would you change? What did the agent get right that you hadn't explicitly specified?
 
 ---
 
 ## Facilitator Notes
 
-The PRD review swap (step 4) is the most valuable exercise in this module. It creates immediate intuition for what "agent-safe specification" means.
+**The agent review pass (step 2) is the most valuable exercise.** Participants consistently find that the agent surfaces 3–5 genuine gaps in their PRD that they had not noticed — missing edge cases, undefined non-functional requirements, conflicts with existing systems. This creates immediate intuition for what "agent-safe specification" means.
 
-Discussion: *"Has your team ever shipped something that was technically correct but not what the stakeholder wanted? What was missing from the specification?"*
+**Common insight:** The hardest part of the modern PRD is not writing it — it is resolving the open questions the agent surfaces. That work was always required; it just used to happen implicitly during development, when the cost of resolving it was much higher.
+
+**Discussion prompt:** *"In the historical model, who resolved the gaps in the PRD? When? What did that cost?"*
 
 ---
 
 ## Further Reading
 
-- Thoughtworks: Spec-Driven Development for LLM applications
-- Kent Beck: Test-Driven Development by Example (foundational, still relevant)
-- Anthropic: Agentic coding workflows
+- Anthropic: Agentic coding workflows and spec-driven development
+- Kent Beck: Test-Driven Development by Example (the TDD foundation)
+- Marty Cagan: Inspired — the product thinking behind good requirements
 

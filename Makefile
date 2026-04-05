@@ -6,6 +6,24 @@ NPM        := npm
 SENTINEL   := $(BUILD_DIR)/.npm_installed
 SHARED     := $(BUILD_DIR)/shared.js
 
+ALL_SLIDES := \
+  $(SLIDES_DIR)/Module_01_Chat_vs_Agents_v2.pptx \
+  $(SLIDES_DIR)/Module_02_Core_Concepts.pptx \
+  $(SLIDES_DIR)/Module_03_Context_Engineering.pptx \
+  $(SLIDES_DIR)/Module_04_SDD_PRDs.pptx \
+  $(SLIDES_DIR)/Module_05_Testing_CICD.pptx \
+  $(SLIDES_DIR)/Module_06_Review_Hygiene.pptx \
+  $(SLIDES_DIR)/Module_07_Observability.pptx \
+  $(SLIDES_DIR)/Module_08_Security.pptx \
+  $(SLIDES_DIR)/Module_09_FinOps.pptx \
+  $(SLIDES_DIR)/Module_10_Design_Reviews.pptx \
+  $(SLIDES_DIR)/Module_11_Product_First.pptx \
+  $(SLIDES_DIR)/Module_12_Three_Person_Team.pptx
+
+.PHONY: all clean install clean-all
+
+all: $(ALL_SLIDES)
+
 # ── Slide targets (slides/ ← build/moduleNN.js ← modules/NN-*.md) ───────────
 
 $(SLIDES_DIR)/Module_01_Chat_vs_Agents_v2.pptx: modules/01-chat-vs-agents.md $(BUILD_DIR)/module01.js $(SHARED) | $(SENTINEL)
@@ -43,26 +61,6 @@ $(SLIDES_DIR)/Module_11_Product_First.pptx: modules/11-product-first-engineering
 
 $(SLIDES_DIR)/Module_12_Three_Person_Team.pptx: modules/12-three-person-team.md $(BUILD_DIR)/module12.js $(SHARED) | $(SENTINEL)
 	cd $(BUILD_DIR) && $(NODE) module12.js && cp Module_12_Three_Person_Team.pptx ../$(SLIDES_DIR)/
-
-# ── Aggregates ───────────────────────────────────────────────────────────────
-
-ALL_SLIDES := \
-  $(SLIDES_DIR)/Module_01_Chat_vs_Agents_v2.pptx \
-  $(SLIDES_DIR)/Module_02_Core_Concepts.pptx \
-  $(SLIDES_DIR)/Module_03_Context_Engineering.pptx \
-  $(SLIDES_DIR)/Module_04_SDD_PRDs.pptx \
-  $(SLIDES_DIR)/Module_05_Testing_CICD.pptx \
-  $(SLIDES_DIR)/Module_06_Review_Hygiene.pptx \
-  $(SLIDES_DIR)/Module_07_Observability.pptx \
-  $(SLIDES_DIR)/Module_08_Security.pptx \
-  $(SLIDES_DIR)/Module_09_FinOps.pptx \
-  $(SLIDES_DIR)/Module_10_Design_Reviews.pptx \
-  $(SLIDES_DIR)/Module_11_Product_First.pptx \
-  $(SLIDES_DIR)/Module_12_Three_Person_Team.pptx
-
-.PHONY: all clean install
-
-all: $(ALL_SLIDES)
 
 # ── npm install (only when package files change) ─────────────────────────────
 
