@@ -136,17 +136,19 @@ Three pillars — the same as cloud FinOps, applied to AI:
  
 **Time:** 25 minutes
  
-**Goal:** Cost-model your agent workflow and identify your highest-ROI optimisation.
+**Goal:** Cost-model your team's actual coding agent usage and identify your highest-ROI optimisation.
  
-1. **Estimate token costs** (7 min) — For the agent you designed in Module 02: estimate tokens per operation (system prompt, tool calls, responses, compaction). Use current Claude Sonnet pricing. What does one run cost? What does 1,000 runs per day cost?
+> **Scope note:** This exercise focuses on the cost of using Claude Code and GitHub Copilot in your development workflow — not on production agent costs. The same principles apply if you later build production agents on AWS Bedrock or Agent Core, but start where the spend is real today.
  
-2. **Apply the five levers** (6 min) — Which levers apply to your design? For each: estimate % savings and implementation effort (1–5). Rank by ROI.
+1. **Estimate token costs** (7 min) — Pick one real Claude Code workflow your team uses (e.g., writing a new feature end-to-end, running a refactor, nightly hygiene). Estimate: how many LLM calls does a single run make? What is the approximate context size? Which model tier? Use current Claude Sonnet pricing. What does one run cost? What does 20 developer runs per day cost across your team?
  
-3. **Design your budget architecture** (6 min) — Define limits at each level: org, team, feature, session, request. What triggers each alert? What is automated vs. manual?
+2. **Apply the five levers** (6 min) — Which levers apply to your coding agent workflow? For each: estimate % savings and implementation effort (1–5). Which single change would you make first?
  
-4. **Choose your tooling** (4 min) — Vantage, Langfuse, Portkey, or Datadog? What is the one dashboard your team looks at daily?
+3. **Design your budget architecture** (6 min) — Define cost limits at each level for your team's coding agent usage: org, team, per-developer session, per-task request. What triggers each alert? What is automated vs. manual?
  
-5. **Share your cost model** (2 min) — Share your $/day estimate. What surprised you? Where is the biggest cost risk?
+4. **Choose your tooling** (4 min) — Langfuse, Vantage, Portkey, or native Anthropic usage dashboards? What is the one view your tech lead checks weekly?
+ 
+5. **Share your cost model** (2 min) — Share your $/day estimate. What surprised you? Where is the biggest cost risk in your current usage patterns?
  
 ---
  

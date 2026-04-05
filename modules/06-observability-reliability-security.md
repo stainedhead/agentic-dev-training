@@ -9,11 +9,22 @@
 
 ---
 
+## Programme Scope Note
+
+This module covers observability, reliability, and security concepts that apply at two levels:
+
+- **Your coding agent workflows** (Claude Code, Copilot) — monitoring the development loop: what did the agent do, what did it cost, where did it go wrong?
+- **Production agent systems** (AWS Bedrock, Agent Core) — what governance and instrumentation production agents require before going live.
+
+Both levels matter. The concepts are the same; the implementation layer differs. Where an example is specific to production agents, it is marked as such.
+
+---
+
 ## Background
 
 Traditional observability was built for deterministic systems: a request comes in, code runs, a response goes out. You instrument the code paths and measure them. Agentic systems add a new dimension: the model's *decisions* are themselves part of the execution path, and those decisions are not deterministic. You cannot put a breakpoint inside a reasoning step.
 
-This requires a new observability stack — one that captures not just what happened, but *what the model decided to do and why*.
+This requires a new observability stack — one that captures not just what happened, but *what the model decided to do and why*. This applies equally to a Claude Code session running a refactor and to a production agent processing customer requests.
 
 ---
 
@@ -100,10 +111,31 @@ For long-running agents, save state at meaningful checkpoints. If the agent cras
 
 ### 3. SLOs for Agentic Systems
 
-Define SLOs before going to production. Example:
+SLOs apply at both levels — the coding agent loop and production agents. Examples for each:
 
+**Coding agent workflow SLOs** (measuring the development loop):
 ```yaml
-slos:
+coding_agent_slos:
+  pr_open_rate:            # % of agent tasks that successfully open a PR
+    target: 90%
+    window: 7d
+
+  task_success_rate:       # % of agent runs that complete without human intervention
+    target: 80%
+    window: 7d
+
+  eval_score:              # automated quality review pass rate for agent-generated PRs
+    target: 0.85
+    window: 7d
+
+  cost_per_task:           # average token cost per completed coding task
+    target: $0.15
+    window: 7d
+```
+
+**Production agent SLOs** (when your team builds agents that run in production):
+```yaml
+production_agent_slos:
   task_success_rate:
     target: 95%
     window: 7d
@@ -113,11 +145,6 @@ slos:
     target: 120s
     window: 1d
     alert_threshold: 180s
-
-  eval_score:
-    target: 0.85
-    window: 7d
-    alert_threshold: 0.75
 
   human_escalation_rate:
     target: <5%
@@ -174,12 +201,12 @@ For agents operating on enterprise data:
 
 ## Exercise
 
-Audit an agentic workflow you are building or planning:
+Audit a Claude Code workflow your team is using or plans to use (e.g., agent-driven feature development, automated refactoring, nightly hygiene tasks):
 
-1. List every tool the agent has access to. For each, identify: can this tool be misused? What is the blast radius if misused?
-2. Write the prompt injection threat model: what external data does this agent read? What is the worst-case injected instruction?
-3. Define three SLOs for the workflow.
-4. Design the observability stack: what traces, metrics, and logs would you need to diagnose a failure at 2am?
+1. **Tools audit** — List every tool Claude Code has access to in this workflow (file read, file write, shell, git, etc.). For each: what is the worst-case misuse? What is the blast radius? Is a human approval gate in place before irreversible actions?
+2. **Prompt injection surface** — What external data does Claude Code read as part of this workflow (docs, test output, README files, tickets)? Could any of that content contain instructions that hijack the agent's behaviour? How would you detect it?
+3. **Define three SLOs** — Write three measurable SLOs for the coding agent workflow. At least one must be cost-related, one quality-related.
+4. **Observability design** — What traces, metrics, and logs would you need to diagnose a bad agent run at 2am? What tool would surface them? Who gets paged?
 
 ---
 

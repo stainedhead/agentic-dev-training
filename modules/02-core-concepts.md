@@ -60,6 +60,11 @@ Summarising or truncating older context to make room for new information. Essent
 
 ## Multi-Agent Patterns
 
+These patterns describe how multiple agents coordinate. They appear in two contexts relevant to this programme:
+
+1. **Inside your coding agent** — Claude Code internally uses planning, tool execution, and self-evaluation in loops that follow these patterns. Understanding them helps you reason about why the agent behaves as it does.
+2. **In production agent systems your team may eventually build** — when your output is itself an agent system (e.g., on AWS Bedrock/Agent Core), you will design using these patterns explicitly. That is out of scope for this programme, but the vocabulary is shared.
+
 ### Pattern 1: Sequential Pipeline
 
 ```
@@ -67,6 +72,8 @@ Orchestrator → Agent A → Agent B → Agent C → Result
 ```
 
 Each agent's output is the next agent's input. Simple, debuggable. Use when tasks have clear sequential dependencies.
+
+**Coding agent example:** Claude Code reads a spec → writes tests → writes code → runs tests → opens a PR. Each step feeds the next.
 
 ### Pattern 2: Parallel Fan-Out
 
@@ -78,6 +85,8 @@ Orchestrator ─┼→ Agent B ─┼→ Aggregator → Result
 
 Parallelise independent subtasks. Dramatically reduces wall-clock time for research or analysis tasks. Use when subtasks are independent.
 
+**Coding agent example:** Claude Code simultaneously searches three parts of the codebase for relevant context before synthesising an implementation plan.
+
 ### Pattern 3: Evaluator-Optimizer Loop
 
 ```
@@ -88,6 +97,8 @@ Generator Agent → Output → Evaluator Agent → Score
 
 An evaluator agent scores the generator's output and feeds back a critique. The generator revises. Repeat until quality threshold is met. Spotify and Anthropic both use this pattern for code review automation.
 
+**Coding agent example:** Claude Code writes a function, runs the tests, reads the failures, revises the code, and repeats — autonomously — until tests pass.
+
 ### Pattern 4: Specialist Routing
 
 ```
@@ -95,6 +106,8 @@ Router Agent → classifies intent → dispatches to specialist agent
 ```
 
 A lightweight routing agent examines the request and delegates to the right specialist (e.g., security agent, data agent, documentation agent).
+
+**Coding agent example:** GitHub Copilot Chat routes a question to a codebase search tool vs. a documentation lookup vs. a code generation path depending on intent.
 
 ---
 
@@ -110,14 +123,15 @@ A lightweight routing agent examines the request and delegates to the right spec
 
 ## Exercise
 
-Design the agent architecture for the following scenario:
+Apply the vocabulary from this module to a coding agent scenario you are likely to encounter this week.
 
-> *"We want an agentic system that, every morning, scans our GitHub repos for PRs open more than 5 days, checks if CI is passing, summarises the PR description and review status, and posts a digest to the #engineering Slack channel."*
+**Scenario:** A developer asks Claude Code: *"Refactor the PaymentService to extract a separate InvoiceService, move the relevant methods, update all call sites, and make sure the tests still pass."*
 
-1. Draw the agent graph (orchestrator + subagents + tools)
-2. List every tool required and classify it (read/write/communication)
-3. Identify what memory type each agent needs
-4. Identify the trust boundary — what permissions should each agent have?
+1. **Map the agent loop** — Break this task into the steps Claude Code would take. For each step, identify: what tool does it call? What does it observe? What decision does it make next?
+2. **Classify the tools** — List the tools Claude Code would need (file read, file write, shell execution, etc.) and classify each as read, write, or communication.
+3. **Identify memory use** — What information must the agent carry forward across steps? Which memory type (in-context, external, semantic, episodic) applies to each?
+4. **Identify the trust boundary** — What should Claude Code be allowed to do autonomously? Where should it pause for human confirmation? Write the interrupt conditions for this specific task.
+5. **Apply a pattern** — Which multi-agent pattern (sequential pipeline, fan-out, evaluator-optimizer) best describes how Claude Code should approach this refactor? Why?
 
 ---
 

@@ -8,7 +8,19 @@ By the end of this module you will be able to:
 - Run a complete agentic design review using the 12-point checklist
 - Write an Architecture Decision Record that agents and engineers can use as persistent context
 - Identify the six most common agentic design failures and how to prevent them
- 
+
+---
+
+## Programme Scope Note
+
+This module bridges two concerns:
+
+**Part 1 — Reviewing your use of coding agents (Claude Code, Copilot) in the SDLC.** The agent-first design principles (P1–P6), AX design thinking, and ADR practices apply directly to how your team works today. These are not hypothetical — they govern how you structure your codebase, your CLAUDE.md, and your agent workflows right now.
+
+**Part 2 — Designing production agent systems responsibly.** If your team's output is itself an agent system (e.g., deployed on AWS Bedrock / Amazon Agent Core), the 12-point checklist and shadow mode rollout describe the governance required before that system touches production. This is the bridge between "coding agents as development tools" and "agents as products."
+
+Both parts use the same vocabulary and the same review discipline. The difference is the blast radius.
+
 ---
  
 ## Background — Why Design Reviews Matter More Now
@@ -82,7 +94,7 @@ Store ADRs in an `adr/` folder. Commit to git. Reference in CLAUDE.md for just-i
  
 ### The 12-Point Design Review Checklist
  
-No agent goes to production without passing this review.
+No production agent system (e.g., built on AWS Bedrock / Agent Core) goes live without passing this review. For coding agent workflows (Claude Code, Copilot), use a lightweight version covering items 01, 04, 05, 06, 07, and 10 — the items most relevant to the development loop.
  
 | # | Area | Key Questions |
 |---|------|--------------|
@@ -138,7 +150,7 @@ No agent goes to production without passing this review.
  
 **Time:** 45 minutes (capstone)
  
-**Goal:** Run a full design review on the agent you have designed throughout this programme.
+**Goal:** Run a full design review on the system you are building — either a coding agent workflow (your team's Claude Code setup, automation scripts, hygiene pipelines) or a production agent system if your team is building one. Apply the full 12-point checklist to a production system; apply the lightweight coding-agent subset (items 01, 04, 05, 06, 07, 10) to a coding agent workflow.
  
 1. **Finalise your architecture** (10 min) — Draw the complete system: orchestrator/subagents, tools, memory strategy, context sources, HITL gates, kill switch, budget model.
  
