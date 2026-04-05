@@ -6,6 +6,7 @@
 - Map use cases to the correct point on the autonomy spectrum
 - Identify when *not* to use an agent
 - Understand the scope of this programme: coding agents, not production agents
+- Map coding agent value across every phase of the SDLC — not just code generation
 
 ---
 
@@ -37,6 +38,36 @@ Production agents have fundamentally different concerns: runtime reliability, co
 ### Why the Distinction Matters
 
 The SDLC practices in this programme — context engineering, spec-driven development, CI/CD hygiene, observability of the development loop — are all oriented around **how developers work with coding agents day-to-day**. These practices apply whether you are eventually deploying a traditional application or a production agent. The coding agent is always the development tool; the production agent is sometimes the thing being built.
+
+---
+
+## Coding Agents Across the Full SDLC
+
+The most common misconception about coding agents is that they are code generators. They are not — or rather, they are that and much more. A coding agent is useful at **every phase of the software development lifecycle**: from the first conversation about a problem, through design, implementation, review, documentation, and ongoing education of the team.
+
+Understanding this full scope changes how you think about where to invest in agentic practice. The gains in a well-run agentic team do not come only from faster code — they come from faster, better decisions at every stage.
+
+| SDLC Phase | Coding Agent Role | Example with Claude Code / Copilot |
+|------------|------------------|------------------------------------|
+| **Ideation & Planning** | Research options, compare approaches, assess feasibility against the existing codebase | *"Here are three ways to implement distributed locking in our stack. Which has the least impact on the existing SessionService?"* |
+| **PRD & Requirements** | Draft requirements, surface gaps, flag conflicts with existing systems, enforce completeness | *"Review this rough PRD. What edge cases are missing? What conflicts with the current UserService contract?"* |
+| **Design & Architecture** | Review a proposed design against the codebase, find violations, suggest improvements, validate constraints | *"I'm planning to add a caching layer here. Read the existing data flow and tell me where this design breaks down."* |
+| **Specification** | Generate SPEC.md, PLAN.md, TASKS.md, architecture docs, and schema docs from an approved PRD | *"Generate a full spec suite from this PRD. Include the data model changes and API contract."* |
+| **Implementation** | Write code, fix failing tests, refactor, execute tasks from TASKS.md | *"Implement task 3 from TASKS.md. Write tests first. Open a PR when all tests pass."* |
+| **Code Review** | Review PRs against the spec, coding standards, security checklist, and test coverage requirements | *"Review this PR against the spec in SPEC.md. Flag any requirement that is not satisfied."* |
+| **Design Review** | Read a design proposal and the affected codebase together, find issues a human might miss | *"Review this architecture proposal. What does it break in the current system? What isn't specified?"* |
+| **Documentation Review** | Check that docs are accurate, current, and complete relative to the code | *"Compare the API docs to the current implementation. What is out of date or missing?"* |
+| **Documentation Updates** | Rewrite or extend docs after code changes, keeping them in sync automatically | *"The PaymentService was refactored last sprint. Update the architecture doc and API reference to match."* |
+| **Education & Onboarding** | Explain the codebase, design decisions, and processes to team members — at any depth | *"Explain how our authentication flow works to a developer who is new to the team."* |
+| **Operations & Hygiene** | Dependency updates, security scans, coverage analysis, refactoring, technical debt reduction | Nightly scheduled Claude Code run: scan dependencies, open low-risk update PRs, flag high-risk for human review |
+
+### The Implication for Your Practice
+
+Most teams start by using coding agents for implementation only — generating functions, writing tests. That is the smallest return on the investment.
+
+The highest-value applications are often at the **beginning** of the lifecycle (ideation, design review, PRD quality) and at the **edges** (documentation accuracy, team education, ongoing hygiene). These are the phases where quality problems are cheapest to fix and where human time is most often wasted on work an agent could do better.
+
+A mature agentic practice covers all rows of the table above. The modules in this programme are organised to build toward that coverage, one phase at a time.
 
 ---
 
@@ -110,18 +141,25 @@ Key properties of a true agent:
 
 **Enterprise default: Supervised Agent.** Full autonomy is appropriate only for low-stakes, reversible actions in sandboxed environments. For anything touching production data, financial systems, or customer-facing behaviour, require human approval at meaningful checkpoints.
 
-### 5. When NOT to Use a Coding Agent
+### 5. Choosing the Right Mode
 
-Coding agents introduce overhead — model latency, context loading, potential for unexpected changes. Use the simplest tool that works:
+Coding agents operate at different points on the spectrum depending on the task. Use the simplest mode that works — augmented chat for targeted questions, supervised agent for multi-step work.
 
-| Developer task | Recommended approach |
-|----------------|---------------------|
-| Look up a syntax question | Search / docs — no agent needed |
-| Inline code completion | GitHub Copilot inline (augmented chat) |
-| Explain a specific function | Copilot Chat or Claude chat |
-| Write a new feature end-to-end | Claude Code in supervised agent mode |
-| Large-scale automated refactoring | Claude Code with PR review gate — never merge without human review |
-| Fully autonomous deployment without review | ❌ Do not do this — always require a human approval gate |
+| Task | Recommended mode | Tool |
+|------|-----------------|------|
+| Look up a syntax question | None — use search / docs | — |
+| Explain a specific function or decision | Augmented chat | Copilot Chat / Claude chat |
+| Inline code completion | Augmented chat | GitHub Copilot inline |
+| Explore a design option or ideation | Augmented chat | Claude chat with codebase context |
+| Review a PRD for gaps | Supervised agent | Claude Code |
+| Review a design proposal against the codebase | Supervised agent | Claude Code |
+| Review a PR against a spec | Supervised agent | Claude Code |
+| Review docs for accuracy against code | Supervised agent | Claude Code |
+| Write a new feature end-to-end | Supervised agent | Claude Code |
+| Large-scale automated refactoring | Supervised agent with PR gate | Claude Code |
+| Onboard a developer to a codebase | Augmented chat | Claude Code / Copilot Chat |
+| Nightly hygiene (deps, coverage, lint) | Supervised agent with review gate | Claude Code scheduled |
+| Fully autonomous merge without review | ❌ Do not do this | — |
 
 ---
 
@@ -137,17 +175,20 @@ Coding agents introduce overhead — model latency, context loading, potential f
 
 ## Exercise
 
-Map the following coding agent use cases to the autonomy spectrum and justify your placement:
+**Part 1 — Map to the spectrum.** For each scenario below, identify: where on the autonomy spectrum does it sit? Which tool fits best? Where is the human?
 
-1. A developer highlights a function in VS Code and asks Copilot Chat to "explain this"
-2. A developer types a comment in their IDE and Copilot autocompletes the function body
-3. A developer runs `claude "write unit tests for the UserService and open a PR"` in their terminal
-4. A scheduled CI job invokes Claude Code to fix all failing lint errors overnight and push fixes directly to a branch
-5. Claude Code is given a feature spec and told to implement, test, and merge without any human review
+1. A developer asks Copilot Chat to explain why the AuthService uses a refresh token pattern
+2. A developer asks Claude Code to review the proposed database schema in a Jira ticket against the existing data model and flag any issues
+3. A developer runs `claude "implement task 4 from TASKS.md, write tests, open a PR"` in their terminal
+4. Claude Code is triggered nightly to scan for dependency vulnerabilities and open PRs for Tier-1 updates
+5. Claude Code is asked to onboard a new team member by walking them through the payment flow — what files to read, why the design is structured as it is, and what the main constraints are
 
-For each: which tool (Claude Code / Copilot) fits best? Where is the human? What governance controls would you require?
+**Part 2 — Map your own team.** Look at the SDLC phase table in this module. For each row:
+- Is your team currently using a coding agent for this? (Yes / No / Partially)
+- If no: what would it take to start? What is the main obstacle?
+- If yes: is it supervised or more autonomous? What is the human gate?
 
-**Bonus:** For items 4 and 5 — what additional safeguards (branch protection rules, required reviewers, CI gates) would make these acceptable in your organisation?
+Share your map with a peer. Where are the biggest gaps? Where is the highest-value opportunity?
 
 ---
 

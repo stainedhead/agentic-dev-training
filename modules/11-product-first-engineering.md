@@ -123,7 +123,7 @@ A project team never has time for hygiene. A product team builds it into the cad
  
 ### Agent-Assisted Continuous Improvement
  
-Agents make hygiene economically viable at scale. Tasks that would take a sprint can run overnight.
+Agents make hygiene economically viable at scale. Tasks that would take a sprint can run overnight. Equally important: agents are available for review and education continuously — not just when a senior developer has spare time.
  
 **Dependency hygiene** — Weekly scheduled agent run: scan for outdated and vulnerable dependencies, group by risk level, open low-risk PRs automatically (Tier 1), flag high-risk changes for human review.
  
@@ -132,6 +132,10 @@ Agents make hygiene economically viable at scale. Tasks that would take a sprint
 **Documentation refresh** — Triggered by significant PR merge: agent reads diff and identifies doc gaps, updates API docs and architecture notes, flags PRODUCT.md sections that may be outdated.
  
 **Code quality enforcement** — Pre-PR agent hook: linter, formatter, type checker, complexity check, security pattern check. Agent self-corrects formatting issues before the human sees the diff.
+
+**Design and artefact review** — Before any spec or design goes to human review, run an agent review pass first. The agent reads the proposal alongside the existing codebase and flags: conflicts with existing architecture, missing edge cases, undefined non-functional requirements, and violations of ADR constraints. Humans then review the proposal with the agent's findings already surfaced — not starting from a blank read.
+
+**Team education and onboarding** — Agents are available as on-demand educators at any depth. New team members use Claude Code to understand the codebase, design decisions, and team processes without interrupting senior developers. Rotating role holders use agents to quickly build context in the part of the system they are stepping into. Encode the starting questions in CLAUDE.md so every onboarding session is consistent: *"Read PRODUCT.md and the adr/ folder. Explain the three most important architectural constraints in this system and why they exist."*
  
 ---
  
