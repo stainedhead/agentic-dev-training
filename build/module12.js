@@ -671,7 +671,7 @@ async function build() {
     });
   }
 
-  await pres.writeFile({ fileName:"/home/claude/Module_12_Three_Person_Team.pptx" });
+  await pres.writeFile({ fileName:"Module_12_Three_Person_Team.pptx" });
   console.log("\u2705 Module 12 written");
 }
 

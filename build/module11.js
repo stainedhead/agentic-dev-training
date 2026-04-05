@@ -605,7 +605,7 @@ async function build() {
     });
   }
 
-  await pres.writeFile({ fileName:"/home/claude/Module_11_Product_First.pptx" });
+  await pres.writeFile({ fileName:"Module_11_Product_First.pptx" });
   console.log("\u2705 Module 11 written");
 }
 
