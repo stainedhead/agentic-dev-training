@@ -396,25 +396,28 @@ async function build() {
     s.background = { color:C.white };
     s.addShape(pres.shapes.RECTANGLE, { x:0, y:0, w:10, h:0.82, fill:{ color:C.teal } });
     s.addText("LAB EXERCISE  \u00B7  30 MINUTES", { x:0.4, y:0, w:9, h:0.82, fontSize:13, color:C.white, bold:true, charSpacing:3, valign:"middle", margin:0 });
-    s.addText("Build a Cost Model for Your Agent Workflow", { x:0.4, y:0.95, w:9.2, h:0.46, fontSize:19, color:C.navy, bold:true, margin:0 });
+    s.addText("Cost-Model Your Team\u2019s Claude Code Usage", { x:0.4, y:0.92, w:9.2, h:0.42, fontSize:19, color:C.navy, bold:true, margin:0 });
+    s.addShape(pres.shapes.RECTANGLE, { x:0.35, y:1.4, w:9.3, h:0.26, fill:{ color:C.pale } });
+    s.addText("Scope: focuses on the cost of using Claude Code and GitHub Copilot in your development workflow \u2014 not production agent costs (same principles apply once you ship production agents)", { x:0.45, y:1.4, w:9.1, h:0.26, fontSize:9.5, color:C.navy, italic:true, valign:"middle", margin:0 });
 
     const steps = [
-      { n:"1", t:"Estimate current spend", min:"5 min", d:"For your Module 2 agent workflow: estimate tokens per operation (input + output). Multiply by provider rate. Calculate cost per day at 100, 1,000, and 10,000 runs. What\u2019s the surprise?" },
-      { n:"2", t:"Identify the biggest cost driver", min:"5 min", d:"Is it context window size? Output verbosity? Loop depth? Number of tool calls? Pinpoint the single biggest contributor to your estimated cost." },
-      { n:"3", t:"Apply three optimisation levers", min:"10 min", d:"From the six levers: pick the three most applicable to your workflow. Estimate the savings from each. Which combination gets you to a sustainable unit cost?" },
-      { n:"4", t:"Define your FinOps metrics", min:"5 min", d:"Define cost-per-unit-of-work for your workflow. What does \u201Cone unit of work\u201D mean? What\u2019s your target cost per unit? What\u2019s the maximum acceptable cost?" },
-      { n:"5", t:"Design a budget guardrail", min:"5 min", d:"Define three threshold levels: Yellow (50% budget: alert), Orange (80%: throttle), Red (100%: stop). Who gets notified at each? What\u2019s the auto-response?" },
+      { n:"1", t:"Estimate token costs", min:"7 min", d:"Pick one real Claude Code workflow your team uses. Estimate: LLM calls per run, context size, model tier. Use current Claude Sonnet pricing. What does one run cost? What does 20 developer runs/day cost?" },
+      { n:"2", t:"Apply the five levers", min:"6 min", d:"Which of the five optimisation levers apply to your coding agent workflow? For each applicable lever: estimate % savings and implementation effort (1\u20135). Which single change would you make first?" },
+      { n:"3", t:"Design your budget architecture", min:"6 min", d:"Define cost limits at each level: org, team, per-developer session, per-task request. What triggers each alert? What is automated vs manual?" },
+      { n:"4", t:"Choose your tooling", min:"4 min", d:"Langfuse, Vantage, Portkey, or native Anthropic usage dashboards? What is the one view your tech lead checks weekly?" },
+      { n:"5", t:"Share your $/day estimate", min:"2 min", d:"What surprised you? Where is the biggest cost risk in your current usage patterns? What habit would you change today?" },
     ];
 
-    steps.forEach((st, i) => {
-      const y = 1.52+i*0.8;
-      s.addShape(pres.shapes.RECTANGLE, { x:0.35, y, w:9.3, h:0.72, fill:{ color:C.offWhite }, shadow:shadow() });
-      s.addShape(pres.shapes.RECTANGLE, { x:0.35, y, w:0.52, h:0.72, fill:{ color:C.teal } });
-      s.addText(st.n, { x:0.35, y, w:0.52, h:0.72, fontSize:20, color:C.white, bold:true, align:"center", valign:"middle", margin:0 });
-      s.addText(st.t, { x:0.97, y:y+0.06, w:2.3, h:0.28, fontSize:12.5, color:C.teal, bold:true, margin:0 });
-      s.addText(`(${st.min})`, { x:3.27, y:y+0.06, w:0.8, h:0.28, fontSize:11, color:C.muted, italic:true, margin:0 });
-      s.addText(st.d, { x:0.97, y:y+0.38, w:8.55, h:0.3, fontSize:10.5, color:C.muted, margin:0 });
-    });
+    for (let i = 0; i < steps.length; i++) {
+      const st = steps[i];
+      const y = 1.74+i*0.78;
+      s.addShape(pres.shapes.RECTANGLE, { x:0.35, y, w:9.3, h:0.7, fill:{ color:C.offWhite }, shadow:shadow() });
+      s.addShape(pres.shapes.RECTANGLE, { x:0.35, y, w:0.52, h:0.7, fill:{ color:C.teal } });
+      s.addText(st.n, { x:0.35, y, w:0.52, h:0.7, fontSize:20, color:C.white, bold:true, align:"center", valign:"middle", margin:0 });
+      s.addText(st.t, { x:0.97, y:y+0.06, w:2.3, h:0.26, fontSize:12.5, color:C.teal, bold:true, margin:0 });
+      s.addText("("+st.min+")", { x:3.27, y:y+0.06, w:0.8, h:0.26, fontSize:11, color:C.muted, italic:true, margin:0 });
+      s.addText(st.d, { x:0.97, y:y+0.36, w:8.55, h:0.3, fontSize:10.5, color:C.muted, margin:0 });
+    }
   }
 
   // SLIDE 12 — Discussion + Summary

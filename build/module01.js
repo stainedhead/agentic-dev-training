@@ -120,32 +120,44 @@ async function build() {
     const objectives = [
       { icon: FaComments, color: C.navy,  title: "Understand the Chat Paradigm", body: "Define reactive AI, prompt-response cycles, and why chat has limits for enterprise work." },
       { icon: FaRobot,    color: C.teal,  title: "Define Agentic AI",             body: "Articulate what makes an AI system an agent: autonomy, tools, memory, and feedback loops." },
-      { icon: FaSync,     color: C.accent,title: "Map the Autonomy Spectrum",     body: "Apply IBM's three-tier model to classify agent deployments by risk and human oversight." },
+      { icon: FaSync,     color: C.accent,title: "Map the Autonomy Spectrum",     body: "Apply the three-tier model to classify agent deployments by risk and human oversight." },
       { icon: FaUserTie,  color: C.coral, title: "Adopt the Supervisor Mindset",  body: "Describe the engineer's new role as intent-setter and reviewer rather than code author." },
+      { icon: FaChartLine,color: C.green, title: "Map Coding Agents Across the SDLC", body: "Show where coding agents add value beyond code generation — at every phase from ideation to ops." },
     ];
 
+    // 5-objective layout: 2×2 grid + 1 wide card at bottom
     const cols = [0.35, 5.1];
-    const rows = [1.05, 3.15];
+    const rows = [1.05, 2.9];
     for (let i = 0; i < 4; i++) {
       const col = i % 2, row = Math.floor(i / 2);
-      const x = cols[col], y = rows[row], w = 4.55, h = 1.85;
+      const x = cols[col], y = rows[row], w = 4.55, h = 1.68;
       const obj = objectives[i];
 
       s.addShape(pres.shapes.RECTANGLE, { x, y, w, h, fill: { color: C.white }, shadow: shadow() });
-      // left accent
       s.addShape(pres.shapes.RECTANGLE, { x, y, w: 0.07, h, fill: { color: obj.color } });
 
       const ic = await icon(obj.icon, "#" + obj.color);
-      s.addImage({ data: ic, x: x + 0.18, y: y + 0.2, w: 0.42, h: 0.42 });
+      s.addImage({ data: ic, x: x + 0.18, y: y + 0.18, w: 0.42, h: 0.42 });
 
       s.addText(obj.title, {
-        x: x + 0.7, y: y + 0.16, w: w - 0.85, h: 0.48,
+        x: x + 0.7, y: y + 0.14, w: w - 0.85, h: 0.42,
         fontSize: 13, color: C.text, bold: true, margin: 0
       });
       s.addText(obj.body, {
-        x: x + 0.7, y: y + 0.66, w: w - 0.85, h: 1.0,
-        fontSize: 11.5, color: C.muted, margin: 0
+        x: x + 0.7, y: y + 0.58, w: w - 0.85, h: 0.9,
+        fontSize: 11, color: C.muted, margin: 0
       });
+    }
+
+    // 5th objective — full-width card
+    {
+      const obj = objectives[4], x = 0.35, y = 4.7, w = 9.3, h = 0.68;
+      s.addShape(pres.shapes.RECTANGLE, { x, y, w, h, fill: { color: C.white }, shadow: shadow() });
+      s.addShape(pres.shapes.RECTANGLE, { x, y, w: 0.07, h, fill: { color: obj.color } });
+      const ic = await icon(obj.icon, "#" + obj.color);
+      s.addImage({ data: ic, x: x + 0.18, y: y + 0.13, w: 0.38, h: 0.38 });
+      s.addText(obj.title, { x: x + 0.68, y: y + 0.1, w: 3.5, h: 0.35, fontSize: 13, color: C.text, bold: true, margin: 0 });
+      s.addText(obj.body, { x: x + 0.68, y: y + 0.36, w: 8.4, h: 0.26, fontSize: 11, color: C.muted, margin: 0 });
     }
 
     s.addText("By the end of this module you will be able to:", {
@@ -376,65 +388,58 @@ async function build() {
   }
 
   // ══════════════════════════════════════════════════════════════════
-  // SLIDE 7 — The Autonomy Spectrum
+  // SLIDE 7 — Choosing the Right Mode
   // ══════════════════════════════════════════════════════════════════
   {
     const s = pres.addSlide();
     s.background = { color: C.navy };
 
-    s.addText("THE AUTONOMY SPECTRUM", {
-      x: 0.4, y: 0.28, w: 9, h: 0.45,
+    s.addText("CHOOSING THE RIGHT MODE", {
+      x: 0.4, y: 0.2, w: 9, h: 0.45,
       fontSize: 13, color: C.iceBlue, bold: true, charSpacing: 3, margin: 0
     });
-    s.addText("Not all agents are equal — match autonomy to risk  (IBM three-tier model)", {
-      x: 0.4, y: 0.78, w: 9, h: 0.38,
-      fontSize: 14, color: C.white, italic: true, margin: 0
+    s.addText("Use the simplest mode that works — match autonomy to the task and risk level", {
+      x: 0.4, y: 0.68, w: 9, h: 0.35,
+      fontSize: 13, color: C.white, italic: true, margin: 0
     });
 
-    const tiers = [
-      {
-        tier: "TIER 1", label: "Fully Automated", color: C.green,
-        when: "Low-risk, reversible tasks",
-        examples: ["Log analysis", "Test environment ops", "Dependency version bumps", "Doc generation"],
-        oversight: "Minimal — humans review reports, not every action"
-      },
-      {
-        tier: "TIER 2", label: "Supervised Execution", color: C.accent,
-        when: "Medium-risk, recoverable tasks",
-        examples: ["Feature PRs for review", "Data pipeline changes", "API integrations", "Content generation"],
-        oversight: "Human approves before merge/deploy"
-      },
-      {
-        tier: "TIER 3", label: "Human-Directed", color: C.coral,
-        when: "High-risk, irreversible tasks",
-        examples: ["Production DB writes", "Financial transactions", "Security config changes", "External communications"],
-        oversight: "Human decides; agent surfaces options only"
-      },
+    // Table of task → mode → tool
+    const modeRows = [
+      { task: "Look up a syntax question",                     mode: "None — use search / docs",          tool: "—",                          color: C.steel },
+      { task: "Explain a function or decision",                mode: "Augmented chat",                     tool: "Copilot Chat / Claude chat",  color: C.teal },
+      { task: "Inline code completion",                        mode: "Augmented chat",                     tool: "GitHub Copilot inline",       color: C.teal },
+      { task: "Explore a design option or ideation",           mode: "Augmented chat",                     tool: "Claude chat + codebase context", color: C.teal },
+      { task: "Review a PRD for gaps",                         mode: "Supervised agent",                   tool: "Claude Code",                 color: C.accent },
+      { task: "Review a design proposal against the codebase", mode: "Supervised agent",                   tool: "Claude Code",                 color: C.accent },
+      { task: "Review a PR against a spec",                    mode: "Supervised agent",                   tool: "Claude Code",                 color: C.accent },
+      { task: "Review docs for accuracy against code",         mode: "Supervised agent",                   tool: "Claude Code",                 color: C.accent },
+      { task: "Write a new feature end-to-end",                mode: "Supervised agent",                   tool: "Claude Code",                 color: C.accent },
+      { task: "Onboard a developer to a codebase",             mode: "Augmented chat",                     tool: "Claude Code / Copilot Chat",  color: C.teal },
+      { task: "Nightly hygiene (deps, coverage, lint)",        mode: "Supervised agent with review gate",  tool: "Claude Code scheduled",       color: C.green },
+      { task: "Fully autonomous merge without review",         mode: "Do not do this",                     tool: "—",                           color: C.coral },
     ];
 
-    tiers.forEach((t, i) => {
-      const x = 0.35 + i * 3.15, y = 1.45;
-      s.addShape(pres.shapes.RECTANGLE, { x, y, w: 2.95, h: 3.85, fill: { color: C.mid, transparency: 20 }, shadow: shadow() });
-      s.addShape(pres.shapes.RECTANGLE, { x, y, w: 2.95, h: 0.6, fill: { color: t.color } });
-      s.addText(`${t.tier}  ·  ${t.label}`, { x, y, w: 2.95, h: 0.6, fontSize: 12, color: C.white, bold: true, align: "center", valign: "middle", margin: 0 });
+    const rowH = 0.38;
+    const startY = 1.1;
+    // Header
+    s.addShape(pres.shapes.RECTANGLE, { x: 0.35, y: startY, w: 9.3, h: 0.35, fill: { color: C.mid } });
+    s.addText("TASK",             { x: 0.42, y: startY, w: 4.0, h: 0.35, fontSize: 9.5, color: C.iceBlue, bold: true, charSpacing: 1, valign: "middle", margin: 0 });
+    s.addText("RECOMMENDED MODE", { x: 4.5,  y: startY, w: 2.8, h: 0.35, fontSize: 9.5, color: C.iceBlue, bold: true, charSpacing: 1, valign: "middle", margin: 0 });
+    s.addText("TOOL",             { x: 7.38, y: startY, w: 2.2, h: 0.35, fontSize: 9.5, color: C.iceBlue, bold: true, charSpacing: 1, valign: "middle", margin: 0 });
 
-      s.addText("WHEN TO USE", { x: x + 0.15, y: y + 0.7, w: 2.65, h: 0.28, fontSize: 9, color: t.color, bold: true, charSpacing: 2, margin: 0 });
-      s.addText(t.when, { x: x + 0.15, y: y + 0.98, w: 2.65, h: 0.38, fontSize: 11.5, color: C.white, margin: 0 });
+    for (let i = 0; i < modeRows.length; i++) {
+      const r = modeRows[i];
+      const y = startY + 0.35 + i * rowH;
+      const bg = i % 2 === 0 ? C.mid : "1E3D5A";
+      s.addShape(pres.shapes.RECTANGLE, { x: 0.35, y, w: 9.3, h: rowH - 0.02, fill: { color: bg, transparency: 40 } });
+      s.addShape(pres.shapes.RECTANGLE, { x: 0.35, y, w: 0.05, h: rowH - 0.02, fill: { color: r.color } });
+      s.addText(r.task, { x: 0.48, y, w: 3.94, h: rowH - 0.02, fontSize: 10, color: C.pale, valign: "middle", margin: 0 });
+      s.addText(r.mode, { x: 4.5,  y, w: 2.78, h: rowH - 0.02, fontSize: 10, color: r.color, bold: true, valign: "middle", margin: 0 });
+      s.addText(r.tool, { x: 7.38, y, w: 2.18, h: rowH - 0.02, fontSize: 9.5, color: C.muted, italic: true, valign: "middle", margin: 0 });
+    }
 
-      s.addText("EXAMPLES", { x: x + 0.15, y: y + 1.48, w: 2.65, h: 0.28, fontSize: 9, color: t.color, bold: true, charSpacing: 2, margin: 0 });
-      s.addText(t.examples.map(e => `· ${e}`).join("\n"), {
-        x: x + 0.15, y: y + 1.76, w: 2.65, h: 1.1,
-        fontSize: 11, color: C.pale, margin: 0
-      });
-
-      s.addText("OVERSIGHT", { x: x + 0.15, y: y + 2.95, w: 2.65, h: 0.25, fontSize: 9, color: t.color, bold: true, charSpacing: 2, margin: 0 });
-      s.addText(t.oversight, { x: x + 0.15, y: y + 3.2, w: 2.65, h: 0.5, fontSize: 10.5, color: C.pale, italic: true, margin: 0 });
-    });
-
-    // Gradient arrow across bottom
-    s.addShape(pres.shapes.LINE, { x: 0.35, y: 5.42, w: 9.3, h: 0, line: { color: C.iceBlue, width: 1 } });
-    s.addText("← More human control                                                              More agent autonomy →", {
-      x: 0.35, y: 5.28, w: 9.3, h: 0.28, fontSize: 10, color: C.iceBlue, italic: true, align: "center", margin: 0
+    s.addText("Enterprise default: Supervised Agent. Full autonomy only for low-stakes, reversible actions in sandboxed environments.", {
+      x: 0.35, y: 5.5, w: 9.3, h: 0.24, fontSize: 9.5, color: C.iceBlue, italic: true, align: "center", margin: 0
     });
   }
 
@@ -480,124 +485,164 @@ async function build() {
   }
 
   // ══════════════════════════════════════════════════════════════════
-  // SLIDE 9 — What Changes for Enterprise Developers
+  // SLIDE 9 — Programme Scope: Coding Agents vs. Production Agents
   // ══════════════════════════════════════════════════════════════════
   {
     const s = pres.addSlide();
     s.background = { color: C.offWhite };
 
     s.addShape(pres.shapes.RECTANGLE, { x: 0, y: 0, w: 10, h: 0.82, fill: { color: C.navy } });
-    s.addText("THE ROLE SHIFT FOR ENTERPRISE DEVELOPERS", {
+    s.addText("PROGRAMME SCOPE  ·  TWO KINDS OF AGENT", {
       x: 0.4, y: 0, w: 9, h: 0.82,
       fontSize: 13, color: C.white, bold: true, charSpacing: 3, valign: "middle", margin: 0
     });
+    s.addText("The word \"agent\" covers two very different things — conflating them causes confusion throughout the SDLC.", {
+      x: 0.35, y: 0.9, w: 9.3, h: 0.32, fontSize: 11.5, color: C.muted, italic: true, margin: 0
+    });
 
-    // Before / After
-    const beforeItems = [
-      "Write every line of code manually",
-      "Debug syntax and boilerplate",
-      "Context-switch between tasks",
-      "Orchestrate your own workflow step-by-step",
-      "Review your own output before committing",
-    ];
-    const afterItems = [
-      "Define intent: spec, acceptance criteria, DoD",
-      "Review and approve agent-generated diffs",
-      "Design agent architecture and tool boundaries",
-      "Set oversight gates and HITL checkpoints",
-      "Evaluate quality at the system level",
-    ];
+    // Left card — Coding Agents (our focus)
+    s.addShape(pres.shapes.RECTANGLE, { x: 0.35, y: 1.3, w: 4.35, h: 4.05, fill: { color: C.white }, shadow: shadow() });
+    s.addShape(pres.shapes.RECTANGLE, { x: 0.35, y: 1.3, w: 4.35, h: 0.58, fill: { color: C.accent } });
+    s.addText("CODING AGENTS  ·  OUR FOCUS", { x: 0.35, y: 1.3, w: 4.35, h: 0.58, fontSize: 12, color: C.white, bold: true, align: "center", valign: "middle", margin: 0 });
 
-    // Before card
-    s.addShape(pres.shapes.RECTANGLE, { x: 0.35, y: 0.95, w: 4.3, h: 4.4, fill: { color: C.white }, shadow: shadow() });
-    s.addShape(pres.shapes.RECTANGLE, { x: 0.35, y: 0.95, w: 4.3, h: 0.55, fill: { color: "B8CADA" } });
-    s.addText("BEFORE  ·  Chat Era", { x: 0.35, y: 0.95, w: 4.3, h: 0.55, fontSize: 12, color: C.text, bold: true, align: "center", valign: "middle", margin: 0 });
-    beforeItems.forEach((t, i) => {
-      s.addText('✗  ' + t, { x: 0.55, y: 1.56 + i * 0.62, w: 3.9, h: 0.55, fontSize: 11.5, color: C.muted, margin: 0 });
+    const codingTools = [
+      { label: "Claude Code", desc: "Anthropic's CLI agent. Full filesystem + shell access. Reads your codebase, writes code, runs tests, commits and pushes." },
+      { label: "GitHub Copilot", desc: "IDE-integrated. Inline suggestions + Copilot Chat. Agentic mode in Copilot Workspace. Supervised by default." },
+    ];
+    codingTools.forEach((t, i) => {
+      const y = 1.98 + i * 1.28;
+      s.addShape(pres.shapes.RECTANGLE, { x: 0.55, y, w: 3.95, h: 1.15, fill: { color: C.offWhite } });
+      s.addShape(pres.shapes.RECTANGLE, { x: 0.55, y, w: 0.06, h: 1.15, fill: { color: C.accent } });
+      s.addText(t.label, { x: 0.72, y: y + 0.08, w: 3.65, h: 0.3, fontSize: 12, color: C.navy, bold: true, margin: 0 });
+      s.addText(t.desc,  { x: 0.72, y: y + 0.4,  w: 3.65, h: 0.65, fontSize: 10.5, color: C.muted, margin: 0 });
+    });
+    s.addText("Both sit at the supervised agent point — multi-step actions, developer in the loop.", {
+      x: 0.42, y: 4.82, w: 4.18, h: 0.38, fontSize: 10, color: C.accent, bold: true, italic: true, align: "center", margin: 0
     });
 
     // Arrow
-    s.addText("→", { x: 4.75, y: 2.7, w: 0.5, h: 0.6, fontSize: 28, color: C.accent, bold: true, align: "center", margin: 0 });
+    s.addText("vs.", { x: 4.78, y: 2.9, w: 0.44, h: 0.5, fontSize: 20, color: C.muted, bold: true, align: "center", margin: 0 });
 
-    // After card
-    s.addShape(pres.shapes.RECTANGLE, { x: 5.35, y: 0.95, w: 4.3, h: 4.4, fill: { color: C.white }, shadow: shadow() });
-    s.addShape(pres.shapes.RECTANGLE, { x: 5.35, y: 0.95, w: 4.3, h: 0.55, fill: { color: C.teal } });
-    s.addText("AFTER  ·  Agent Era", { x: 5.35, y: 0.95, w: 4.3, h: 0.55, fontSize: 12, color: C.white, bold: true, align: "center", valign: "middle", margin: 0 });
-    afterItems.forEach((t, i) => {
-      s.addText('✓  ' + t, { x: 5.55, y: 1.56 + i * 0.62, w: 3.9, h: 0.55, fontSize: 11.5, color: C.text, margin: 0 });
+    // Right card — Production Agents (out of scope)
+    s.addShape(pres.shapes.RECTANGLE, { x: 5.3, y: 1.3, w: 4.35, h: 4.05, fill: { color: C.white }, shadow: shadow() });
+    s.addShape(pres.shapes.RECTANGLE, { x: 5.3, y: 1.3, w: 4.35, h: 0.58, fill: { color: C.steel } });
+    s.addText("PRODUCTION AGENTS  ·  OUT OF SCOPE", { x: 5.3, y: 1.3, w: 4.35, h: 0.58, fontSize: 12, color: C.white, bold: true, align: "center", valign: "middle", margin: 0 });
+
+    s.addText("AI systems that operate as runtime components of your product or platform — customer-facing bots, autonomous workflow automations, orchestration services.", {
+      x: 5.48, y: 1.98, w: 3.98, h: 0.72, fontSize: 11, color: C.muted, margin: 0
+    });
+    s.addText("Examples:", { x: 5.48, y: 2.78, w: 3.98, h: 0.28, fontSize: 11, color: C.navy, bold: true, margin: 0 });
+    ["AWS Bedrock / Amazon Agent Core", "Azure AI Foundry agents", "Custom LLM orchestration services"].forEach((ex, i) => {
+      s.addText("· " + ex, { x: 5.55, y: 3.08 + i * 0.35, w: 3.9, h: 0.3, fontSize: 11, color: C.text, margin: 0 });
+    });
+    s.addText("Different concerns: runtime reliability, cost at scale, customer data, blast radius in live environments.", {
+      x: 5.48, y: 4.2, w: 3.98, h: 0.5, fontSize: 10.5, color: C.muted, italic: true, margin: 0
+    });
+    s.addShape(pres.shapes.RECTANGLE, { x: 5.3, y: 4.82, w: 4.35, h: 0.38, fill: { color: C.offWhite } });
+    s.addText("Refer to the Enterprise AI Platform practice for guidance.", {
+      x: 5.3, y: 4.82, w: 4.35, h: 0.38, fontSize: 10, color: C.steel, italic: true, align: "center", valign: "middle", margin: 0
     });
   }
 
   // ══════════════════════════════════════════════════════════════════
-  // SLIDE 10 — Key Terms Reference
+  // SLIDE 10 — Coding Agents Across the Full SDLC
   // ══════════════════════════════════════════════════════════════════
   {
     const s = pres.addSlide();
     s.background = { color: C.navy };
 
-    s.addText("KEY TERMS  ·  MODULE 1 REFERENCE", {
-      x: 0.4, y: 0.2, w: 9.2, h: 0.5,
+    s.addText("CODING AGENTS ACROSS THE FULL SDLC", {
+      x: 0.4, y: 0.2, w: 9.2, h: 0.45,
       fontSize: 13, color: C.iceBlue, bold: true, charSpacing: 3, margin: 0
     });
+    s.addText("Coding agents add value at every phase — not just code generation", {
+      x: 0.4, y: 0.68, w: 9.2, h: 0.35,
+      fontSize: 14, color: C.white, italic: true, margin: 0
+    });
 
-    const terms = [
-      { term: "Agent",         def: "AI that autonomously plans and executes multi-step tasks using tools and memory" },
-      { term: "Tool",          def: "A callable function — bash command, file read/write, API call, web search" },
-      { term: "HITL",          def: "Human-in-the-Loop: a design gate requiring human approval before irreversible action" },
-      { term: "Agent Loop",    def: "Gather Context → Take Action → Verify Work → Repeat" },
-      { term: "Subagent",      def: "A child agent spawned by an orchestrator for parallel or specialized work" },
-      { term: "Orchestrator",  def: "A lead agent that coordinates subagents, assigns subtasks, and merges results" },
-      { term: "Supervised Dev",def: "Spotify's model: engineers set intent and review output; agents write the code" },
-      { term: "MCP",           def: "Model Context Protocol — standard for agent-to-tool and agent-to-service integration" },
+    // Table rows: phase | role | example (abbreviated)
+    const rows = [
+      { phase: "Ideation & Planning",          color: C.accent,  role: "Research options, assess feasibility", example: "\"Which caching approach has least impact on SessionService?\"" },
+      { phase: "PRD & Requirements",           color: C.teal,    role: "Draft reqs, flag gaps & conflicts",    example: "\"Review this PRD — what edge cases are missing?\"" },
+      { phase: "Design & Architecture",        color: C.green,   role: "Review design against codebase",       example: "\"Where does this caching layer break the current data flow?\"" },
+      { phase: "Specification",                color: C.iceBlue, role: "Generate SPEC, PLAN, TASKS docs",      example: "\"Generate a full spec suite from this PRD.\"" },
+      { phase: "Implementation",               color: C.accent,  role: "Write code, fix tests, refactor",      example: "\"Implement task 3 from TASKS.md. Write tests first.\"" },
+      { phase: "Code Review",                  color: C.teal,    role: "Review PR against spec & standards",   example: "\"Flag any requirement in SPEC.md not satisfied by this PR.\"" },
+      { phase: "Design Review",                color: C.green,   role: "Read proposal + codebase, find issues", example: "\"What does this architecture break in the current system?\"" },
+      { phase: "Documentation & Education",    color: C.iceBlue, role: "Update docs, explain codebase to team", example: "\"Compare API docs to implementation — what's out of date?\"" },
+      { phase: "Operations & Hygiene",         color: C.steel,   role: "Dep updates, security scans, debt",    example: "Nightly run: scan deps, open low-risk update PRs" },
     ];
 
-    const half = Math.ceil(terms.length / 2);
-    terms.forEach((t, i) => {
-      const col = i < half ? 0 : 1;
-      const row = i < half ? i : i - half;
-      const x = col === 0 ? 0.35 : 5.15, y = 0.9 + row * 1.08;
+    const rowH = 0.49;
+    const startY = 1.12;
+    // Header row
+    s.addShape(pres.shapes.RECTANGLE, { x: 0.35, y: startY, w: 9.3, h: 0.38, fill: { color: C.mid } });
+    s.addText("SDLC PHASE",     { x: 0.42, y: startY, w: 2.4, h: 0.38, fontSize: 10, color: C.iceBlue, bold: true, charSpacing: 1, valign: "middle", margin: 0 });
+    s.addText("CODING AGENT ROLE", { x: 2.9, y: startY, w: 2.8, h: 0.38, fontSize: 10, color: C.iceBlue, bold: true, charSpacing: 1, valign: "middle", margin: 0 });
+    s.addText("EXAMPLE",        { x: 5.78, y: startY, w: 3.8, h: 0.38, fontSize: 10, color: C.iceBlue, bold: true, charSpacing: 1, valign: "middle", margin: 0 });
 
-      s.addShape(pres.shapes.RECTANGLE, { x, y, w: 4.6, h: 0.95, fill: { color: C.mid, transparency: 15 } });
-      s.addShape(pres.shapes.RECTANGLE, { x, y, w: 0.06, h: 0.95, fill: { color: C.accent } });
-      s.addText(t.term, { x: x + 0.16, y: y + 0.06, w: 4.3, h: 0.32, fontSize: 13, color: C.accent, bold: true, margin: 0 });
-      s.addText(t.def,  { x: x + 0.16, y: y + 0.42, w: 4.3, h: 0.46, fontSize: 10.5, color: C.pale, margin: 0 });
+    for (let i = 0; i < rows.length; i++) {
+      const r = rows[i];
+      const y = startY + 0.38 + i * rowH;
+      const bg = i % 2 === 0 ? C.mid : "1E3D5A";
+      s.addShape(pres.shapes.RECTANGLE, { x: 0.35, y, w: 9.3, h: rowH - 0.02, fill: { color: bg, transparency: 35 } });
+      s.addShape(pres.shapes.RECTANGLE, { x: 0.35, y, w: 0.06, h: rowH - 0.02, fill: { color: r.color } });
+      s.addText(r.phase, { x: 0.5, y, w: 2.32, h: rowH - 0.02, fontSize: 10, color: r.color, bold: true, valign: "middle", margin: 0 });
+      s.addText(r.role,  { x: 2.9, y, w: 2.78, h: rowH - 0.02, fontSize: 9.5, color: C.pale, valign: "middle", margin: 0 });
+      s.addText(r.example, { x: 5.78, y, w: 3.75, h: rowH - 0.02, fontSize: 9, color: C.muted, italic: true, valign: "middle", margin: 0 });
+    }
+
+    s.addText("Most teams start with implementation only. The highest-value gains are often at ideation, design review, and operations — where quality problems are cheapest to fix.", {
+      x: 0.35, y: 5.42, w: 9.3, h: 0.25, fontSize: 9.5, color: C.iceBlue, italic: true, align: "center", margin: 0
     });
   }
 
   // ══════════════════════════════════════════════════════════════════
-  // SLIDE 11 — Lab Exercise
+  // SLIDE 11 — Lab Exercise (Two-Part)
   // ══════════════════════════════════════════════════════════════════
   {
     const s = pres.addSlide();
     s.background = { color: C.white };
 
     s.addShape(pres.shapes.RECTANGLE, { x: 0, y: 0, w: 10, h: 0.82, fill: { color: C.teal } });
-    s.addText("LAB EXERCISE  ·  20 MINUTES", {
+    s.addText("LAB EXERCISE  ·  25 MINUTES", {
       x: 0.4, y: 0, w: 9, h: 0.82,
       fontSize: 13, color: C.white, bold: true, charSpacing: 3, valign: "middle", margin: 0
     });
 
-    s.addText("Map Your Current Tools to the Autonomy Spectrum", {
-      x: 0.4, y: 0.98, w: 9.2, h: 0.5,
-      fontSize: 20, color: C.navy, bold: true, margin: 0
+    s.addText("Map Scenarios to the Spectrum  ·  Audit Your Own Team's SDLC Coverage", {
+      x: 0.4, y: 0.9, w: 9.2, h: 0.4,
+      fontSize: 15, color: C.navy, bold: true, margin: 0
     });
 
-    const tasks = [
-      { step: "1", title: "Inventory",    time: "5 min",  desc: "List 5–8 development tasks you performed last week. Be specific (e.g., 'added null check to payment handler', 'reviewed PR #2341')." },
-      { step: "2", title: "Classify",     time: "7 min",  desc: "Place each task on the autonomy spectrum: Tier 1 (fully automate), Tier 2 (supervised), or Tier 3 (human-directed). Justify your reasoning." },
-      { step: "3", title: "Identify",     time: "5 min",  desc: "For your Tier 1 and 2 tasks: what context (files, specs, rules) would an agent need to complete them reliably?" },
-      { step: "4", title: "Share",        time: "3 min",  desc: "Share one surprising classification with the group. Where did your intuition and your classification disagree?" },
+    // Part 1
+    s.addShape(pres.shapes.RECTANGLE, { x: 0.35, y: 1.42, w: 9.3, h: 0.38, fill: { color: C.teal } });
+    s.addText("PART 1  ·  Map to the Spectrum  (12 min)", { x: 0.42, y: 1.42, w: 9.1, h: 0.38, fontSize: 12, color: C.white, bold: true, valign: "middle", margin: 0 });
+
+    const scenarios = [
+      "A developer asks Copilot Chat to explain why the AuthService uses a refresh token pattern",
+      "Claude Code reviews a proposed database schema in a Jira ticket against the existing data model",
+      "A developer runs claude \"implement task 4 from TASKS.md, write tests, open a PR\" in their terminal",
+      "Claude Code triggers nightly: scan for dependency vulnerabilities, open PRs for Tier-1 updates",
+      "Claude Code walks a new team member through the payment flow — files to read, design rationale, constraints",
     ];
 
-    tasks.forEach((t, i) => {
-      const y = 1.6 + i * 0.95;
-      s.addShape(pres.shapes.RECTANGLE, { x: 0.35, y, w: 9.3, h: 0.85, fill: { color: C.offWhite }, shadow: shadow() });
-      s.addShape(pres.shapes.RECTANGLE, { x: 0.35, y, w: 0.52, h: 0.85, fill: { color: C.teal } });
-      s.addText(t.step, { x: 0.35, y, w: 0.52, h: 0.85, fontSize: 22, color: C.white, bold: true, align: "center", valign: "middle", margin: 0 });
+    scenarios.forEach((sc, i) => {
+      const y = 1.88 + i * 0.44;
+      s.addShape(pres.shapes.RECTANGLE, { x: 0.35, y, w: 0.38, h: 0.38, fill: { color: C.accent, transparency: 20 } });
+      s.addText(String(i + 1), { x: 0.35, y, w: 0.38, h: 0.38, fontSize: 13, color: C.accent, bold: true, align: "center", valign: "middle", margin: 0 });
+      s.addText(sc, { x: 0.82, y, w: 8.7, h: 0.38, fontSize: 11, color: C.text, valign: "middle", margin: 0 });
+    });
+    s.addText("For each: Where on the spectrum? Which tool fits best? Where is the human?", {
+      x: 0.35, y: 4.12, w: 9.3, h: 0.28, fontSize: 10.5, color: C.teal, italic: true, bold: true, margin: 0
+    });
 
-      s.addText(t.title, { x: 0.98, y: y + 0.06, w: 1.2, h: 0.32, fontSize: 13, color: C.teal, bold: true, margin: 0 });
-      s.addText(`(${t.time})`, { x: 2.18, y: y + 0.06, w: 0.9, h: 0.32, fontSize: 11, color: C.muted, italic: true, margin: 0 });
-      s.addText(t.desc, { x: 0.98, y: y + 0.42, w: 8.55, h: 0.38, fontSize: 11, color: C.muted, margin: 0 });
+    // Part 2
+    s.addShape(pres.shapes.RECTANGLE, { x: 0.35, y: 4.46, w: 9.3, h: 0.38, fill: { color: C.navy } });
+    s.addText("PART 2  ·  Audit Your Team's SDLC Coverage  (13 min)", { x: 0.42, y: 4.46, w: 9.1, h: 0.38, fontSize: 12, color: C.white, bold: true, valign: "middle", margin: 0 });
+
+    s.addText("Look at the SDLC phase table (slide 10). For each row: Is your team using a coding agent here? If not — what would it take? If yes — how supervised? Share your map with a peer: where are the biggest gaps?", {
+      x: 0.42, y: 4.9, w: 9.1, h: 0.6, fontSize: 11, color: C.muted, margin: 0
     });
   }
 
@@ -623,9 +668,9 @@ async function build() {
 
     const questions = [
       "Where on the autonomy spectrum are your team's current AI tools?",
-      "What's one task in your domain that's clearly Tier 1? What makes it safe to automate?",
+      "Look at the SDLC phase table. Which phase beyond code generation could deliver the biggest value for your team?",
       "What would need to be true about a task's spec before you'd trust an agent with it?",
-      "How does your organization's risk culture affect where you set your HITL gates?",
+      "How does your organisation's risk culture affect where you set your HITL gates?",
     ];
     s.addText(questions.map((q, i) => `Q${i+1}.  ${q}`).join("\n\n"), {
       x: 0.5, y: 1.52, w: 5.2, h: 2.9, fontSize: 11.5, color: C.pale, margin: 0
@@ -639,9 +684,10 @@ async function build() {
     const takeaways = [
       "Chat = reactive. Agents = autonomous.",
       "Agents loop: gather → act → verify → repeat",
-      "Match autonomy level to risk — use the spectrum",
+      "Coding agents vs. production agents — know the scope",
+      "Coding agents add value at every SDLC phase",
+      "Match mode to risk — supervised is the enterprise default",
       "Your role shifts: intent + oversight, not typing",
-      "Spotify's senior engineers now supervise, not code",
     ];
     s.addText(takeaways.map(t => `· ${t}`).join("\n\n"), {
       x: 6.2, y: 1.52, w: 3.35, h: 2.9, fontSize: 11.5, color: C.pale, margin: 0

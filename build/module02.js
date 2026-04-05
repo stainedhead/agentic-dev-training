@@ -239,10 +239,16 @@ async function build() {
     s.addText("MULTI-AGENT ARCHITECTURE", { x: 0.4, y: 0, w: 9, h: 0.82, fontSize: 13, color: C.white, bold: true, charSpacing: 3, valign: "middle", margin: 0 });
     s.addText("Orchestrators decompose work. Subagents execute in parallel. Results merge.", { x: 0.4, y: 0.9, w: 9.2, h: 0.34, fontSize: 12.5, color: C.muted, italic: true, margin: 0 });
 
+    // Framing note
+    s.addShape(pres.shapes.RECTANGLE, { x: 0.35, y: 1.28, w: 9.3, h: 0.36, fill: { color: C.pale, transparency: 20 } });
+    s.addText("These patterns apply in two contexts: (1) inside your coding agent — explaining why Claude Code behaves as it does; and (2) in production agent systems your team may eventually build.", {
+      x: 0.42, y: 1.28, w: 9.1, h: 0.36, fontSize: 10, color: C.navy, valign: "middle", margin: 0
+    });
+
     // Orchestrator box top-center
-    s.addShape(pres.shapes.RECTANGLE, { x: 3.5, y: 1.35, w: 3.0, h: 0.85, fill: { color: C.navy }, shadow: shadow() });
-    s.addText("ORCHESTRATOR", { x: 3.5, y: 1.35, w: 3.0, h: 0.45, fontSize: 13, color: C.white, bold: true, align: "center", valign: "middle", margin: 0 });
-    s.addText("decomposes task → assigns → merges", { x: 3.5, y: 1.8, w: 3.0, h: 0.4, fontSize: 10, color: C.iceBlue, align: "center", margin: 0 });
+    s.addShape(pres.shapes.RECTANGLE, { x: 3.5, y: 1.72, w: 3.0, h: 0.82, fill: { color: C.navy }, shadow: shadow() });
+    s.addText("ORCHESTRATOR", { x: 3.5, y: 1.72, w: 3.0, h: 0.42, fontSize: 13, color: C.white, bold: true, align: "center", valign: "middle", margin: 0 });
+    s.addText("decomposes task → assigns → merges", { x: 3.5, y: 2.14, w: 3.0, h: 0.38, fontSize: 10, color: C.iceBlue, align: "center", margin: 0 });
 
     // Subagent boxes bottom row
     const agents = [
@@ -253,16 +259,15 @@ async function build() {
     ];
 
     agents.forEach((a, i) => {
-      const x = 0.35 + i * 2.38, y = 3.55;
+      const x = 0.35 + i * 2.38, y = 3.72;
       // Arrow from orchestrator down
-      s.addShape(pres.shapes.LINE, { x: 5.0, y: 2.2, w: 0, h: 1.35, line: { color: C.muted, width: 1.2 } });
-      s.addShape(pres.shapes.LINE, { x: x + 1.0, y: 3.55, w: 0, h: -1.0, line: { color: a.color, width: 1.5, dashType: "dash" } });
-      s.addShape(pres.shapes.RECTANGLE, { x, y, w: 2.1, h: 1.4, fill: { color: C.offWhite }, shadow: shadow() });
-      s.addShape(pres.shapes.RECTANGLE, { x, y, w: 2.1, h: 0.42, fill: { color: a.color } });
-      s.addText(a.label, { x, y, w: 2.1, h: 0.42, fontSize: 12, color: C.white, bold: true, align: "center", valign: "middle", margin: 0 });
-      s.addText(a.sub,   { x, y: y + 0.48, w: 2.1, h: 0.3, fontSize: 11, color: C.muted, align: "center", margin: 0 });
-      // Tool icons
-      s.addText("Tools: bash, files, APIs", { x: x + 0.1, y: y + 0.85, w: 1.9, h: 0.42, fontSize: 9.5, color: C.steel, align: "center", italic: true, margin: 0 });
+      s.addShape(pres.shapes.LINE, { x: 5.0, y: 2.54, w: 0, h: 1.18, line: { color: C.muted, width: 1.2 } });
+      s.addShape(pres.shapes.LINE, { x: x + 1.0, y: 3.72, w: 0, h: -0.85, line: { color: a.color, width: 1.5, dashType: "dash" } });
+      s.addShape(pres.shapes.RECTANGLE, { x, y, w: 2.1, h: 1.28, fill: { color: C.offWhite }, shadow: shadow() });
+      s.addShape(pres.shapes.RECTANGLE, { x, y, w: 2.1, h: 0.4, fill: { color: a.color } });
+      s.addText(a.label, { x, y, w: 2.1, h: 0.4, fontSize: 12, color: C.white, bold: true, align: "center", valign: "middle", margin: 0 });
+      s.addText(a.sub,   { x, y: y + 0.45, w: 2.1, h: 0.28, fontSize: 11, color: C.muted, align: "center", margin: 0 });
+      s.addText("Tools: bash, files, APIs", { x: x + 0.1, y: y + 0.8, w: 1.9, h: 0.38, fontSize: 9.5, color: C.steel, align: "center", italic: true, margin: 0 });
     });
 
     // Why section
@@ -273,9 +278,9 @@ async function build() {
     ];
 
     whys.forEach((w, i) => {
-      const x = 0.35 + i * 3.15, y = 5.08;
-      s.addShape(pres.shapes.RECTANGLE, { x, y, w: 2.95, h: 0.42, fill: { color: C.pale } });
-      s.addText(w.h, { x: x + 0.1, y, w: 2.75, h: 0.42, fontSize: 11, color: C.navy, bold: true, valign: "middle", margin: 0 });
+      const x = 0.35 + i * 3.15, y = 5.12;
+      s.addShape(pres.shapes.RECTANGLE, { x, y, w: 2.95, h: 0.38, fill: { color: C.pale } });
+      s.addText(w.h, { x: x + 0.1, y, w: 2.75, h: 0.38, fontSize: 11, color: C.navy, bold: true, valign: "middle", margin: 0 });
     });
   }
 
@@ -420,59 +425,58 @@ async function build() {
   }
 
   // ══════════════════════════════════════════════════════════════════
-  // SLIDE 10 — Case Study: Spotify Honk Architecture
+  // SLIDE 10 — Multi-Agent Patterns (with coding agent examples)
   // ══════════════════════════════════════════════════════════════════
   {
     const s = pres.addSlide();
-    s.background = { color: C.offWhite };
+    s.background = { color: C.navy };
 
-    s.addShape(pres.shapes.RECTANGLE, { x: 0, y: 0, w: 10, h: 0.82, fill: { color: C.navy } });
-    s.addShape(pres.shapes.RECTANGLE, { x: 0, y: 0, w: 0.35, h: 0.82, fill: { color: C.green } });
-    s.addText("CASE STUDY  ·  SPOTIFY HONK  ·  MULTI-AGENT IN PRODUCTION", { x: 0.5, y: 0, w: 9.1, h: 0.82, fontSize: 12, color: C.white, bold: true, charSpacing: 2, valign: "middle", margin: 0 });
+    s.addText("MULTI-AGENT PATTERNS  ·  WITH CODING AGENT EXAMPLES", { x: 0.4, y: 0.22, w: 9, h: 0.45, fontSize: 13, color: C.iceBlue, bold: true, charSpacing: 3, margin: 0 });
+    s.addText("Each pattern applies both inside Claude Code and in production agent systems", { x: 0.4, y: 0.72, w: 9, h: 0.35, fontSize: 13, color: C.white, italic: true, margin: 0 });
 
-    // Architecture flow diagram
-    const stages = [
-      { label: "Engineer\n(Slack / mobile)", color: C.navy,   sub: "Natural language intent" },
-      { label: "Interactive\nAgent",          color: C.teal,   sub: "Gathers context → structured prompt" },
-      { label: "Background\nCoding Agent",    color: C.accent, sub: "Plans, implements, iterates" },
-      { label: "Verifiers +\nJudge LLM",     color: C.green,  sub: "Tests, lint, diff evaluation" },
-      { label: "PR → Human\nReview",         color: C.steel,  sub: "Diff summary in Slack" },
+    const patterns = [
+      {
+        n: "01", label: "Sequential Pipeline", color: C.accent,
+        desc: "Each agent's output is the next agent's input. Simple and debuggable. Use when tasks have clear sequential dependencies.",
+        example: "Claude Code: reads spec → writes tests → writes code → runs tests → opens PR. Each step feeds the next."
+      },
+      {
+        n: "02", label: "Parallel Fan-Out", color: C.teal,
+        desc: "Parallelise independent subtasks. Reduces wall-clock time for research or analysis. Use when subtasks are independent.",
+        example: "Claude Code simultaneously searches multiple codebase areas before synthesising an implementation plan."
+      },
+      {
+        n: "03", label: "Evaluator-Optimizer Loop", color: C.green,
+        desc: "An evaluator scores the generator's output and feeds back a critique. The generator revises until quality threshold is met.",
+        example: "Claude Code writes a function, runs tests, reads failures, revises — autonomously — until tests pass."
+      },
+      {
+        n: "04", label: "Specialist Routing", color: C.steel,
+        desc: "A lightweight router examines the request and delegates to the right specialist agent for the job.",
+        example: "Copilot Chat routes to codebase search vs. documentation lookup vs. code generation depending on intent."
+      },
     ];
 
-    stages.forEach((st, i) => {
-      const x = 0.35 + i * 1.88, y = 0.98;
-      s.addShape(pres.shapes.RECTANGLE, { x, y, w: 1.72, h: 1.85, fill: { color: C.white }, shadow: shadow() });
-      s.addShape(pres.shapes.RECTANGLE, { x, y, w: 1.72, h: 0.58, fill: { color: st.color } });
-      s.addText(st.label, { x, y, w: 1.72, h: 0.58, fontSize: 11, color: C.white, bold: true, align: "center", valign: "middle", margin: 0 });
-      s.addText(st.sub,   { x: x + 0.1, y: y + 0.65, w: 1.52, h: 1.05, fontSize: 10, color: C.muted, align: "center", margin: 0 });
-      if (i < stages.length - 1) {
-        s.addText("→", { x: x + 1.72, y: y + 0.7, w: 0.16, h: 0.45, fontSize: 18, color: C.muted, align: "center", margin: 0 });
-      }
-    });
+    for (let i = 0; i < 4; i++) {
+      const p = patterns[i];
+      const col = i % 2, row = Math.floor(i / 2);
+      const x = col === 0 ? 0.35 : 5.15, y = 1.18 + row * 2.1, w = 4.55, h = 1.95;
+      s.addShape(pres.shapes.RECTANGLE, { x, y, w, h, fill: { color: C.mid, transparency: 20 }, shadow: shadow() });
+      s.addShape(pres.shapes.RECTANGLE, { x, y, w: 0.55, h, fill: { color: p.color, transparency: 15 } });
+      s.addText(p.n, { x, y, w: 0.55, h, fontSize: 18, color: C.white, bold: true, align: "center", valign: "middle", margin: 0 });
+      s.addText(p.label, { x: x + 0.65, y: y + 0.1, w: w - 0.75, h: 0.36, fontSize: 13, color: p.color, bold: true, margin: 0 });
+      s.addText(p.desc,  { x: x + 0.65, y: y + 0.48, w: w - 0.75, h: 0.62, fontSize: 10.5, color: C.pale, margin: 0 });
+      s.addShape(pres.shapes.RECTANGLE, { x: x + 0.65, y: y + 1.16, w: w - 0.75, h: 0.68, fill: { color: p.color, transparency: 75 } });
+      s.addText("Claude Code / Copilot: " + p.example, { x: x + 0.72, y: y + 1.18, w: w - 0.85, h: 0.64, fontSize: 9.5, color: C.white, italic: true, valign: "middle", margin: 0 });
+    }
 
-    // Design decisions — why they work
-    const decisions = [
-      { head: "Sandboxed container",    body: "Agent runs with minimal permissions and binaries. Intentional flexibility reduction = predictability + security." },
-      { head: "Infrastructure outside", body: "Slack comms, git push, prompt authoring all handled outside the agent. Agent focuses only on code changes." },
-      { head: "Verifier loop",          body: "Unit tests + linter run before PR opens. Without this, agents produced code that 'didn't work.' (Honk Part 3)" },
-      { head: "Judge LLM",              body: "A separate LLM evaluates the diff for correctness, scope, and quality before human review — another agent as reviewer." },
-    ];
-
-    decisions.forEach((d, i) => {
-      const x = 0.35 + (i % 2) * 4.78, y = 3.0 + Math.floor(i / 2) * 1.2;
-      s.addShape(pres.shapes.RECTANGLE, { x, y, w: 4.6, h: 1.08, fill: { color: C.white }, shadow: shadow() });
-      s.addShape(pres.shapes.RECTANGLE, { x, y, w: 0.06, h: 1.08, fill: { color: C.accent } });
-      s.addText(`✓ ${d.head}`, { x: x + 0.16, y: y + 0.06, w: 4.3, h: 0.36, fontSize: 12, color: C.navy, bold: true, margin: 0 });
-      s.addText(d.body,        { x: x + 0.16, y: y + 0.46, w: 4.3, h: 0.52, fontSize: 11, color: C.muted, margin: 0 });
-    });
-
-    s.addText("Result: ~50% of all Spotify PRs automated · 1,500+ agent PRs merged · 50+ features shipped in 2025", {
-      x: 0.35, y: 5.35, w: 9.3, h: 0.24, fontSize: 10.5, color: C.teal, bold: true, italic: true, margin: 0
+    s.addText("Understanding these patterns helps you reason about Claude Code behaviour and design production systems when the time comes.", {
+      x: 0.35, y: 5.42, w: 9.3, h: 0.24, fontSize: 9.5, color: C.iceBlue, italic: true, align: "center", margin: 0
     });
   }
 
   // ══════════════════════════════════════════════════════════════════
-  // SLIDE 11 — Lab Exercise
+  // SLIDE 11 — Lab Exercise (PaymentService Refactor Scenario)
   // ══════════════════════════════════════════════════════════════════
   {
     const s = pres.addSlide();
@@ -480,27 +484,37 @@ async function build() {
 
     s.addShape(pres.shapes.RECTANGLE, { x: 0, y: 0, w: 10, h: 0.82, fill: { color: C.teal } });
     s.addText("LAB EXERCISE  ·  25 MINUTES", { x: 0.4, y: 0, w: 9, h: 0.82, fontSize: 13, color: C.white, bold: true, charSpacing: 3, valign: "middle", margin: 0 });
-    s.addText("Design a Multi-Agent Architecture for a Real Problem", { x: 0.4, y: 0.95, w: 9.2, h: 0.48, fontSize: 19, color: C.navy, bold: true, margin: 0 });
+    s.addText("Apply the Vocabulary to a Real Claude Code Scenario", { x: 0.4, y: 0.9, w: 9.2, h: 0.4, fontSize: 17, color: C.navy, bold: true, margin: 0 });
 
-    const steps = [
-      { n:"1", t:"Choose a Task", min:"5 min",
-        d:"Pick a real engineering workflow from your team: dependency updates, PR reviews, doc generation, test coverage gap analysis, or another repetitive multi-step process." },
-      { n:"2", t:"Map the Architecture", min:"8 min",
-        d:"Draw the agent graph: Who is the orchestrator? What are the subagents? What tools does each need? Where are the HITL gates? What goes into each agent's context?" },
-      { n:"3", t:"Apply 12-Factor Check", min:"7 min",
-        d:"Run your design through factors 1–6 (Foundation & Reliability). Does your agent own its context window? Is control flow in code? Are errors handled as signal?" },
-      { n:"4", t:"Present & Critique", min:"5 min",
-        d:"One group presents. The group critiques: What's the biggest reliability risk? Where would you put the kill switch? What's the first thing you'd instrument in observability?" },
+    // Scenario box
+    s.addShape(pres.shapes.RECTANGLE, { x: 0.35, y: 1.38, w: 9.3, h: 0.72, fill: { color: C.offWhite }, shadow: shadow() });
+    s.addShape(pres.shapes.RECTANGLE, { x: 0.35, y: 1.38, w: 0.06, h: 0.72, fill: { color: C.accent } });
+    s.addText("SCENARIO", { x: 0.5, y: 1.38, w: 1.2, h: 0.32, fontSize: 10, color: C.accent, bold: true, charSpacing: 2, margin: 0 });
+    s.addText("A developer asks Claude Code: \"Refactor the PaymentService to extract a separate InvoiceService, move the relevant methods, update all call sites, and make sure the tests still pass.\"", {
+      x: 0.5, y: 1.66, w: 9.05, h: 0.38, fontSize: 11.5, color: C.text, italic: true, margin: 0
+    });
+
+    const tasks = [
+      { n:"1", t:"Map the Agent Loop", min:"5 min",
+        d:"Break this task into the steps Claude Code would take. For each step: what tool does it call? What does it observe? What decision does it make next?" },
+      { n:"2", t:"Classify the Tools", min:"5 min",
+        d:"List every tool Claude Code would need (file read, file write, shell execution, etc.) and classify each as read, write, or communication." },
+      { n:"3", t:"Identify Memory Use", min:"5 min",
+        d:"What information must the agent carry forward across steps? Which memory type (in-context, external, semantic, episodic) applies to each piece of state?" },
+      { n:"4", t:"Define the Trust Boundary", min:"5 min",
+        d:"What should Claude Code do autonomously? Where should it pause for human confirmation? Write the interrupt conditions for this specific task." },
+      { n:"5", t:"Apply a Pattern", min:"5 min",
+        d:"Which multi-agent pattern best describes how Claude Code should approach this refactor — sequential pipeline, fan-out, or evaluator-optimizer? Why?" },
     ];
 
-    steps.forEach((st, i) => {
-      const y = 1.55 + i * 0.97;
-      s.addShape(pres.shapes.RECTANGLE, { x: 0.35, y, w: 9.3, h: 0.87, fill: { color: C.offWhite }, shadow: shadow() });
-      s.addShape(pres.shapes.RECTANGLE, { x: 0.35, y, w: 0.55, h: 0.87, fill: { color: C.teal } });
-      s.addText(st.n, { x: 0.35, y, w: 0.55, h: 0.87, fontSize: 22, color: C.white, bold: true, align: "center", valign: "middle", margin: 0 });
-      s.addText(st.t, { x: 1.0, y: y + 0.06, w: 1.4, h: 0.32, fontSize: 13, color: C.teal, bold: true, margin: 0 });
-      s.addText(`(${st.min})`, { x: 2.4, y: y + 0.06, w: 0.9, h: 0.32, fontSize: 11, color: C.muted, italic: true, margin: 0 });
-      s.addText(st.d, { x: 1.0, y: y + 0.44, w: 8.55, h: 0.38, fontSize: 11, color: C.muted, margin: 0 });
+    tasks.forEach((t, i) => {
+      const y = 2.2 + i * 0.64;
+      s.addShape(pres.shapes.RECTANGLE, { x: 0.35, y, w: 9.3, h: 0.58, fill: { color: C.offWhite }, shadow: shadow() });
+      s.addShape(pres.shapes.RECTANGLE, { x: 0.35, y, w: 0.45, h: 0.58, fill: { color: C.teal } });
+      s.addText(t.n, { x: 0.35, y, w: 0.45, h: 0.58, fontSize: 18, color: C.white, bold: true, align: "center", valign: "middle", margin: 0 });
+      s.addText(t.t, { x: 0.9, y: y + 0.04, w: 2.0, h: 0.26, fontSize: 12, color: C.teal, bold: true, margin: 0 });
+      s.addText(`(${t.min})`, { x: 2.9, y: y + 0.04, w: 0.8, h: 0.26, fontSize: 10.5, color: C.muted, italic: true, margin: 0 });
+      s.addText(t.d, { x: 0.9, y: y + 0.3, w: 8.65, h: 0.25, fontSize: 10.5, color: C.muted, margin: 0 });
     });
   }
 

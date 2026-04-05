@@ -441,48 +441,51 @@ async function build() {
 
     s.addShape(pres.shapes.RECTANGLE, { x:0, y:0, w:10, h:0.82, fill:{ color:C.teal } });
     s.addText("AGENT-ASSISTED CONTINUOUS IMPROVEMENT", { x:0.4, y:0, w:9, h:0.82, fontSize:13, color:C.white, bold:true, charSpacing:3, valign:"middle", margin:0 });
-    s.addText("Agents make hygiene and improvement economically viable at scale. Tasks that would take a sprint can now run overnight.", { x:0.4, y:0.9, w:9.2, h:0.3, fontSize:12, color:C.muted, italic:true, margin:0 });
+    s.addText("Agents make hygiene economically viable at scale \u2014 and are available for review and education continuously, not just when a senior developer has spare time.", { x:0.4, y:0.88, w:9.2, h:0.3, fontSize:11, color:C.muted, italic:true, margin:0 });
 
     const workflows = [
       {
-        name: "Dependency Hygiene",    color:C.navy,
-        trigger: "Weekly scheduled agent run",
-        steps: ["Scan for outdated / vulnerable dependencies", "Group changes by risk level", "Open low-risk PRs automatically (Tier 1)", "Flag high-risk changes for human review (Tier 2/3)"],
-        outcome: "Codebase stays current. Security debt doesn\u2019t accumulate silently."
+        name: "Dependency Hygiene",      color:C.navy,
+        trigger: "Weekly scheduled",
+        detail: "Scan for outdated / vulnerable dependencies. Group by risk level. Open low-risk PRs automatically (Tier 1). Flag high-risk changes for human review.",
       },
       {
-        name: "Test Coverage Growth",  color:C.teal,
-        trigger: "Post-merge agent run on changed files",
-        steps: ["Identify files modified with <80% coverage", "Agent generates missing unit tests", "Verifier confirms tests pass and are meaningful", "PR opened for human review before merge"],
-        outcome: "Coverage grows organically with every feature. No dedicated \u2018test debt sprints\u2019."
+        name: "Test Coverage Growth",    color:C.teal,
+        trigger: "Post-merge",
+        detail: "Identify files modified with <80% coverage. Agent generates missing unit tests. Verifier confirms tests pass and are meaningful. PR opened for human review.",
       },
       {
-        name: "Documentation Refresh", color:C.accent,
-        trigger: "Triggered by significant PR merge",
-        steps: ["Agent reads diff and identifies doc gaps", "Updates API docs, README, architecture notes", "Flags PRODUCT.md sections that may be outdated", "PR opened; team reviews and merges"],
-        outcome: "Documentation stays current automatically. New team members onboard faster."
+        name: "Documentation Refresh",   color:C.accent,
+        trigger: "On significant PR merge",
+        detail: "Agent reads diff and identifies doc gaps. Updates API docs and architecture notes. Flags PRODUCT.md sections that may be outdated. PR opened; team reviews.",
       },
       {
         name: "Code Quality Enforcement", color:C.green,
-        trigger: "Pre-PR agent hook",
-        steps: ["Linter, formatter, and type checker run", "Agent self-corrects formatting issues", "Complexity check: flags methods above threshold", "Security pattern check (OWASP patterns)"],
-        outcome: "Code review focuses on architecture and logic, not style or basic quality."
+        trigger: "Pre-PR hook",
+        detail: "Linter, formatter, type checker, complexity check, security pattern check. Agent self-corrects formatting issues before the human sees the diff.",
+      },
+      {
+        name: "Design & Artefact Review", color:C.steel,
+        trigger: "Before human review",
+        detail: "Agent reads the proposal alongside the codebase and flags: conflicts with existing architecture, missing edge cases, undefined NFRs, ADR violations. Humans review with findings already surfaced.",
+      },
+      {
+        name: "Team Education & Onboarding", color:C.amber,
+        trigger: "On-demand / new team member",
+        detail: "New members use Claude Code to understand the codebase without interrupting senior developers. Encode starting questions in CLAUDE.md: \u201CRead PRODUCT.md and the adr/ folder. Explain the three most important architectural constraints and why they exist.\u201D",
       },
     ];
 
-    const cols = [0.35, 5.1];
-    workflows.forEach((wf, i) => {
-      const x=cols[i%2], y=1.28+Math.floor(i/2)*2.12, w=4.55, h=1.96;
+    for (let i = 0; i < workflows.length; i++) {
+      const wf = workflows[i];
+      const col = i % 2, row = Math.floor(i / 2);
+      const x = col === 0 ? 0.35 : 5.1, y = 1.28 + row * 1.36, w = 4.55, h = 1.24;
       s.addShape(pres.shapes.RECTANGLE, { x, y, w, h, fill:{ color:C.offWhite }, shadow:shadow() });
-      s.addShape(pres.shapes.RECTANGLE, { x, y, w, h:0.44, fill:{ color:wf.color } });
-      s.addText(wf.name, { x:x+0.12, y, w:w-0.24, h:0.44, fontSize:13, color:C.white, bold:true, valign:"middle", margin:0 });
-      s.addText(`\u25B6 ${wf.trigger}`, { x:x+0.12, y:y+0.5, w:w-0.24, h:0.26, fontSize:10, color:wf.color, italic:true, margin:0 });
-      wf.steps.forEach((step, j) => {
-        s.addText(`${j+1}. ${step}`, { x:x+0.12, y:y+0.78+j*0.28, w:w-0.24, h:0.26, fontSize:10.5, color:C.text, margin:0 });
-      });
-      s.addShape(pres.shapes.RECTANGLE, { x:x+0.1, y:y+1.66, w:w-0.2, h:0.24, fill:{ color:wf.color, transparency:88 } });
-      s.addText(wf.outcome, { x:x+0.15, y:y+1.66, w:w-0.3, h:0.24, fontSize:9.5, color:wf.color, italic:true, valign:"middle", margin:0 });
-    });
+      s.addShape(pres.shapes.RECTANGLE, { x, y, w:0.06, h, fill:{ color:wf.color } });
+      s.addText(wf.name, { x:x+0.16, y:y+0.08, w:w-0.26, h:0.3, fontSize:12.5, color:wf.color, bold:true, margin:0 });
+      s.addText(`\u25B6 ${wf.trigger}`, { x:x+0.16, y:y+0.42, w:w-0.26, h:0.22, fontSize:9.5, color:wf.color, italic:true, margin:0 });
+      s.addText(wf.detail, { x:x+0.16, y:y+0.64, w:w-0.26, h:0.56, fontSize:10, color:C.muted, margin:0 });
+    }
   }
 
   // ══════════════════════════════════════════════════════════════════

@@ -218,48 +218,59 @@ async function build() {
     });
   }
 
-  // SLIDE 6 — The Design Review Framework
+  // SLIDE 6 — Programme Scope Bridge
   {
     const s = pres.addSlide();
-    s.background = { color:C.white };
-    s.addShape(pres.shapes.RECTANGLE, { x:0, y:0, w:10, h:0.82, fill:{ color:C.navy } });
-    s.addText("THE DESIGN REVIEW FRAMEWORK", { x:0.4, y:0, w:9, h:0.82, fontSize:13, color:C.white, bold:true, charSpacing:3, valign:"middle", margin:0 });
-    s.addText("Four dimensions to review before every production agent deployment", { x:0.4, y:0.9, w:9.2, h:0.3, fontSize:12.5, color:C.muted, italic:true, margin:0 });
+    s.background = { color:C.navy };
+    s.addShape(pres.shapes.RECTANGLE, { x:0, y:0, w:0.18, h:5.625, fill:{ color:C.accent } });
+    s.addText("MODULE SCOPE  \u2014  WHAT THIS MODULE COVERS", { x:0.4, y:0.22, w:9, h:0.45, fontSize:13, color:C.iceBlue, bold:true, charSpacing:3, margin:0 });
+    s.addText("Both parts use the same vocabulary and review discipline. The difference is the blast radius.", { x:0.4, y:0.72, w:9, h:0.36, fontSize:16, color:C.white, italic:true, margin:0 });
 
-    const dims = [
-      { head:"Architecture", color:C.navy, icon:FaDraftingCompass,
-        qs:["Is agent scope clearly bounded?","Is infrastructure outside the agent boundary?","Are tools self-contained and non-overlapping?","Is folder/file structure communicating intent?","Are subagent boundaries defined?"] },
-      { head:"Agent Experience", color:C.teal, icon:FaRobot,
-        qs:["Are all APIs exposed as OpenAPI schemas?","Is llms.txt created for this service?","Are tool definitions MCP-compatible?","Are all I/O types strongly typed?","Is CLAUDE.md <300 lines, universal rules only?"] },
-      { head:"Security", color:C.accent, icon:FaShieldAlt,
-        qs:["Is agent identity defined (not shared creds)?","Is sandboxing designed (container, egress)?","Are HITL gates placed at irreversible actions?","Is kill switch mechanism defined and tested?","Is audit trail instrumented?"] },
-      { head:"FinOps", color:C.green, icon:FaChartLine,
-        qs:["Is cost-per-unit-of-work modelled?","Is model routing designed (not one model for all)?","Are compaction thresholds defined?","Are token budget limits set at gateway?","Are cost alerts and throttle thresholds configured?"] },
+    // Part 1 panel
+    s.addShape(pres.shapes.RECTANGLE, { x:0.35, y:1.22, w:4.55, h:3.72, fill:{ color:C.mid, transparency:15 }, shadow:shadow() });
+    s.addShape(pres.shapes.RECTANGLE, { x:0.35, y:1.22, w:4.55, h:0.52, fill:{ color:C.teal, transparency:10 } });
+    s.addText("PART 1 \u2014 Coding Agent Workflows", { x:0.35, y:1.22, w:4.55, h:0.52, fontSize:12.5, color:C.white, bold:true, align:"center", valign:"middle", margin:0 });
+    s.addText("Reviewing your use of coding agents (Claude Code, Copilot) in the SDLC", { x:0.45, y:1.82, w:4.35, h:0.3, fontSize:10.5, color:C.iceBlue, italic:true, margin:0 });
+    const p1Items = [
+      "Agent-first design principles (P1\u2013P6) govern how your team works today",
+      "AX design thinking shapes your CLAUDE.md, folder structure, and tool schemas",
+      "ADR practices capture decisions agents and engineers both need",
+      "Lightweight checklist subset: items 01, 04, 05, 06, 07, 10",
+      "Applies NOW \u2014 to your codebase, your workflows, your team",
     ];
-
-    for (let i = 0; i < 4; i++) {
-      const col = i%2, row = Math.floor(i/2);
-      const x = col===0 ? 0.35 : 5.1, y = 1.28+row*2.1, w=4.55, h=1.94;
-      const d = dims[i];
-      s.addShape(pres.shapes.RECTANGLE, { x, y, w, h, fill:{ color:C.offWhite }, shadow:shadow() });
-      s.addShape(pres.shapes.RECTANGLE, { x, y, w, h:0.48, fill:{ color:d.color } });
-      const ic = await icon(d.icon, "#FFFFFF");
-      s.addImage({ data:ic, x:x+0.15, y:y+0.1, w:0.28, h:0.28 });
-      s.addText(d.head, { x:x+0.5, y, w:w-0.6, h:0.48, fontSize:14, color:C.white, bold:true, valign:"middle", margin:0 });
-      d.qs.forEach((q, j) => {
-        s.addShape(pres.shapes.RECTANGLE, { x:x+0.12, y:y+0.56+j*0.28, w:0.24, h:0.22, fill:{ color:d.color, transparency:80 } });
-        s.addText("\u25A1", { x:x+0.12, y:y+0.56+j*0.28, w:0.24, h:0.22, fontSize:10, color:d.color, align:"center", valign:"middle", margin:0 });
-        s.addText(q, { x:x+0.44, y:y+0.56+j*0.28, w:w-0.56, h:0.24, fontSize:10.5, color:C.text, valign:"middle", margin:0 });
-      });
+    for (let i = 0; i < p1Items.length; i++) {
+      s.addText(`\u2022 ${p1Items[i]}`, { x:0.52, y:2.2+i*0.48, w:4.25, h:0.42, fontSize:11, color:C.pale, margin:0 });
     }
+
+    // Part 2 panel
+    s.addShape(pres.shapes.RECTANGLE, { x:5.1, y:1.22, w:4.55, h:3.72, fill:{ color:C.mid, transparency:15 }, shadow:shadow() });
+    s.addShape(pres.shapes.RECTANGLE, { x:5.1, y:1.22, w:4.55, h:0.52, fill:{ color:C.accent, transparency:10 } });
+    s.addText("PART 2 \u2014 Production Agent Systems", { x:5.1, y:1.22, w:4.55, h:0.52, fontSize:12.5, color:C.white, bold:true, align:"center", valign:"middle", margin:0 });
+    s.addText("Designing agent systems your team ships as products (AWS Bedrock, Agent Core\u2026)", { x:5.2, y:1.82, w:4.35, h:0.3, fontSize:10.5, color:C.iceBlue, italic:true, margin:0 });
+    const p2Items = [
+      "Full 12-point checklist required before production deployment",
+      "Security: identity, sandboxing, kill switches, audit trail",
+      "Governance: HITL gates, compliance, data retention",
+      "FinOps: cost-per-unit model, budget guardrails, routing",
+      "Shadow mode rollout before full production traffic",
+    ];
+    for (let i = 0; i < p2Items.length; i++) {
+      s.addText(`\u2022 ${p2Items[i]}`, { x:5.2, y:2.2+i*0.48, w:4.35, h:0.42, fontSize:11, color:C.pale, margin:0 });
+    }
+
+    // Bottom callout
+    s.addShape(pres.shapes.RECTANGLE, { x:0.35, y:5.06, w:9.3, h:0.38, fill:{ color:C.accent, transparency:18 } });
+    s.addText("\u25B6  Same vocabulary. Same review discipline. Different blast radius.", {
+      x:0.35, y:5.06, w:9.3, h:0.38, fontSize:12, color:C.white, bold:true, align:"center", valign:"middle", margin:0
+    });
   }
 
   // SLIDE 7 — The Pre-Deployment Design Review Checklist
   {
     const s = pres.addSlide();
     s.background = { color:C.navy };
-    s.addText("PRE-DEPLOYMENT DESIGN REVIEW  \u2014  FULL CHECKLIST", { x:0.4, y:0.22, w:9, h:0.45, fontSize:13, color:C.iceBlue, bold:true, charSpacing:3, margin:0 });
-    s.addText("This is the complete gate. Every unchecked item is a known gap entering production.", { x:0.4, y:0.72, w:9, h:0.36, fontSize:16, color:C.white, italic:true, margin:0 });
+    s.addText("FULL 12-POINT CHECKLIST  \u2014  PRODUCTION AGENT SYSTEMS", { x:0.4, y:0.22, w:9, h:0.45, fontSize:13, color:C.iceBlue, bold:true, charSpacing:3, margin:0 });
+    s.addText("Production agents: full 12 items required.  Coding agent workflows: use the lightweight subset \u2014 items 01, 04, 05, 06, 07, 10.", { x:0.4, y:0.72, w:9, h:0.36, fontSize:13.5, color:C.pale, italic:true, margin:0 });
 
     const checks = [
       { cat:"Context", color:C.teal, items:["CLAUDE.md \u2264 300 lines?","SPEC.md / DoD in repo?","ADRs for all key decisions?","Skills created for domain knowledge?"] },
@@ -412,24 +423,31 @@ async function build() {
     const s = pres.addSlide();
     s.background = { color:C.white };
     s.addShape(pres.shapes.RECTANGLE, { x:0, y:0, w:10, h:0.82, fill:{ color:C.teal } });
-    s.addText("LAB EXERCISE  \u00B7  35 MINUTES", { x:0.4, y:0, w:9, h:0.82, fontSize:13, color:C.white, bold:true, charSpacing:3, valign:"middle", margin:0 });
-    s.addText("Run a Design Review for Your Agent Workflow", { x:0.4, y:0.95, w:9.2, h:0.46, fontSize:19, color:C.navy, bold:true, margin:0 });
+    s.addText("LAB EXERCISE  \u00B7  45 MINUTES  \u00B7  CAPSTONE", { x:0.4, y:0, w:9, h:0.82, fontSize:13, color:C.white, bold:true, charSpacing:3, valign:"middle", margin:0 });
+    s.addText("Run a Full Design Review (Production) or Apply the Lightweight Subset (Coding Agent Workflow)", { x:0.4, y:0.9, w:9.2, h:0.46, fontSize:15, color:C.navy, bold:true, margin:0 });
+
+    // Track selector
+    s.addShape(pres.shapes.RECTANGLE, { x:0.35, y:1.44, w:4.4, h:0.3, fill:{ color:C.teal, transparency:15 } });
+    s.addText("Track A: Production agent system \u2014 run all 12 checklist items", { x:0.42, y:1.44, w:4.28, h:0.3, fontSize:10, color:C.white, bold:true, valign:"middle", margin:0 });
+    s.addShape(pres.shapes.RECTANGLE, { x:4.9, y:1.44, w:4.75, h:0.3, fill:{ color:C.accent, transparency:15 } });
+    s.addText("Track B: Coding agent workflow \u2014 items 01, 04, 05, 06, 07, 10 only", { x:4.97, y:1.44, w:4.6, h:0.3, fontSize:10, color:C.white, bold:true, valign:"middle", margin:0 });
 
     const steps = [
-      { n:"1", t:"Rate your current maturity", min:"5 min", d:"Use the maturity model on slide 10. Where is your team today across each of the four dimensions: Architecture, AX, Security, FinOps? Be honest." },
-      { n:"2", t:"Run the design review", min:"15 min", d:"Use the slide 7 checklist for the agent workflow you\u2019ve designed in this programme. Work through all 24 questions. Identify every unchecked box. Group: which gaps are blockers vs nice-to-have?" },
-      { n:"3", t:"Write one ADR", min:"8 min", d:"Identify the most significant architectural decision in your agent design. Write a 1-page ADR using the template: Context, Decision, Consequences. Swap with a neighbour: could an agent use this to understand what NOT to change?" },
-      { n:"4", t:"AX audit", min:"7 min", d:"For your agent\u2019s primary tool or API: does it have an OpenAPI schema? A type definition? An MCP-compatible interface? If not, sketch what it would look like. What would change in the agent\u2019s reliability?" },
+      { n:"1", t:"Finalise your architecture", min:"10 min", d:"Draw the complete system: orchestrator/subagents, tools, memory, context sources, HITL gates, kill switch, budget model. For coding-agent track: map your CLAUDE.md, skills, verifier loop, and HITL points." },
+      { n:"2", t:"Run the checklist", min:"12 min", d:"Work through every applicable checklist item: \u2713 Pass, \u26A0 Partial, \u2717 Gap. Document every gap with an owner and timeline. Production track: all 12. Coding-agent track: items 01, 04, 05, 06, 07, 10." },
+      { n:"3", t:"Write one ADR", min:"8 min", d:"Identify the single most important architectural decision in your system. Write a full ADR: Context, Decision, Consequences. It must be specific, consequential, and irreversible. Swap with a neighbour." },
+      { n:"4", t:"Threat model + FinOps", min:"8 min", d:"Identify your top 3 OWASP threats with mitigations and owners. Estimate $/day at 1,000 runs. Identify the highest-ROI cost optimisation lever. (Coding-agent track: estimate cost-per-session and set a budget cap.)" },
+      { n:"5", t:"Present to peer review", min:"7 min", d:"10-minute presentation. Panel plays enterprise architecture review board. Focus questions: security gaps, cost model, and what happens when the agent fails." },
     ];
 
     steps.forEach((st, i) => {
-      const y = 1.52+i*0.97;
-      s.addShape(pres.shapes.RECTANGLE, { x:0.35, y, w:9.3, h:0.87, fill:{ color:C.offWhite }, shadow:shadow() });
-      s.addShape(pres.shapes.RECTANGLE, { x:0.35, y, w:0.52, h:0.87, fill:{ color:C.teal } });
-      s.addText(st.n, { x:0.35, y, w:0.52, h:0.87, fontSize:22, color:C.white, bold:true, align:"center", valign:"middle", margin:0 });
-      s.addText(st.t, { x:0.97, y:y+0.06, w:2.5, h:0.32, fontSize:13, color:C.teal, bold:true, margin:0 });
-      s.addText(`(${st.min})`, { x:3.47, y:y+0.06, w:0.8, h:0.32, fontSize:11, color:C.muted, italic:true, margin:0 });
-      s.addText(st.d, { x:0.97, y:y+0.46, w:8.55, h:0.34, fontSize:11, color:C.muted, margin:0 });
+      const y = 1.84+i*0.74;
+      s.addShape(pres.shapes.RECTANGLE, { x:0.35, y, w:9.3, h:0.66, fill:{ color:C.offWhite }, shadow:shadow() });
+      s.addShape(pres.shapes.RECTANGLE, { x:0.35, y, w:0.52, h:0.66, fill:{ color:C.teal } });
+      s.addText(st.n, { x:0.35, y, w:0.52, h:0.66, fontSize:20, color:C.white, bold:true, align:"center", valign:"middle", margin:0 });
+      s.addText(st.t, { x:0.97, y:y+0.04, w:2.7, h:0.26, fontSize:12.5, color:C.teal, bold:true, margin:0 });
+      s.addText(`(${st.min})`, { x:3.67, y:y+0.04, w:0.8, h:0.26, fontSize:11, color:C.muted, italic:true, margin:0 });
+      s.addText(st.d, { x:0.97, y:y+0.34, w:8.55, h:0.28, fontSize:10.5, color:C.muted, margin:0 });
     });
   }
 

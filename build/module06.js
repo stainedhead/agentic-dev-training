@@ -60,32 +60,37 @@ async function build() {
     }
   }
 
-  // SLIDE 3 — Supervised Development: The New Contract
+  // SLIDE 3 — Background & Programme Scope Note
   {
     const s = pres.addSlide(); s.background = { color: C.navy };
-    s.addText("SUPERVISED DEVELOPMENT  \u2014  THE NEW CONTRACT", {x:0.4,y:0.22,w:9,h:0.45,fontSize:13,color:C.iceBlue,bold:true,charSpacing:3,margin:0});
-    // Spotify quote
-    s.addShape(pres.shapes.RECTANGLE, {x:0.35,y:0.82,w:9.3,h:1.1,fill:{color:C.mid,transparency:15},shadow:shadow()});
-    s.addText("\u201CWhen I speak to my most senior engineers \u2014 the best developers we have \u2014 they say they have not written a single line of code since December. They only generate code and supervise it.\u201D\n\u2014 Alex S\u00F6derstr\u00F6m, Spotify Co-CEO  \u00B7  Q4 2025 Earnings Call", {x:0.55,y:0.88,w:9.0,h:0.98,fontSize:14,color:C.white,italic:true,align:"center",valign:"middle",margin:0});
+    s.addText("BACKGROUND  \u2014  WHY OBSERVABILITY IS DIFFERENT FOR AGENTS", {x:0.4,y:0.22,w:9,h:0.45,fontSize:13,color:C.iceBlue,bold:true,charSpacing:3,margin:0});
+    s.addText("Traditional observability was built for deterministic systems. Agentic systems require a new stack \u2014 one that captures what the model decided to do and why.", {x:0.4,y:0.72,w:9.2,h:0.42,fontSize:13,color:C.pale,italic:true,margin:0});
 
-    // Old vs New
-    const old_new = [
-      {role:"Code Author",    old:"Types every line. Owns syntax, logic, and tests.",new:"Defines intent via spec and AC. Reviews and approves agent output."},
-      {role:"Architect",      old:"Designs system, documents decisions after-the-fact.",new:"Designs agent architecture, reviews plans, signs off before implementation."},
-      {role:"Tech Lead",      old:"Writes code alongside team. Reviews human PRs.",new:"Approves agent plans and task lists. Sets HITL gates. Owns verification criteria."},
-      {role:"Engineering Manager",old:"Tracks velocity, manages human developers.",new:"Tracks agent throughput, manages context quality, defines DoD and review standards."},
+    // Scope note panel
+    s.addShape(pres.shapes.RECTANGLE, {x:0.35,y:1.28,w:9.3,h:1.62,fill:{color:C.accent,transparency:10},shadow:shadow()});
+    s.addShape(pres.shapes.RECTANGLE, {x:0.35,y:1.28,w:9.3,h:0.42,fill:{color:C.accent,transparency:0}});
+    s.addText("PROGRAMME SCOPE NOTE  \u2014  TWO LEVELS", {x:0.48,y:1.28,w:9.0,h:0.42,fontSize:12,color:C.white,bold:true,charSpacing:2,valign:"middle",margin:0});
+    s.addText("This module covers observability, reliability, and security concepts at two levels:", {x:0.5,y:1.78,w:9.0,h:0.28,fontSize:12,color:C.pale,margin:0});
+    s.addText("\u25A0  Your coding agent workflows (Claude Code, Copilot) \u2014 monitoring the development loop: what did the agent do, what did it cost, where did it go wrong?", {x:0.5,y:2.08,w:9.0,h:0.36,fontSize:11.5,color:C.white,margin:0});
+    s.addText("\u25A0  Production agent systems (AWS Bedrock, Agent Core) \u2014 what governance and instrumentation production agents require before going live.", {x:0.5,y:2.46,w:9.0,h:0.36,fontSize:11.5,color:C.iceBlue,margin:0});
+    s.addText("Both levels matter. The concepts are the same; the implementation layer differs. Where an example is specific to production agents, it is marked as such.", {x:0.5,y:2.85,w:9.0,h:0.26,fontSize:10.5,color:C.steel,italic:true,margin:0});
+
+    // Three pillars
+    const pillars = [
+      {n:"Logs",      c:C.teal,   old:"Application events",   add:"Prompt/response pairs, tool call inputs/outputs, model version"},
+      {n:"Metrics",   c:C.accent, old:"Latency, error rate",   add:"Token usage, cost per task, tool call frequency, retry rate"},
+      {n:"Traces",    c:C.green,  old:"Request span tree",     add:"Agent reasoning spans, multi-agent call graph, compaction events"},
     ];
-    s.addShape(pres.shapes.RECTANGLE, {x:0.35,y:2.08,w:9.3,h:0.36,fill:{color:C.mid,transparency:10}});
-    s.addText("ROLE", {x:0.45,y:2.08,w:1.8,h:0.36,fontSize:10,color:C.iceBlue,bold:true,charSpacing:2,valign:"middle",margin:0});
-    s.addText("BEFORE (Chat Era)", {x:2.4,y:2.08,w:3.4,h:0.36,fontSize:10,color:C.steel,bold:true,charSpacing:2,valign:"middle",margin:0});
-    s.addText("AFTER (Agent Era)", {x:6.0,y:2.08,w:3.5,h:0.36,fontSize:10,color:C.accent,bold:true,charSpacing:2,valign:"middle",margin:0});
-    old_new.forEach((r,i) => {
-      const y=2.5+i*0.74, bg=i%2===0?C.mid:"2A4870";
-      s.addShape(pres.shapes.RECTANGLE, {x:0.35,y,w:9.3,h:0.68,fill:{color:bg,transparency:25}});
-      s.addText(r.role, {x:0.45,y,w:1.85,h:0.68,fontSize:12,color:C.iceBlue,bold:true,valign:"middle",margin:0});
-      s.addText(r.old, {x:2.4,y,w:3.4,h:0.68,fontSize:10.5,color:C.pale,valign:"middle",margin:0});
-      s.addText(r.new, {x:6.0,y,w:3.5,h:0.68,fontSize:10.5,color:C.white,valign:"middle",margin:0});
-    });
+    s.addShape(pres.shapes.RECTANGLE, {x:0.35,y:3.22,w:9.3,h:0.34,fill:{color:C.mid,transparency:10}});
+    s.addText("THE THREE PILLARS, REVISITED FOR AGENTS", {x:0.45,y:3.22,w:9.0,h:0.34,fontSize:10,color:C.iceBlue,bold:true,charSpacing:2,valign:"middle",margin:0});
+    for(let i=0;i<3;i++){
+      const p=pillars[i], x=0.35+i*3.12, y=3.62;
+      s.addShape(pres.shapes.RECTANGLE, {x,y,w:2.95,h:1.62,fill:{color:C.mid,transparency:15},shadow:shadow()});
+      s.addShape(pres.shapes.RECTANGLE, {x,y,w:2.95,h:0.38,fill:{color:p.c,transparency:5}});
+      s.addText(p.n, {x,y,w:2.95,h:0.38,fontSize:13,color:C.white,bold:true,align:"center",valign:"middle",margin:0});
+      s.addText("Traditional: "+p.old, {x:x+0.1,y:y+0.46,w:2.75,h:0.38,fontSize:10.5,color:C.steel,margin:0});
+      s.addText("+ Agentic: "+p.add,   {x:x+0.1,y:y+0.9, w:2.75,h:0.68,fontSize:10.5,color:C.pale,margin:0});
+    }
   }
 
   // SLIDE 4 — HITL Design
@@ -281,40 +286,58 @@ async function build() {
     });
   }
 
-  // SLIDE 10 — Metrics for a Healthy Agentic Team
+  // SLIDE 10 — SLOs for Agentic Systems
   {
     const s = pres.addSlide(); s.background = { color: C.navy };
-    s.addText("METRICS FOR A HEALTHY AGENTIC TEAM", {x:0.4,y:0.22,w:9,h:0.45,fontSize:13,color:C.iceBlue,bold:true,charSpacing:3,margin:0});
-    s.addText("If you can\u2019t measure it, you can\u2019t improve it. Track these to know if your agentic process is working.", {x:0.4,y:0.72,w:9,h:0.36,fontSize:15,color:C.white,italic:true,margin:0});
+    s.addText("SLOs FOR AGENTIC SYSTEMS  \u2014  TWO LEVELS", {x:0.4,y:0.22,w:9,h:0.45,fontSize:13,color:C.iceBlue,bold:true,charSpacing:3,margin:0});
+    s.addText("SLOs apply at both levels \u2014 the coding agent loop and production agents. Define them before you deploy, not after.", {x:0.4,y:0.72,w:9,h:0.36,fontSize:14,color:C.white,italic:true,margin:0});
 
-    const metrics = [
-      {cat:"Quality",color:C.accent,items:[
-        {m:"Agent PR failure mode ratio",t:"% of PRs in each of the 3 failure modes. Shift over time shows Verifier maturity."},
-        {m:"AC coverage per PR",t:"% of AC items covered by tests. Target: 100%. Decline indicates spec quality issue."},
-        {m:"Rework rate",t:"% of agent PRs that required >1 human redirect before merge. Measures spec clarity."},
-      ]},
-      {cat:"Velocity",color:C.teal,items:[
-        {m:"Agent PRs per sprint",t:"Volume of agent-generated PRs. Rising = adoption. Flat = bottleneck in review or spec."},
-        {m:"Time to HITL approval",t:"How long humans take to review agent output. Rising = too many PRs or too-complex diffs."},
-        {m:"Spec-to-merge cycle time",t:"From requirements.md to merged PR. Measures end-to-end SDD efficiency."},
-      ]},
-      {cat:"Hygiene",color:C.green,items:[
-        {m:"ADR creation rate",t:"ADRs per sprint. Measures whether architectural decisions are being captured continuously."},
-        {m:"SPEC.md staleness",t:"Days since last SPEC.md update. Rising = spec and reality diverging."},
-        {m:"CLAUDE.md line count",t:"Lines in CLAUDE.md. Rising = bloat. Should stay under 300."},
-      ]},
+    // Left column: Coding agent workflow SLOs
+    s.addShape(pres.shapes.RECTANGLE, {x:0.35,y:1.22,w:4.55,h:4.12,fill:{color:C.mid,transparency:18},shadow:shadow()});
+    s.addShape(pres.shapes.RECTANGLE, {x:0.35,y:1.22,w:4.55,h:0.48,fill:{color:C.teal,transparency:5}});
+    s.addText("CODING AGENT WORKFLOW SLOs", {x:0.35,y:1.22,w:4.55,h:0.48,fontSize:11,color:C.white,bold:true,charSpacing:2,align:"center",valign:"middle",margin:0});
+    s.addText("Measuring the development loop (Claude Code, Copilot)", {x:0.45,y:1.76,w:4.35,h:0.26,fontSize:10,color:C.iceBlue,italic:true,margin:0});
+
+    const codingSLOs = [
+      {metric:"pr_open_rate",          target:"90%",    win:"7d",  desc:"% of agent tasks that successfully open a PR"},
+      {metric:"task_success_rate",      target:"80%",    win:"7d",  desc:"% of agent runs completing without human intervention"},
+      {metric:"eval_score",             target:"0.85",   win:"7d",  desc:"Automated quality review pass rate for agent-generated PRs"},
+      {metric:"cost_per_task",          target:"$0.15",  win:"7d",  desc:"Average token cost per completed coding task"},
     ];
-    metrics.forEach((cat,i) => {
-      const x=0.35+i*3.15, y=1.25;
-      s.addShape(pres.shapes.RECTANGLE, {x,y,w:2.95,h:4.15,fill:{color:C.mid,transparency:18},shadow:shadow()});
-      s.addShape(pres.shapes.RECTANGLE, {x,y,w:2.95,h:0.42,fill:{color:cat.color,transparency:10}});
-      s.addText(cat.cat, {x,y,w:2.95,h:0.42,fontSize:13,color:C.white,bold:true,charSpacing:2,align:"center",valign:"middle",margin:0});
-      cat.items.forEach((item,j) => {
-        const iy=y+0.52+j*1.18;
-        s.addShape(pres.shapes.RECTANGLE, {x:x+0.1,y:iy,w:2.75,h:1.1,fill:{color:C.navy}});
-        s.addText(item.m, {x:x+0.18,y:iy+0.06,w:2.59,h:0.32,fontSize:11,color:cat.color,bold:true,margin:0});
-        s.addText(item.t, {x:x+0.18,y:iy+0.42,w:2.59,h:0.6,fontSize:10,color:C.pale,margin:0});
-      });
+    for(let i=0;i<codingSLOs.length;i++){
+      const slo=codingSLOs[i], y=2.1+i*0.78;
+      s.addShape(pres.shapes.RECTANGLE, {x:0.45,y,w:4.35,h:0.7,fill:{color:C.navy,transparency:10}});
+      s.addShape(pres.shapes.RECTANGLE, {x:0.45,y,w:0.06,h:0.7,fill:{color:C.teal}});
+      s.addText(slo.metric, {x:0.58,y:y+0.05,w:2.6,h:0.28,fontSize:11.5,color:C.accent,bold:true,margin:0});
+      s.addShape(pres.shapes.RECTANGLE, {x:3.3,y:y+0.06,w:1.42,h:0.28,fill:{color:C.teal,transparency:60}});
+      s.addText("target: "+slo.target+"  \u00B7  "+slo.win, {x:3.3,y:y+0.06,w:1.42,h:0.28,fontSize:9.5,color:C.white,bold:true,align:"center",valign:"middle",margin:0});
+      s.addText(slo.desc, {x:0.58,y:y+0.36,w:4.1,h:0.28,fontSize:10,color:C.pale,margin:0});
+    }
+
+    // Right column: Production agent SLOs
+    s.addShape(pres.shapes.RECTANGLE, {x:5.1,y:1.22,w:4.55,h:4.12,fill:{color:C.mid,transparency:18},shadow:shadow()});
+    s.addShape(pres.shapes.RECTANGLE, {x:5.1,y:1.22,w:4.55,h:0.48,fill:{color:C.accent,transparency:5}});
+    s.addText("PRODUCTION AGENT SLOs", {x:5.1,y:1.22,w:4.55,h:0.48,fontSize:11,color:C.white,bold:true,charSpacing:2,align:"center",valign:"middle",margin:0});
+    s.addText("When your team builds agents that run in production", {x:5.2,y:1.76,w:4.35,h:0.26,fontSize:10,color:C.iceBlue,italic:true,margin:0});
+
+    const prodSLOs = [
+      {metric:"task_success_rate",       target:"95%",   alert:"90%",  win:"7d",  desc:"% of production agent runs achieving the goal"},
+      {metric:"task_completion_time_p95", target:"120s",  alert:"180s", win:"1d",  desc:"p95 latency for task completion"},
+      {metric:"human_escalation_rate",   target:"<5%",   alert:"15%",  win:"7d",  desc:"% of runs where HITL is triggered"},
+    ];
+    for(let i=0;i<prodSLOs.length;i++){
+      const slo=prodSLOs[i], y=2.1+i*0.88;
+      s.addShape(pres.shapes.RECTANGLE, {x:5.2,y,w:4.35,h:0.8,fill:{color:C.navy,transparency:10}});
+      s.addShape(pres.shapes.RECTANGLE, {x:5.2,y,w:0.06,h:0.8,fill:{color:C.accent}});
+      s.addText(slo.metric, {x:5.33,y:y+0.05,w:2.6,h:0.28,fontSize:11.5,color:C.accent,bold:true,margin:0});
+      s.addShape(pres.shapes.RECTANGLE, {x:8.02,y:y+0.06,w:1.38,h:0.28,fill:{color:C.accent,transparency:60}});
+      s.addText("target: "+slo.target, {x:8.02,y:y+0.06,w:1.38,h:0.28,fontSize:9.5,color:C.white,bold:true,align:"center",valign:"middle",margin:0});
+      s.addText(slo.desc, {x:5.33,y:y+0.36,w:3.4,h:0.22,fontSize:10,color:C.pale,margin:0});
+      s.addText("\u26A0 alert: "+slo.alert+"  \u00B7  "+slo.win+" window", {x:5.33,y:y+0.56,w:3.4,h:0.2,fontSize:9.5,color:C.steel,margin:0});
+    }
+
+    s.addText("Start with coding-agent SLOs on day one. Add production SLOs when your team ships agents to end users.", {
+      x:0.35,y:5.38,w:9.3,h:0.22,fontSize:10.5,color:C.muted,italic:true,margin:0
     });
   }
 
@@ -323,22 +346,24 @@ async function build() {
     const s = pres.addSlide(); s.background = { color: C.white };
     s.addShape(pres.shapes.RECTANGLE, {x:0,y:0,w:10,h:0.82,fill:{color:C.teal}});
     s.addText("LAB EXERCISE  \u00B7  30 MINUTES", {x:0.4,y:0,w:9,h:0.82,fontSize:13,color:C.white,bold:true,charSpacing:3,valign:"middle",margin:0});
-    s.addText("Design Your Team\u2019s Review System for an Agentic Pipeline", {x:0.4,y:0.95,w:9.2,h:0.46,fontSize:19,color:C.navy,bold:true,margin:0});
+    s.addText("Claude Code Workflow Security & Observability Audit", {x:0.4,y:0.92,w:9.2,h:0.42,fontSize:19,color:C.navy,bold:true,margin:0});
+    s.addShape(pres.shapes.RECTANGLE, {x:0.35,y:1.4,w:9.3,h:0.26,fill:{color:C.pale}});
+    s.addText("Scope: audit a Claude Code workflow your team is using or plans to use (e.g. agent-driven feature development, automated refactoring, nightly hygiene tasks)", {x:0.45,y:1.4,w:9.1,h:0.26,fontSize:10,color:C.navy,italic:true,valign:"middle",margin:0});
     const steps = [
-      {n:"1",t:"Map your HITL gates",min:"8 min",d:"For the workflow you designed in Module 2, place every agent action into the 3-tier HITL model. Where are your hard gates? Where can you fully automate? Where are the soft gates?"},
-      {n:"2",t:"Write your PR review checklist",min:"8 min",d:"Using the 6-dimension framework from Slide 5, create a PR template checklist for your team\u2019s first agentic PR. What would a reviewer actually check for AI-generated code?"},
-      {n:"3",t:"Draft a DoD",min:"7 min",d:"Write a Definition of Done for a feature your team is planning. Include: AC coverage, code quality, test requirements, and documentation. Make every item machine-verifiable."},
-      {n:"4",t:"Identify your feedback loop gap",min:"7 min",d:"Where in your current process does the loop from production bug back to SPEC.md update break down? What\u2019s missing? Design the one improvement that would have the highest impact."},
+      {n:"1",t:"Tools audit",min:"8 min",d:"List every tool Claude Code has access to (file read, file write, shell, git, etc.). For each: worst-case misuse? Blast radius? Is a human approval gate in place before irreversible actions?"},
+      {n:"2",t:"Prompt injection surface",min:"7 min",d:"What external data does Claude Code read in this workflow (docs, test output, README files, tickets)? Could any of that content contain instructions that hijack the agent? How would you detect it?"},
+      {n:"3",t:"Define three SLOs",min:"8 min",d:"Write three measurable SLOs for the coding agent workflow. At least one must be cost-related (e.g. cost_per_task) and one quality-related (e.g. eval_score). Use the formats from Slide 10."},
+      {n:"4",t:"Observability design",min:"7 min",d:"What traces, metrics, and logs would you need to diagnose a bad agent run at 2am? What tool surfaces them (Langfuse, Honeycomb, custom OTel)? Who gets paged?"},
     ];
-    steps.forEach((st,i) => {
-      const y=1.52+i*0.97;
-      s.addShape(pres.shapes.RECTANGLE, {x:0.35,y,w:9.3,h:0.87,fill:{color:C.offWhite},shadow:shadow()});
-      s.addShape(pres.shapes.RECTANGLE, {x:0.35,y,w:0.52,h:0.87,fill:{color:C.teal}});
-      s.addText(st.n, {x:0.35,y,w:0.52,h:0.87,fontSize:22,color:C.white,bold:true,align:"center",valign:"middle",margin:0});
-      s.addText(st.t,  {x:0.97,y:y+0.06,w:2.3,h:0.32,fontSize:12.5,color:C.teal,bold:true,margin:0});
-      s.addText("("+st.min+")",{x:3.27,y:y+0.06,w:0.85,h:0.32,fontSize:11,color:C.muted,italic:true,margin:0});
-      s.addText(st.d,  {x:0.97,y:y+0.44,w:8.55,h:0.36,fontSize:11,color:C.muted,margin:0});
-    });
+    for(let i=0;i<steps.length;i++){
+      const st=steps[i], y=1.74+i*0.9;
+      s.addShape(pres.shapes.RECTANGLE, {x:0.35,y,w:9.3,h:0.82,fill:{color:C.offWhite},shadow:shadow()});
+      s.addShape(pres.shapes.RECTANGLE, {x:0.35,y,w:0.52,h:0.82,fill:{color:C.teal}});
+      s.addText(st.n, {x:0.35,y,w:0.52,h:0.82,fontSize:22,color:C.white,bold:true,align:"center",valign:"middle",margin:0});
+      s.addText(st.t,  {x:0.97,y:y+0.06,w:2.4,h:0.3,fontSize:12.5,color:C.teal,bold:true,margin:0});
+      s.addText("("+st.min+")",{x:3.37,y:y+0.06,w:0.85,h:0.3,fontSize:11,color:C.muted,italic:true,margin:0});
+      s.addText(st.d,  {x:0.97,y:y+0.42,w:8.55,h:0.34,fontSize:10.5,color:C.muted,margin:0});
+    }
   }
 
   // SLIDE 12 — Discussion + Summary
