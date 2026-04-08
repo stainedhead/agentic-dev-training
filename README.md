@@ -16,19 +16,38 @@ The curriculum is grounded in real-world practice at leading engineering organis
 
 ## Curriculum Map
 
+The programme follows a three-phase arc: **Foundations → Automated Practices → Human Depth**.
+
+### Phase 1 — Foundations (Modules 01–03)
+
 | Module | Title | Slide Deck | Duration |
 |--------|-------|-----------|----------|
 | 00 | [Programme Overview & Prerequisites](modules/00-overview.md) | — | 30 min |
 | 01 | [Chat vs. Agents — The Autonomy Spectrum](modules/01-chat-vs-agents.md) | [Module_01_Chat_vs_Agents_v2.pptx](slides/Module_01_Chat_vs_Agents_v2.pptx) | 1 hr |
 | 02 | [Core Agentic Concepts & Terminology](modules/02-core-concepts.md) | [Module_02_Core_Concepts.pptx](slides/Module_02_Core_Concepts.pptx) | 1.5 hr |
 | 03 | [Context Engineering](modules/03-context-engineering.md) | [Module_03_Context_Engineering.pptx](slides/Module_03_Context_Engineering.pptx) | 2 hr |
-| 04 | [Spec-Driven Development & PRDs](modules/04-prd-and-sdd.md) | [Module_04_SDD_PRDs.pptx](slides/Module_04_SDD_PRDs.pptx) | 2 hr |
-| 05 | [Automated Testing, TDD & CI/CD](modules/05-review-cycles.md) | [Module_05_Testing_CICD.pptx](slides/Module_05_Testing_CICD.pptx) | 1.5 hr |
-| 06 | [Review Cycles, Hygiene & CI](modules/06-observability-reliability-security.md) | [Module_06_Review_Hygiene.pptx](slides/Module_06_Review_Hygiene.pptx) | 1 hr |
-| 07 | [Observability](modules/07-finops.md) | [Module_07_Observability.pptx](slides/Module_07_Observability.pptx) | 1.5 hr |
-| 08 | [Reliability & Security Engineering](modules/08-design-reviews.md) | [Module_08_Security.pptx](slides/Module_08_Security.pptx) | 2 hr |
-| 09 | [FinOps for Agentic Systems](modules/09-finops.md) | [Module_09_FinOps.pptx](slides/Module_09_FinOps.pptx) | 1.5 hr |
-| 10 | [Design Reviews](modules/10-design-reviews.md) | [Module_10_Design_Reviews.pptx](slides/Module_10_Design_Reviews.pptx) | 1 hr |
+
+### Phase 1b — Engineering Foundations (Modules 04–05)
+
+| Module | Title | Slide Deck | Duration |
+|--------|-------|-----------|----------|
+| 04 | [Product Documentation](modules/04-product-documentation.md) | [Module_04_Product_Documentation.pptx](slides/Module_04_Product_Documentation.pptx) | 1.5 hr |
+| 05 | [Automated Testing](modules/05-automated-testing.md) | [Module_05_Automated_Testing.pptx](slides/Module_05_Automated_Testing.pptx) | 1.5 hr |
+
+### Phase 2 — Automated Practices (Modules 06–09)
+
+| Module | Title | Slide Deck | Duration |
+|--------|-------|-----------|----------|
+| 06 | [Spec-Driven Development & PRDs](modules/06-sdd-prds.md) | [Module_06_SDD_PRDs.pptx](slides/Module_06_SDD_PRDs.pptx) | 2 hr |
+| 07 | [Review Cycles: Automated Reviews Across the SDLC](modules/07-review-cycles.md) | [Module_07_Review_Cycles.pptx](slides/Module_07_Review_Cycles.pptx) | 1.5 hr |
+| 08 | [Review Hygiene & Continuous Improvement](modules/08-review-hygiene-ci.md) | [Module_08_Review_Hygiene.pptx](slides/Module_08_Review_Hygiene.pptx) | 1 hr |
+| 09 | [Observability](modules/07-observability.md) | [Module_09_Observability.pptx](slides/Module_09_Observability.pptx) | 1.5 hr |
+
+### Phase 3 — Human Depth (Modules 10–12)
+
+| Module | Title | Slide Deck | Duration |
+|--------|-------|-----------|----------|
+| 10 | [Design Reviews](modules/10-design-reviews.md) | [Module_10_Design_Reviews.pptx](slides/Module_10_Design_Reviews.pptx) | 2 hr |
 | 11 | [Product-First Engineering](modules/11-product-first-engineering.md) | [Module_11_Product_First.pptx](slides/Module_11_Product_First.pptx) | 1.5 hr |
 | 12 | [The Three-Person Product Team](modules/12-three-person-team.md) | [Module_12_Three_Person_Team.pptx](slides/Module_12_Three_Person_Team.pptx) | 1 hr |
 
@@ -97,8 +116,8 @@ agentic-dev-training/
 ## How to Use This Programme
 
 1. **Self-paced learners** — work through modules 00–12 in order. Each module is self-contained with concepts, examples, and exercises.
-2. **Workshop facilitators** — each module includes a *facilitator notes* section with discussion prompts and lab activities.
-3. **Reference use** — the `templates/` directory contains production-ready starter files you can copy directly into your projects.
+2. **Workshop facilitators** — each module includes a lab exercise and discussion questions. The slide decks are ready to present; the markdown guides provide facilitator depth.
+3. **Reference use** — the `modules/` markdown guides are standalone references. The `resources/reading-list.md` lists primary sources cited throughout the programme.
 
 ---
 
@@ -114,5 +133,5 @@ agentic-dev-training/
 
 ## Contributing
 
-Raise a PR with your proposed changes. All modules follow the standard structure defined in `modules/00-overview.md`. New modules require a design review entry in `templates/agentic-design-review.md`.
+Raise a PR with your proposed changes. All modules follow the standard 12-slide structure defined in `CLAUDE.md`. Before writing or reviewing any module content, read `PRODUCT.md` — it is the authoritative source for programme vision, audience, and the core argument every module must serve.
 
