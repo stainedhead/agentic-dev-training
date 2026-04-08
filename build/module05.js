@@ -1,494 +1,626 @@
 const pptxgen = require("pptxgenjs");
-const {
-  FaVial, FaSync, FaBug, FaCodeBranch, FaRobot,
-  FaLayerGroup, FaSearch, FaUserGraduate, FaClipboardCheck,
-  FaBook, FaShieldAlt, FaGavel
-} = require("react-icons/fa");
-
 const { C, shadow, icon } = require("./shared");
+const {
+  FaVial, FaCheckCircle, FaLayerGroup, FaLink,
+  FaFlask, FaCodeBranch, FaShieldAlt, FaBug,
+  FaClipboardList, FaCog, FaCheck, FaExclamationTriangle,
+} = require("react-icons/fa");
 
 async function build() {
   const pres = new pptxgen();
   pres.layout = "LAYOUT_16x9";
-  pres.title = "Module 5: Review Cycles, Human-in-the-Loop & Agent-to-Agent";
+  pres.title  = "Module 5: Automated Testing";
+  pres.author = "Enterprise Architect Training Series";
 
+  // ══════════════════════════════════════════════════════════════════
   // SLIDE 1 — Title
+  // ══════════════════════════════════════════════════════════════════
   {
-    const s = pres.addSlide(); s.background = { color: C.navy };
-    s.addShape(pres.shapes.RECTANGLE, { x:0, y:0, w:0.18, h:5.625, fill:{color:C.accent} });
-    s.addText("ENTERPRISE AGENTIC PRACTICES", { x:0.4, y:0.32, w:9.2, h:0.35, fontSize:10, color:C.iceBlue, bold:true, charSpacing:4, margin:0 });
-    s.addShape(pres.shapes.RECTANGLE, { x:0.4, y:0.82, w:1.5, h:0.38, fill:{color:C.accent} });
-    s.addText("MODULE 05", { x:0.4, y:0.82, w:1.5, h:0.38, fontSize:11, color:C.white, bold:true, align:"center", valign:"middle", margin:0 });
-    s.addText("Review Cycles,\nHuman-in-the-Loop\n& Agent-to-Agent", { x:0.4, y:1.22, w:7.2, h:2.2, fontSize:40, color:C.white, bold:true, margin:0 });
-    s.addText("Designing the oversight loops that keep agents reliable and teams informed", { x:0.4, y:3.52, w:7.5, h:0.5, fontSize:17, color:C.iceBlue, italic:true, margin:0 });
-    s.addShape(pres.shapes.RECTANGLE, { x:0.4, y:4.12, w:3.5, h:0.04, fill:{color:C.accent} });
+    const s = pres.addSlide();
+    s.background = { color: C.navy };
+
+    s.addShape(pres.shapes.RECTANGLE, { x: 0, y: 0, w: 0.18, h: 5.625, fill: { color: C.accent } });
+    s.addText("ENTERPRISE AGENTIC PRACTICES", { x: 0.4, y: 0.32, w: 9.2, h: 0.35, fontSize: 10, color: C.iceBlue, bold: true, charSpacing: 4, margin: 0 });
+
+    s.addShape(pres.shapes.RECTANGLE, { x: 0.4, y: 0.82, w: 1.5, h: 0.38, fill: { color: C.accent } });
+    s.addText("MODULE 05", { x: 0.4, y: 0.82, w: 1.5, h: 0.38, fontSize: 11, color: C.white, bold: true, align: "center", valign: "middle", margin: 0 });
+
+    s.addText("Automated\nTesting", { x: 0.4, y: 1.38, w: 7.0, h: 1.9, fontSize: 52, color: C.white, bold: true, margin: 0 });
+    s.addText("TDD, test coverage, and the testing pyramid: how agents make comprehensive testing economically viable", { x: 0.4, y: 3.38, w: 7.0, h: 0.65, fontSize: 16, color: C.iceBlue, italic: true, margin: 0 });
+    s.addShape(pres.shapes.RECTANGLE, { x: 0.4, y: 4.1, w: 3.5, h: 0.04, fill: { color: C.accent } });
     s.addText([
-      {text:"Duration: ",options:{bold:true,color:C.muted}},{text:"75\u201390 min  ",options:{color:C.muted}},
-      {text:"  |  ",options:{color:C.muted}},{text:"Level: ",options:{bold:true,color:C.muted}},{text:"Intermediate",options:{color:C.muted}}
-    ], { x:0.4, y:4.3, w:5, h:0.38, fontSize:13, margin:0 });
-    // Right: review loop visual
-    const steps = [{l:"Artifact",c:C.navy},{l:"Agent Reviews",c:C.teal},{l:"Structured Output",c:C.accent},{l:"Human Gate",c:C.green},{l:"\u2713 Proceed / \u21BA Revise",c:C.steel}];
-    for (let i = 0; i < steps.length; i++) {
-      const st = steps[i];
-      const y = 0.65 + i * 0.95;
-      s.addShape(pres.shapes.RECTANGLE, { x:7.6, y, w:2.05, h:0.75, fill:{color:st.c, transparency:i===2?0:20}, shadow:shadow() });
-      s.addText(st.l, { x:7.6, y, w:2.05, h:0.75, fontSize:13, color:C.white, bold:true, align:"center", valign:"middle", margin:0 });
-      if(i<steps.length-1) s.addText("\u2193", { x:8.25, y:y+0.78, w:0.55, h:0.25, fontSize:14, color:C.muted, align:"center", margin:0 });
+      { text: "Duration: ", options: { bold: true, color: C.muted } },
+      { text: "75–90 min  ", options: { color: C.muted } },
+      { text: "  |  ", options: { color: C.muted } },
+      { text: "Level: ", options: { bold: true, color: C.muted } },
+      { text: "Intermediate", options: { color: C.muted } }
+    ], { x: 0.4, y: 4.28, w: 5, h: 0.38, fontSize: 13, margin: 0 });
+
+    // Right visual — testing pyramid
+    s.addShape(pres.shapes.RECTANGLE, { x: 7.1, y: 0.55, w: 2.55, h: 4.8, fill: { color: C.mid, transparency: 25 }, shadow: shadow() });
+    s.addText("TESTING\nPYRAMID", { x: 7.1, y: 0.62, w: 2.55, h: 0.55, fontSize: 9, color: C.iceBlue, bold: true, charSpacing: 1, align: "center", margin: 0 });
+
+    const layers = [
+      { label: "E2E Tests",          sub: "Slow · Selective · Governed",  color: C.red,    w: 1.5,  x: 7.93 },
+      { label: "Functional / UI",    sub: "Contract & behaviour coverage", color: C.amber,  w: 1.9,  x: 7.73 },
+      { label: "Integration Tests",  sub: "Components working together",   color: C.teal,   w: 2.18, x: 7.59 },
+      { label: "Unit Tests",         sub: "Isolated · Fast · Deterministic", color: C.green, w: 2.5,  x: 7.43 },
+    ];
+    let ly = 1.3;
+    for (let i = 0; i < layers.length; i++) {
+      const l = layers[i];
+      s.addShape(pres.shapes.RECTANGLE, { x: l.x, y: ly, w: l.w, h: 0.76, fill: { color: l.color, transparency: 18 } });
+      s.addText(l.label, { x: l.x, y: ly + 0.04, w: l.w, h: 0.3, fontSize: 8.5, color: C.white, bold: true, align: "center", valign: "middle", margin: 0 });
+      s.addText(l.sub,   { x: l.x, y: ly + 0.38, w: l.w, h: 0.3, fontSize: 7,   color: C.pale,  align: "center", margin: 0 });
+      ly += 0.82;
     }
   }
 
+  // ══════════════════════════════════════════════════════════════════
   // SLIDE 2 — Learning Objectives
+  // ══════════════════════════════════════════════════════════════════
   {
-    const s = pres.addSlide(); s.background = { color: C.offWhite };
-    s.addShape(pres.shapes.RECTANGLE, { x:0, y:0, w:10, h:0.82, fill:{color:C.navy} });
-    s.addText("LEARNING OBJECTIVES", { x:0.4, y:0, w:9.2, h:0.82, fontSize:13, color:C.white, bold:true, charSpacing:3, valign:"middle", margin:0 });
-    s.addText("By the end of this module you will be able to:", { x:0.35, y:0.9, w:9.3, h:0.28, fontSize:11, color:C.muted, italic:true, margin:0 });
+    const s = pres.addSlide();
+    s.background = { color: C.offWhite };
+
+    s.addShape(pres.shapes.RECTANGLE, { x: 0, y: 0, w: 10, h: 0.82, fill: { color: C.navy } });
+    s.addText("LEARNING OBJECTIVES", { x: 0.4, y: 0, w: 9.2, h: 0.82, fontSize: 13, color: C.white, bold: true, charSpacing: 3, valign: "middle", margin: 0 });
+    s.addText("By the end of this module you will be able to:", { x: 0.35, y: 0.9, w: 9.3, h: 0.28, fontSize: 11, color: C.muted, italic: true, margin: 0 });
+
     const objs = [
-      { icon: FaLayerGroup,      color: C.accent, title: "Review Across All SDLC Artifacts",  body: "Understand that coding agents are reviewers across ALL artifacts \u2014 not just code. PRDs, specs, architecture proposals, docs, and ADRs are all in scope." },
-      { icon: FaClipboardCheck,  color: C.teal,   title: "Design HITL Review Cycles",         body: "Apply human-in-the-loop patterns (approval gate, checkpoint, exception escalation, spot check) at the right granularity for each artifact and risk level." },
-      { icon: FaGavel,           color: C.green,  title: "Implement Agent-to-Agent Review",   body: "Use a dedicated evaluator agent to review generator agent output before it reaches a human \u2014 catching pattern failures at scale." },
-      { icon: FaUserGraduate,    color: C.steel,  title: "Use Agents as Educators",           body: "Leverage agents to explain codebase, design decisions, and team processes to new team members on demand \u2014 without interrupting senior developers." },
+      { icon: FaVial,         color: C.accent, title: "Apply TDD with an agent",              body: "Run the Red-Green-Refactor cycle with the agent as primary test and implementation author. Know what each step requires from the human and what the agent produces." },
+      { icon: FaCheckCircle,  color: C.teal,   title: "Set and enforce the 85% threshold",    body: "Configure coverage gates in CI. Write acceptance criteria precise enough to drive test generation. Understand why the threshold is a floor, not a quality measure." },
+      { icon: FaLayerGroup,   color: C.green,  title: "Apply the full testing pyramid",        body: "Distinguish unit, integration, functional, and regression tests. Know what each layer verifies and when to write each. Keep all layers in sync with agent-driven changes." },
+      { icon: FaLink,         color: C.steel,  title: "Govern E2E test scope and ownership",  body: "Scope E2E tests to flows that justify the maintenance cost. Establish cross-team ownership agreements before writing tests that traverse another team's system." },
     ];
+
     const cols = [0.35, 5.1];
     for (let i = 0; i < 4; i++) {
       const x = cols[i % 2], y = 1.28 + Math.floor(i / 2) * 2.0, w = 4.55, h = 1.82;
       const o = objs[i];
-      s.addShape(pres.shapes.RECTANGLE, { x, y, w, h, fill:{color:C.white}, shadow:shadow() });
-      s.addShape(pres.shapes.RECTANGLE, { x, y, w:0.07, h, fill:{color:o.color} });
+      s.addShape(pres.shapes.RECTANGLE, { x, y, w, h, fill: { color: C.white }, shadow: shadow() });
+      s.addShape(pres.shapes.RECTANGLE, { x, y, w: 0.07, h, fill: { color: o.color } });
       const ic = await icon(o.icon, "#" + o.color);
-      s.addImage({ data:ic, x:x+0.18, y:y+0.22, w:0.4, h:0.4 });
-      s.addText(o.title, { x:x+0.7, y:y+0.18, w:w-0.85, h:0.42, fontSize:13, color:C.navy, bold:true, margin:0 });
-      s.addText(o.body,  { x:x+0.7, y:y+0.64, w:w-0.85, h:1.05, fontSize:11.5, color:C.muted, margin:0 });
+      s.addImage({ data: ic, x: x + 0.18, y: y + 0.22, w: 0.4, h: 0.4 });
+      s.addText(o.title, { x: x + 0.7, y: y + 0.18, w: w - 0.85, h: 0.42, fontSize: 12.5, color: C.navy, bold: true, margin: 0 });
+      s.addText(o.body,  { x: x + 0.7, y: y + 0.64, w: w - 0.85, h: 1.05, fontSize: 11, color: C.muted, margin: 0 });
     }
   }
 
-  // SLIDE 3 — The Full Scope of Agent Review
+  // ══════════════════════════════════════════════════════════════════
+  // SLIDE 3 — The Testing Foundation
+  // ══════════════════════════════════════════════════════════════════
   {
-    const s = pres.addSlide(); s.background = { color: C.white };
-    s.addShape(pres.shapes.RECTANGLE, { x:0, y:0, w:10, h:0.82, fill:{color:C.navy} });
-    s.addText("THE FULL SCOPE OF AGENT REVIEW", { x:0.4, y:0, w:9, h:0.82, fontSize:13, color:C.white, bold:true, charSpacing:3, valign:"middle", margin:0 });
-    s.addText("Any artifact expressible in text and evaluable against criteria is reviewable by an agent", { x:0.4, y:0.9, w:9.2, h:0.3, fontSize:12, color:C.muted, italic:true, margin:0 });
+    const s = pres.addSlide();
+    s.background = { color: C.navy };
 
-    // Table
-    const colX = [0.35, 2.55, 6.0];
-    const colW = [2.1, 3.35, 3.6];
-    const headers = ["Artifact", "Reviewed against", "Typical output"];
-    const hColors = [C.navy, C.navy, C.navy];
-    const hTextColors = [C.white, C.white, C.white];
+    s.addText("THE TESTING FOUNDATION  —  WHY THE ECONOMICS CHANGED", { x: 0.4, y: 0.22, w: 9.2, h: 0.45, fontSize: 13, color: C.iceBlue, bold: true, charSpacing: 3, margin: 0 });
 
-    for (let ci = 0; ci < 3; ci++) {
-      s.addShape(pres.shapes.RECTANGLE, { x:colX[ci], y:1.28, w:colW[ci], h:0.44, fill:{color:hColors[ci]} });
-      s.addText(headers[ci], { x:colX[ci]+0.12, y:1.28, w:colW[ci]-0.14, h:0.44, fontSize:11.5, color:hTextColors[ci], bold:true, valign:"middle", charSpacing:2, margin:0 });
-    }
-
-    const rows = [
-      ["PRD",                      "Completeness checklist, existing system constraints, prior ADRs",   "Gaps, conflicts, open questions"],
-      ["Design / architecture",    "Existing codebase, architecture principles, security patterns",     "Violations, missing considerations, alternatives"],
-      ["Technical spec",           "PRD requirements, coding standards, test strategy",                 "Requirement gaps, ambiguities, missing edge cases"],
-      ["Code (PR)",                "Spec, coding standards, test coverage, security checklist",         "Failing requirements, style issues, coverage gaps"],
-      ["Tests",                    "Spec acceptance criteria, coverage targets",                        "Missing cases, untested paths"],
-      ["Documentation",            "Current implementation, API contracts",                             "Stale content, missing sections, accuracy errors"],
-      ["ADRs",                     "Consistency with existing decisions, current architecture",         "Conflicts, superseded assumptions"],
-    ];
-
-    for (let ri = 0; ri < rows.length; ri++) {
-      const y = 1.75 + ri * 0.52;
-      const bg = ri % 2 === 0 ? C.white : C.offWhite;
-      s.addShape(pres.shapes.RECTANGLE, { x:colX[0], y, w:colW[0], h:0.48, fill:{color:"D4E4F0"} });
-      s.addShape(pres.shapes.RECTANGLE, { x:colX[1], y, w:colW[1], h:0.48, fill:{color:bg} });
-      s.addShape(pres.shapes.RECTANGLE, { x:colX[2], y, w:colW[2], h:0.48, fill:{color:bg} });
-      s.addText(rows[ri][0], { x:colX[0]+0.12, y, w:colW[0]-0.14, h:0.48, fontSize:11, color:C.navy, bold:true, valign:"middle", margin:0 });
-      s.addText(rows[ri][1], { x:colX[1]+0.12, y, w:colW[1]-0.14, h:0.48, fontSize:10.5, color:C.muted, valign:"middle", margin:0 });
-      s.addText(rows[ri][2], { x:colX[2]+0.12, y, w:colW[2]-0.14, h:0.48, fontSize:10.5, color:C.text, valign:"middle", margin:0 });
-    }
-
-    s.addText("The same HITL patterns apply to all of these. The agent reviews, produces structured feedback, and a human makes the final call on anything consequential.", {
-      x:0.35, y:5.35, w:9.3, h:0.24, fontSize:9.5, color:C.muted, italic:true, margin:0
+    // Quote banner
+    s.addShape(pres.shapes.RECTANGLE, { x: 0.35, y: 0.78, w: 9.3, h: 0.9, fill: { color: C.mid, transparency: 18 }, shadow: shadow() });
+    s.addText("TDD was always correct. Teams did not adopt it because the economics were wrong. Agents fix the economics.\nThe question is no longer 'who has time to write tests?' It is 'are your ACs precise enough to generate them?'", {
+      x: 0.6, y: 0.84, w: 8.8, h: 0.76,
+      fontSize: 13.5, color: C.white, italic: true, align: "center", valign: "middle", margin: 0
     });
-  }
 
-  // SLIDE 4 — Agents as Educators
-  {
-    const s = pres.addSlide(); s.background = { color: C.navy };
-    s.addText("AGENTS AS EDUCATORS AND ONBOARDING GUIDES", { x:0.4, y:0.22, w:9, h:0.45, fontSize:13, color:C.iceBlue, bold:true, charSpacing:3, margin:0 });
-    s.addText("Agents explain codebase, design decisions, and processes on demand \u2014 at any depth, without interrupting the team", { x:0.4, y:0.72, w:9, h:0.36, fontSize:13, color:C.white, italic:true, margin:0 });
-
-    // Left: education use cases
-    const useCases = [
-      {
-        head: "Codebase education",
-        color: C.accent,
-        prompt: "\"Walk me through how a payment request flows from the API endpoint to the bank.\"",
-        result: "Agent reads PaymentController, PaymentService, BankAdapter and traces the actual code path \u2014 not stale documentation."
-      },
-      {
-        head: "Design decision education",
-        color: C.teal,
-        prompt: "\"Why is the session token stored in Redis rather than the database?\"",
-        result: "Agent reads ADR-004, SessionService, deployment config and surfaces the documented rationale with full context."
-      },
-      {
-        head: "Process education",
-        color: C.green,
-        prompt: "\"How does this team run a sprint? What\u2019s the review process for a new feature?\"",
-        result: "Agent reads CLAUDE.md, PRODUCT.md, and task structure and gives an accurate answer grounded in working documents."
-      },
+    // Two columns: before / after
+    const cols = [
+      { x: 0.35, color: C.red,   heading: "BEFORE AGENTS",   items: [
+        { label: "Tests took longer than code",    body: "Writing a thorough test suite for a feature routinely cost 2–3× the time to write the feature itself." },
+        { label: "Coverage drifted downward",      body: "Every delivery sprint, tests were the first cut. Coverage trends only go one direction under pressure." },
+        { label: "Regression was manual",          body: "Senior engineers spent significant time manually verifying that changes had not broken existing behaviour." },
+        { label: "TDD was a discipline",           body: "Requiring the test first required habitual discipline most teams could not sustain under pressure." },
+      ]},
+      { x: 5.1,  color: C.green, heading: "WITH AGENTS",     items: [
+        { label: "Tests are written at code speed", body: "An agent given an AC produces a comprehensive test suite — happy path, errors, edge cases — in seconds." },
+        { label: "Coverage is maintained by default", body: "The agent is instructed never to reduce coverage below the threshold. It generates tests alongside every new branch." },
+        { label: "Regression is automated",        body: "The agent writes a regression test before fixing a bug. The suite accumulates; no manual verification required." },
+        { label: "TDD is the default",             body: "An agent given an AC writes the failing test first. Red-Green-Refactor is not a discipline — it is an instruction." },
+      ]},
     ];
 
-    for (let i = 0; i < useCases.length; i++) {
-      const uc = useCases[i];
-      const y = 1.22 + i * 1.42;
-      s.addShape(pres.shapes.RECTANGLE, { x:0.35, y, w:5.6, h:1.28, fill:{color:C.mid, transparency:18}, shadow:shadow() });
-      s.addShape(pres.shapes.RECTANGLE, { x:0.35, y, w:0.06, h:1.28, fill:{color:uc.color} });
-      s.addText(uc.head, { x:0.5, y:y+0.06, w:5.3, h:0.28, fontSize:12, color:uc.color, bold:true, margin:0 });
-      s.addText(uc.prompt, { x:0.5, y:y+0.36, w:5.3, h:0.34, fontSize:10, color:C.pale, italic:true, fontFace:"Consolas", margin:0 });
-      s.addText(uc.result, { x:0.5, y:y+0.76, w:5.3, h:0.44, fontSize:10.5, color:C.pale, margin:0 });
-    }
-
-    // Right: when to use agent vs human table
-    s.addShape(pres.shapes.RECTANGLE, { x:6.2, y:1.22, w:3.45, h:3.94, fill:{color:C.mid, transparency:18}, shadow:shadow() });
-    s.addShape(pres.shapes.RECTANGLE, { x:6.2, y:1.22, w:3.45, h:0.44, fill:{color:C.accent, transparency:10} });
-    s.addText("AGENT vs. HUMAN", { x:6.2, y:1.22, w:3.45, h:0.44, fontSize:11, color:C.white, bold:true, align:"center", valign:"middle", charSpacing:2, margin:0 });
-
-    const rows = [
-      { situation: "\"How does this code work?\"",       agent: true,  human: false },
-      { situation: "\"Why was this design decision made?\"",     agent: true,  human: false },
-      { situation: "\"What does this team value in reviews?\"", agent: true,  human: false },
-      { situation: "\"How do I grow in this org?\"",    agent: false, human: true  },
-      { situation: "\"What should I work on next?\"",   agent: false, human: true  },
-      { situation: "\"Is my approach right?\"",         agent: true,  human: true  },
-    ];
-
-    s.addShape(pres.shapes.RECTANGLE, { x:6.2, y:1.66, w:1.72, h:0.3, fill:{color:C.teal} });
-    s.addShape(pres.shapes.RECTANGLE, { x:7.92, y:1.66, w:0.86, h:0.3, fill:{color:C.teal} });
-    s.addShape(pres.shapes.RECTANGLE, { x:8.78, y:1.66, w:0.87, h:0.3, fill:{color:C.teal} });
-    s.addText("Situation", { x:6.24, y:1.66, w:1.68, h:0.3, fontSize:9, color:C.white, bold:true, valign:"middle", margin:0 });
-    s.addText("Agent", { x:7.92, y:1.66, w:0.86, h:0.3, fontSize:9, color:C.white, bold:true, align:"center", valign:"middle", margin:0 });
-    s.addText("Human", { x:8.78, y:1.66, w:0.87, h:0.3, fontSize:9, color:C.white, bold:true, align:"center", valign:"middle", margin:0 });
-
-    for (let ri = 0; ri < rows.length; ri++) {
-      const r = rows[ri];
-      const y = 1.98 + ri * 0.52;
-      const bg = ri % 2 === 0 ? "253A52" : "1C3557";
-      s.addShape(pres.shapes.RECTANGLE, { x:6.2, y, w:1.72, h:0.48, fill:{color:bg} });
-      s.addShape(pres.shapes.RECTANGLE, { x:7.92, y, w:0.86, h:0.48, fill:{color:bg} });
-      s.addShape(pres.shapes.RECTANGLE, { x:8.78, y, w:0.87, h:0.48, fill:{color:bg} });
-      s.addText(r.situation, { x:6.24, y, w:1.68, h:0.48, fontSize:8.5, color:C.pale, valign:"middle", margin:0 });
-      s.addText(r.agent ? "\u2705" : "\u274C", { x:7.92, y, w:0.86, h:0.48, fontSize:11, align:"center", valign:"middle", margin:0 });
-      s.addText(r.human ? "\u2705" : "\u2014", { x:8.78, y, w:0.87, h:0.48, fontSize:11, color:r.human ? C.green : C.steel, align:"center", valign:"middle", margin:0 });
-    }
-
-    s.addText("Faster and more accurate than asking a colleague. The agent reads actual code \u2014 not documentation that may be out of date.", {
-      x:0.35, y:5.35, w:9.3, h:0.24, fontSize:9.5, color:C.muted, italic:true, margin:0
-    });
-  }
-
-  // SLIDE 5 — The 3 Agent Failure Modes
-  {
-    const s = pres.addSlide(); s.background = { color: C.navy };
-    s.addText("THE 3 AGENT FAILURE MODES", { x:0.4, y:0.22, w:9, h:0.45, fontSize:13, color:C.iceBlue, bold:true, charSpacing:3, margin:0 });
-    s.addText("Source: Spotify Engineering (Honk Part 3, 2025) \u2014 \u201CWithout feedback loops, agents often produce code that simply doesn\u2019t work.\u201D", { x:0.4, y:0.72, w:9, h:0.36, fontSize:13, color:C.white, italic:true, margin:0 });
-
-    const modes = [
-      { n:"01", head:"PR Fails CI", severity:"Caught", color:C.green,
-        what:"The agent\u2019s PR fails automated tests, linting, or the build. The simplest failure mode.",
-        impact:"Low \u2014 CI catches it immediately. Engineer knows and can redirect the agent.",
-        fix:"Ensure CI runs fully before PR opens. Agent should run tests locally first via Verifier.",
-        sym:"\u2713" },
-      { n:"02", head:"Passes CI but Functionally Wrong", severity:"Critical", color:"B03040",
-        what:"The PR merges successfully but the implementation is incorrect. Tests weren\u2019t comprehensive enough to catch the bug.",
-        impact:"HIGH \u2014 erodes trust in automation. Hard to detect in PR review across thousands of components.",
-        fix:"Write tests from AC before implementation. Judge LLM evaluates functional correctness, not just CI green.",
-        sym:"\u26A0" },
-      { n:"03", head:"Nonsensical PR", severity:"Expensive", color:C.steel,
-        what:"Agent couldn\u2019t figure out how to run builds/tests, changed things outside scope, or got confused and produced garbage.",
-        impact:"MEDIUM \u2014 wastes engineer review time. Expensive at scale across hundreds of PRs.",
-        fix:"Tight scope in prompt. Verifier detects when agent changed files outside the specified scope.",
-        sym:"\u2717" },
-    ];
-
-    modes.forEach((m,i) => {
-      const x=0.35+i*3.15, y=1.25;
-      s.addShape(pres.shapes.RECTANGLE, {x,y,w:2.95,h:4.15,fill:{color:C.mid,transparency:18},shadow:shadow()});
-      s.addShape(pres.shapes.RECTANGLE, {x,y,w:2.95,h:0.62,fill:{color:m.color,transparency:m.color===C.green?10:0}});
-      s.addText(m.n, {x,y,w:0.52,h:0.62,fontSize:18,color:C.white,bold:true,align:"center",valign:"middle",margin:0});
-      s.addText(m.head, {x:x+0.55,y,w:2.32,h:0.62,fontSize:13,color:C.white,bold:true,valign:"middle",margin:0});
-
-      s.addText("WHAT", {x:x+0.12,y:y+0.7,w:2.7,h:0.22,fontSize:8.5,color:m.color===C.green?C.green:m.color==="B03040"?"E8A0A8":C.steel,bold:true,charSpacing:2,margin:0});
-      s.addText(m.what, {x:x+0.12,y:y+0.92,w:2.7,h:0.68,fontSize:10.5,color:C.pale,margin:0});
-
-      s.addText("IMPACT", {x:x+0.12,y:y+1.66,w:2.7,h:0.22,fontSize:8.5,color:m.color===C.green?C.green:m.color==="B03040"?"E8A0A8":C.steel,bold:true,charSpacing:2,margin:0});
-      s.addText(m.impact, {x:x+0.12,y:y+1.88,w:2.7,h:0.62,fontSize:10.5,color:C.pale,margin:0});
-
-      s.addText("FIX", {x:x+0.12,y:y+2.56,w:2.7,h:0.22,fontSize:8.5,color:m.color===C.green?C.green:m.color==="B03040"?"E8A0A8":C.steel,bold:true,charSpacing:2,margin:0});
-      s.addText(m.fix, {x:x+0.12,y:y+2.78,w:2.7,h:1.2,fontSize:10.5,color:C.pale,margin:0});
-    });
-  }
-
-  // SLIDE 6 — HITL Patterns
-  {
-    const s = pres.addSlide(); s.background = { color: C.white };
-    s.addShape(pres.shapes.RECTANGLE, {x:0,y:0,w:10,h:0.82,fill:{color:C.navy}});
-    s.addText("HUMAN-IN-THE-LOOP PATTERNS", {x:0.4,y:0,w:9,h:0.82,fontSize:13,color:C.white,bold:true,charSpacing:3,valign:"middle",margin:0});
-    s.addText("Match the pattern to the risk level and reversibility of the action", {x:0.4,y:0.9,w:9.2,h:0.3,fontSize:12,color:C.muted,italic:true,margin:0});
-
-    const patterns = [
-      {
-        n:"A", head:"Approval Gate",
-        flow:"Agent completes task \u2192 Creates PR/ticket \u2192 Human approves \u2192 Agent proceeds",
-        when:"The next step is irreversible or high-blast-radius.",
-        color: C.accent
-      },
-      {
-        n:"B", head:"Checkpoint Review",
-        flow:"Agent completes phase 1 \u2192 Human reviews output \u2192 [If approved] Agent proceeds to phase 2 \u2192 ...",
-        when:"A long task has natural breakpoints where direction could be wrong.",
-        color: C.teal
-      },
-      {
-        n:"C", head:"Exception Escalation",
-        flow:"Agent runs autonomously \u2192 Detects anomaly/uncertainty \u2192 Pauses and notifies human \u2192 Human resolves \u2192 Agent continues",
-        when:"A well-understood task that may hit edge cases requiring human judgment.",
-        color: C.green
-      },
-      {
-        n:"D", head:"Spot Check",
-        flow:"Agent runs autonomously \u2192 Random sample of outputs reviewed by human",
-        when:"Volume is high, individual items are low-risk, systematic quality assurance is needed.",
-        color: C.steel
-      },
-    ];
-
-    const cols = [0.35, 5.1];
-    for (let i = 0; i < 4; i++) {
-      const x = cols[i % 2], y = 1.28 + Math.floor(i / 2) * 2.0, w = 4.55, h = 1.82;
-      const p = patterns[i];
-      s.addShape(pres.shapes.RECTANGLE, {x,y,w,h,fill:{color:C.offWhite},shadow:shadow()});
-      s.addShape(pres.shapes.RECTANGLE, {x,y,w:0.44,h,fill:{color:p.color}});
-      s.addText(p.n, {x,y,w:0.44,h:0.56,fontSize:22,color:C.white,bold:true,align:"center",valign:"middle",margin:0});
-      s.addText(p.head, {x:x+0.54,y:y+0.06,w:w-0.64,h:0.36,fontSize:13,color:C.navy,bold:true,margin:0});
-      s.addShape(pres.shapes.RECTANGLE, {x:x+0.12,y:y+0.52,w:w-0.2,h:0.62,fill:{color:p.color,transparency:88}});
-      s.addText(p.flow, {x:x+0.18,y:y+0.54,w:w-0.3,h:0.58,fontSize:9.5,color:p.color,italic:true,margin:0});
-      s.addText("Use when: "+p.when, {x:x+0.54,y:y+1.24,w:w-0.64,h:0.5,fontSize:10.5,color:C.muted,margin:0});
+    for (let ci = 0; ci < cols.length; ci++) {
+      const col = cols[ci];
+      s.addShape(pres.shapes.RECTANGLE, { x: col.x, y: 1.82, w: 4.55, h: 3.6, fill: { color: C.mid, transparency: 18 }, shadow: shadow() });
+      s.addShape(pres.shapes.RECTANGLE, { x: col.x, y: 1.82, w: 4.55, h: 0.38, fill: { color: col.color, transparency: 22 } });
+      s.addText(col.heading, { x: col.x + 0.12, y: 1.82, w: 4.3, h: 0.38, fontSize: 10, color: C.white, bold: true, charSpacing: 2, valign: "middle", margin: 0 });
+      for (let ii = 0; ii < col.items.length; ii++) {
+        const item = col.items[ii];
+        const y = 2.3 + ii * 0.78;
+        s.addShape(pres.shapes.RECTANGLE, { x: col.x + 0.14, y: y + 0.05, w: 0.08, h: 0.08, fill: { color: col.color } });
+        s.addText(item.label, { x: col.x + 0.32, y: y,       w: 4.1, h: 0.28, fontSize: 10.5, color: col.color === C.red ? C.amber : C.pale, bold: true, margin: 0 });
+        s.addText(item.body,  { x: col.x + 0.32, y: y + 0.3, w: 4.1, h: 0.42, fontSize: 9.5, color: C.pale, margin: 0 });
+      }
     }
   }
 
-  // SLIDE 7 — Agent-to-Agent Review (Evaluator Pattern)
+  // ══════════════════════════════════════════════════════════════════
+  // SLIDE 4 — TDD: Red → Green → Refactor
+  // ══════════════════════════════════════════════════════════════════
   {
-    const s = pres.addSlide(); s.background = { color: C.offWhite };
-    s.addShape(pres.shapes.RECTANGLE, {x:0,y:0,w:10,h:0.82,fill:{color:C.teal}});
-    s.addShape(pres.shapes.RECTANGLE, {x:0,y:0,w:0.35,h:0.82,fill:{color:C.navy}});
-    s.addText("AGENT-TO-AGENT REVIEW  \u00B7  The Evaluator Pattern", {x:0.5,y:0,w:9.1,h:0.82,fontSize:12,color:C.white,bold:true,charSpacing:2,valign:"middle",margin:0});
-    s.addText("\u201CUse a dedicated evaluator agent to review generator agent output before it reaches a human.\u201D  \u2014 Anthropic & Spotify Engineering", {x:0.4,y:0.9,w:9.2,h:0.3,fontSize:11,color:C.muted,italic:true,margin:0});
+    const s = pres.addSlide();
+    s.background = { color: C.offWhite };
 
-    // Generator box
-    s.addShape(pres.shapes.RECTANGLE, {x:0.5,y:1.35,w:2.5,h:2.8,fill:{color:C.white},shadow:shadow()});
-    s.addShape(pres.shapes.RECTANGLE, {x:0.5,y:1.35,w:2.5,h:0.5,fill:{color:C.navy}});
-    s.addText("Generator\nAgent", {x:0.5,y:1.35,w:2.5,h:0.5,fontSize:13,color:C.white,bold:true,align:"center",valign:"middle",margin:0});
-    s.addText("\u2022 Reads spec and context\n\u2022 Makes code changes\n\u2022 Runs build locally\n\u2022 Self-corrects on errors\n\u2022 Bounded scope", {x:0.62,y:1.92,w:2.26,h:2.0,fontSize:11,color:C.text,margin:0});
+    s.addShape(pres.shapes.RECTANGLE, { x: 0, y: 0, w: 10, h: 0.82, fill: { color: C.navy } });
+    s.addText("TDD  —  RED → GREEN → REFACTOR", { x: 0.4, y: 0, w: 9.2, h: 0.82, fontSize: 13, color: C.white, bold: true, charSpacing: 3, valign: "middle", margin: 0 });
+    s.addText("Write a failing test first. Make it pass with the minimum code. Then improve the implementation — with the test as your safety net.", { x: 0.4, y: 0.9, w: 9.2, h: 0.28, fontSize: 11.5, color: C.muted, italic: true, margin: 0 });
 
-    s.addText("\u2192", {x:3.05,y:2.52,w:0.5,h:0.45,fontSize:22,color:C.teal,align:"center",margin:0});
-
-    // Evaluator box
-    s.addShape(pres.shapes.RECTANGLE, {x:3.6,y:1.35,w:2.8,h:2.8,fill:{color:C.white},shadow:shadow()});
-    s.addShape(pres.shapes.RECTANGLE, {x:3.6,y:1.35,w:2.8,h:0.5,fill:{color:C.teal}});
-    s.addText("Evaluator Agent", {x:3.6,y:1.35,w:2.8,h:0.5,fontSize:13,color:C.white,bold:true,align:"center",valign:"middle",margin:0});
-    const vchecks = ["Functional requirements (from spec)","Coding standards (from rules file)","Test coverage (from DoD)","Security checklist","Performance constraints"];
-    vchecks.forEach((v,j) => {
-      s.addText("\u2713  "+v, {x:3.72,y:1.92+j*0.42,w:2.56,h:0.38,fontSize:10.5,color:C.text,margin:0});
-    });
-
-    s.addText("\u2192", {x:6.45,y:2.52,w:0.5,h:0.45,fontSize:22,color:C.green,align:"center",margin:0});
-
-    // Outcome split
-    s.addShape(pres.shapes.RECTANGLE, {x:7.0,y:1.35,w:2.65,h:2.8,fill:{color:C.white},shadow:shadow()});
-    s.addShape(pres.shapes.RECTANGLE, {x:7.0,y:1.35,w:2.65,h:0.5,fill:{color:C.green}});
-    s.addText("Outcome", {x:7.0,y:1.35,w:2.65,h:0.5,fontSize:13,color:C.white,bold:true,align:"center",valign:"middle",margin:0});
-    const outcomes2 = [
-      {l:"\u2713 Passes",sub:"Moves to human review",c:C.green},
-      {l:"\u21BA Fails",sub:"Returns to generator\nwith specific critique",c:C.accent},
-    ];
-    outcomes2.forEach((o,i) => {
-      const y = 1.92 + i * 1.18;
-      s.addShape(pres.shapes.RECTANGLE, {x:7.1,y,w:2.45,h:1.0,fill:{color:o.c,transparency:o.c===C.green?10:20}});
-      s.addText(o.l, {x:7.1,y,w:2.45,h:0.46,fontSize:13,color:C.white,bold:true,align:"center",valign:"middle",margin:0});
-      s.addText(o.sub, {x:7.1,y:y+0.46,w:2.45,h:0.5,fontSize:10,color:C.pale,align:"center",margin:0});
-    });
-
-    // Why it works
-    s.addShape(pres.shapes.RECTANGLE, {x:0.35,y:4.32,w:9.3,h:1.1,fill:{color:C.navy},shadow:shadow()});
-    s.addText("WHY THIS WORKS", {x:0.5,y:4.36,w:2.0,h:0.28,fontSize:10,color:C.iceBlue,bold:true,charSpacing:2,margin:0});
-    s.addText("Evaluator agents apply checklists consistently at scale. They catch pattern-matching failures (missed tests, lint issues, missing error handling) before the human reviewer ever sees the PR. Human reviewers spend their time on architectural and business logic questions \u2014 not mechanical checks.", {x:0.5,y:4.66,w:9.0,h:0.68,fontSize:10.5,color:C.pale,margin:0});
-  }
-
-  // SLIDE 8 — Interrupt Conditions & PR Standards
-  {
-    const s = pres.addSlide(); s.background = { color: C.navy };
-    s.addText("INTERRUPT CONDITIONS  \u00B7  PR STANDARDS", {x:0.4,y:0.22,w:9,h:0.45,fontSize:13,color:C.iceBlue,bold:true,charSpacing:3,margin:0});
-    s.addText("Define when an agent must stop before deployment \u2014 and what every agent PR must contain", {x:0.4,y:0.72,w:9,h:0.36,fontSize:13,color:C.white,italic:true,margin:0});
-
-    // Left: interrupt conditions
-    s.addShape(pres.shapes.RECTANGLE, {x:0.35,y:1.2,w:4.6,h:4.25,fill:{color:C.mid,transparency:18},shadow:shadow()});
-    s.addShape(pres.shapes.RECTANGLE, {x:0.35,y:1.2,w:4.6,h:0.48,fill:{color:C.accent,transparency:10}});
-    s.addText("INTERRUPT CONDITIONS", {x:0.35,y:1.2,w:4.6,h:0.48,fontSize:11,color:C.white,bold:true,align:"center",valign:"middle",charSpacing:2,margin:0});
-
-    const conditions = [
-      {cond:"Proposed change touches > 50 files",   action:"pause_and_notify_lead"},
-      {cond:"Test coverage drops below threshold",  action:"pause_and_notify_engineer"},
-      {cond:"Change touches auth or authz code",    action:"require_security_review"},
-      {cond:"External API call to non-allowlisted domain", action:"pause_and_notify_architect"},
-      {cond:"Agent confidence below 0.7 on any decision", action:"pause_and_request_clarification"},
-    ];
-    conditions.forEach((c,i) => {
-      const y = 1.78 + i * 0.72;
-      s.addShape(pres.shapes.RECTANGLE, {x:0.47,y,w:4.36,h:0.62,fill:{color:C.navy}});
-      s.addText("\u26A0 "+c.cond, {x:0.56,y:y+0.04,w:4.18,h:0.28,fontSize:10,color:"E8A0A8",margin:0});
-      s.addText("\u21B3 "+c.action, {x:0.56,y:y+0.32,w:4.18,h:0.26,fontSize:9.5,color:C.iceBlue,fontFace:"Consolas",margin:0});
-    });
-
-    // Right: PR description standard
-    s.addShape(pres.shapes.RECTANGLE, {x:5.15,y:1.2,w:4.5,h:4.25,fill:{color:C.mid,transparency:18},shadow:shadow()});
-    s.addShape(pres.shapes.RECTANGLE, {x:5.15,y:1.2,w:4.5,h:0.48,fill:{color:C.teal,transparency:10}});
-    s.addText("PR DESCRIPTION STANDARD", {x:5.15,y:1.2,w:4.5,h:0.48,fontSize:11,color:C.white,bold:true,align:"center",valign:"middle",charSpacing:2,margin:0});
-
-    const prFields = [
-      {field:"## What changed",   note:"Plain English summary of what the code does differently"},
-      {field:"## Why",            note:"Link to PRD/ticket; business or technical rationale"},
-      {field:"## Alternatives considered", note:"What other approaches were evaluated and why this one was chosen"},
-      {field:"## Agent confidence", note:"[High/Medium/Low] \u2014 What the agent is uncertain about"},
-      {field:"## Reviewer focus", note:"What the agent specifically wants the human reviewer to check"},
-    ];
-    prFields.forEach((f,i) => {
-      const y = 1.78 + i * 0.72;
-      s.addShape(pres.shapes.RECTANGLE, {x:5.27,y,w:4.26,h:0.62,fill:{color:C.navy}});
-      s.addText(f.field, {x:5.36,y:y+0.04,w:4.08,h:0.26,fontSize:10,color:C.iceBlue,fontFace:"Consolas",margin:0});
-      s.addText(f.note,  {x:5.36,y:y+0.32,w:4.08,h:0.26,fontSize:9.5,color:C.pale,margin:0});
-    });
-
-    s.addText("\u201CAgent confidence\u201D and \u201CReviewer focus\u201D are the most important fields \u2014 they direct human attention to where it is most needed.", {
-      x:0.35,y:5.35,w:9.3,h:0.24,fontSize:9.5,color:C.muted,italic:true,margin:0
-    });
-  }
-
-  // SLIDE 9 — Review Cycle Design Principles
-  {
-    const s = pres.addSlide(); s.background = { color: C.white };
-    s.addShape(pres.shapes.RECTANGLE, {x:0,y:0,w:10,h:0.82,fill:{color:C.navy}});
-    s.addText("REVIEW CYCLE DESIGN PRINCIPLES", {x:0.4,y:0,w:9,h:0.82,fontSize:13,color:C.white,bold:true,charSpacing:3,valign:"middle",margin:0});
-    s.addText("These principles apply whether you are reviewing code, specs, architecture documents, or documentation", {x:0.4,y:0.9,w:9.2,h:0.3,fontSize:12,color:C.muted,italic:true,margin:0});
-
-    const principles = [
-      {head:"Match review granularity to risk",        body:"Low-risk, reversible changes (formatting, docs, test additions) can be auto-merged after agent review. High-risk, irreversible changes (schema migrations, security, public API) require human approval."},
-      {head:"Humans review decisions, not diffs",       body:"A human reviewer should be answering: \u201CIs this the right approach?\u201D \u2014 not \u201CDid the agent make a typo?\u201D Automated checks handle the latter."},
-      {head:"The agent must explain its reasoning",    body:"Every agent-generated PR must include what changed, why, what alternatives were considered, and what the agent is uncertain about. This is the context a human reviewer needs."},
-      {head:"Never skip the gate for speed",           body:"Speed pressure is the most common reason review gates get bypassed. Gates exist for production incidents, not convenience. If your gates are too slow, fix the gates \u2014 don\u2019t remove them."},
-      {head:"Review SLAs prevent pipeline stalls",     body:"If human review is required, define SLAs. An agent waiting indefinitely for human approval blocks the pipeline. Escalate automatically after SLA breach."},
-      {head:"Review audit log for regulated changes",  body:"Log every review decision: who reviewed, when, what they approved/rejected, what comments were left. Required for change management in regulated environments."},
-    ];
-
-    const cols = [0.35, 5.1];
-    principles.forEach((p,i) => {
-      const x = cols[i % 2], y = 1.28 + Math.floor(i / 2) * 1.45, w = 4.55, h = 1.3;
-      s.addShape(pres.shapes.RECTANGLE, {x,y,w,h,fill:{color:C.offWhite},shadow:shadow()});
-      s.addShape(pres.shapes.RECTANGLE, {x,y,w:0.06,h,fill:{color:C.teal}});
-      s.addText(p.head, {x:x+0.16,y:y+0.08,w:w-0.22,h:0.36,fontSize:12,color:C.navy,bold:true,margin:0});
-      s.addText(p.body, {x:x+0.16,y:y+0.5,w:w-0.22,h:0.72,fontSize:11,color:C.muted,margin:0});
-    });
-  }
-
-  // SLIDE 10 — Spotify Results
-  {
-    const s = pres.addSlide(); s.background = { color: C.navy };
-    s.addText("REAL RESULTS  \u00B7  SPOTIFY HONK  \u00B7  2024\u20132026", {x:0.4,y:0.22,w:9,h:0.45,fontSize:13,color:C.iceBlue,bold:true,charSpacing:3,margin:0});
-    s.addText("What happens when you build proper review and verification loops into an agentic pipeline", {x:0.4,y:0.72,w:9,h:0.36,fontSize:17,color:C.white,italic:true,margin:0});
-
-    const stats = [
-      {n:"~50%",l:"of all PRs automated",s:"by agents since mid-2024",c:C.accent},
-      {n:"1,500+",l:"agent-generated PRs",s:"successfully merged",c:C.teal},
-      {n:"50+",  l:"features shipped",s:"in 2025 via agent pipeline",c:C.green},
-    ];
-    stats.forEach((st,i) => {
-      const x = 0.35 + i * 3.15;
-      s.addShape(pres.shapes.RECTANGLE, {x,y:1.28,w:2.95,h:1.75,fill:{color:st.c},shadow:shadow()});
-      s.addText(st.n, {x,y:1.32,w:2.95,h:0.82,fontSize:40,color:C.white,bold:true,align:"center",margin:0});
-      s.addText(st.l, {x,y:2.14,w:2.95,h:0.36,fontSize:12.5,color:C.white,bold:true,align:"center",margin:0});
-      s.addText(st.s, {x,y:2.5,w:2.95,h:0.38,fontSize:11,color:C.pale,align:"center",italic:true,margin:0});
-    });
-
-    const lessons = [
-      {head:"Sandboxing = predictability",        body:"Agent in container with minimal permissions and binaries. Intentional restriction \u2192 more predictable behavior + security."},
-      {head:"Verifier \u2260 optional",            body:"Without verifiers, agents produced code that \u201Csimply doesn\u2019t work.\u201D The verification loop isn\u2019t overhead \u2014 it\u2019s what makes automation viable."},
-      {head:"Agent review spans all artifacts",   body:"Review was applied not just to code PRs but to specs, documentation, and architecture proposals \u2014 catching issues before they became code."},
-      {head:"Coverage requirement changed everything", body:"Requiring test coverage on changed files eliminated failure mode 2. Agents could no longer hide wrong behavior behind passing CI."},
-    ];
-    lessons.forEach((l,i) => {
-      const col = i % 2, row = Math.floor(i / 2);
-      const x = col === 0 ? 0.35 : 5.15, y = 3.18 + row * 1.06, w = 4.6, h = 0.94;
-      s.addShape(pres.shapes.RECTANGLE, {x,y,w,h,fill:{color:C.mid,transparency:15}});
-      s.addShape(pres.shapes.RECTANGLE, {x,y,w:0.06,h,fill:{color:C.iceBlue}});
-      s.addText(l.head, {x:x+0.16,y:y+0.06,w:w-0.22,h:0.3,fontSize:12,color:C.iceBlue,bold:true,margin:0});
-      s.addText(l.body, {x:x+0.16,y:y+0.42,w:w-0.22,h:0.46,fontSize:10.5,color:C.pale,margin:0});
-    });
-  }
-
-  // SLIDE 11 — Lab
-  {
-    const s = pres.addSlide(); s.background = { color: C.white };
-    s.addShape(pres.shapes.RECTANGLE, {x:0,y:0,w:10,h:0.82,fill:{color:C.teal}});
-    s.addText("LAB EXERCISE  \u00B7  45 MINUTES", {x:0.4,y:0,w:9,h:0.82,fontSize:13,color:C.white,bold:true,charSpacing:3,valign:"middle",margin:0});
-    s.addText("Three-Part Exercise: Design, Expand, Educate", {x:0.4,y:0.95,w:9.2,h:0.46,fontSize:19,color:C.navy,bold:true,margin:0});
+    // Three step cards
     const steps = [
-      {n:"1",t:"Design a review cycle (lint scenario)",min:"15 min",
-       d:"Your team wants an agent to fix all flake8 lint errors across a 200,000-line Python codebase (~800 files). Map the review cycle: where are the human gates? Write the interrupt conditions, the evaluator agent\u2019s checklist, the PR description template, and the 2am escalation path."},
-      {n:"2",t:"Define review for 4 artifact types",min:"15 min",
-       d:"For each: (a) a PRD for a new feature, (b) an architecture proposal for a new service, (c) the API docs after a sprint, (d) a new team member\u2019s first PR \u2014 define: what does the agent review it against? What structured output does it produce? Where is the human gate?"},
-      {n:"3",t:"Education scenario: onboard a new developer",min:"15 min",
-       d:"A developer has just joined your team and needs to understand the authentication flow. Write the prompt you would give Claude Code to educate them. What context (CLAUDE.md, PRODUCT.md, specific files) would you make sure is loaded? What would the agent get right that a wiki page would not?"},
+      {
+        n: "1", color: C.red, label: "RED", sub: "Write a failing test",
+        humanDoes: "Provide the AC and specify the scenario",
+        agentDoes: "Writes the test, names it to describe behaviour, verifies it fails",
+        code: "it('returns 400 when email is missing', async () => {\n  const res = await post('/contact', { name: 'Alice' });\n  expect(res.status).toBe(400);\n  expect(res.body.error).toBe('Email is required');\n});\n// → FAIL: expected 400, received 200",
+      },
+      {
+        n: "2", color: C.green, label: "GREEN", sub: "Make the test pass",
+        humanDoes: "Reviews that the implementation is minimal and correct",
+        agentDoes: "Writes the simplest code that makes the test pass — not the best code",
+        code: "function validateContact(body) {\n  if (!body.email) {\n    return { status: 400, error: 'Email is required' };\n  }\n  return { status: 200 };\n}\n// → PASS: all assertions met",
+      },
+      {
+        n: "3", color: C.accent, label: "REFACTOR", sub: "Improve without breaking",
+        humanDoes: "Decides which improvements matter (naming, structure, patterns)",
+        agentDoes: "Refactors implementation, re-runs full suite after each change",
+        code: "const ERRORS = { MISSING_EMAIL: 'Email is required' };\n\nfunction validateContact({ email } = {}) {\n  if (!email) throw new ValidationError(ERRORS.MISSING_EMAIL);\n}\n// → PASS: refactored, test unchanged",
+      },
     ];
-    steps.forEach((st,i) => {
-      const y = 1.52 + i * 1.32;
-      s.addShape(pres.shapes.RECTANGLE, {x:0.35,y,w:9.3,h:1.2,fill:{color:C.offWhite},shadow:shadow()});
-      s.addShape(pres.shapes.RECTANGLE, {x:0.35,y,w:0.52,h:1.2,fill:{color:C.teal}});
-      s.addText(st.n, {x:0.35,y,w:0.52,h:1.2,fontSize:22,color:C.white,bold:true,align:"center",valign:"middle",margin:0});
-      s.addText(st.t,  {x:0.97,y:y+0.06,w:4.5,h:0.32,fontSize:12.5,color:C.teal,bold:true,margin:0});
-      s.addText("("+st.min+")",{x:5.47,y:y+0.06,w:0.85,h:0.32,fontSize:11,color:C.muted,italic:true,margin:0});
-      s.addText(st.d,  {x:0.97,y:y+0.46,w:8.55,h:0.66,fontSize:10.5,color:C.muted,margin:0});
+
+    for (let i = 0; i < steps.length; i++) {
+      const st = steps[i];
+      const x = 0.35 + i * 3.18;
+      s.addShape(pres.shapes.RECTANGLE, { x, y: 1.28, w: 3.02, h: 4.18, fill: { color: C.white }, shadow: shadow() });
+      s.addShape(pres.shapes.RECTANGLE, { x, y: 1.28, w: 3.02, h: 0.52, fill: { color: st.color, transparency: 15 } });
+      s.addShape(pres.shapes.RECTANGLE, { x: x + 0.1, y: 1.34, w: 0.38, h: 0.38, fill: { color: st.color } });
+      s.addText(st.n, { x: x + 0.1, y: 1.34, w: 0.38, h: 0.38, fontSize: 14, color: C.white, bold: true, align: "center", valign: "middle", margin: 0 });
+      s.addText(st.label, { x: x + 0.56, y: 1.32, w: 2.3, h: 0.3, fontSize: 12, color: C.navy, bold: true, valign: "middle", margin: 0 });
+      s.addText(st.sub,   { x: x + 0.56, y: 1.6,  w: 2.3, h: 0.2, fontSize: 9,  color: C.muted, margin: 0 });
+
+      s.addText("Human:", { x: x + 0.14, y: 1.9, w: 0.55, h: 0.22, fontSize: 9, color: C.navy, bold: true, margin: 0 });
+      s.addText(st.humanDoes, { x: x + 0.72, y: 1.9, w: 2.2, h: 0.22, fontSize: 9, color: C.text, margin: 0 });
+      s.addText("Agent:", { x: x + 0.14, y: 2.15, w: 0.55, h: 0.22, fontSize: 9, color: C.accent, bold: true, margin: 0 });
+      s.addText(st.agentDoes, { x: x + 0.72, y: 2.15, w: 2.2, h: 0.22, fontSize: 9, color: C.text, margin: 0 });
+
+      s.addShape(pres.shapes.RECTANGLE, { x: x + 0.1, y: 2.5, w: 2.82, h: 0.18, fill: { color: C.navy, transparency: 88 } });
+      s.addText("EXAMPLE", { x: x + 0.1, y: 2.5, w: 2.82, h: 0.18, fontSize: 8, color: C.muted, bold: true, charSpacing: 2, align: "center", valign: "middle", margin: 0 });
+      s.addShape(pres.shapes.RECTANGLE, { x: x + 0.1, y: 2.7, w: 2.82, h: 2.62, fill: { color: C.navy, transparency: 5 } });
+      s.addText(st.code, { x: x + 0.18, y: 2.72, w: 2.66, h: 2.58, fontSize: 8, color: C.pale, fontFace: "Consolas", valign: "top", margin: 0 });
+    }
+  }
+
+  // ══════════════════════════════════════════════════════════════════
+  // SLIDE 5 — Unit Testing: What Makes a Good Unit Test
+  // ══════════════════════════════════════════════════════════════════
+  {
+    const s = pres.addSlide();
+    s.background = { color: C.navy };
+
+    s.addText("UNIT TESTING  —  WHAT MAKES A GOOD UNIT TEST", { x: 0.4, y: 0.22, w: 9.2, h: 0.45, fontSize: 13, color: C.iceBlue, bold: true, charSpacing: 3, margin: 0 });
+
+    // Three properties left column
+    s.addShape(pres.shapes.RECTANGLE, { x: 0.35, y: 0.78, w: 4.55, h: 4.55, fill: { color: C.mid, transparency: 18 }, shadow: shadow() });
+    s.addText("THE THREE PROPERTIES", { x: 0.5, y: 0.88, w: 4.0, h: 0.3, fontSize: 10, color: C.iceBlue, bold: true, charSpacing: 2, margin: 0 });
+
+    const props = [
+      { color: C.accent, label: "Isolated",        body: "No database, file system, network, or external service. All dependencies mocked or stubbed. If the test needs a running database to pass, it is not a unit test." },
+      { color: C.green,  label: "Fast",             body: "Milliseconds per test. A full suite of hundreds of tests completes in seconds. Slow tests do not get run — they get skipped under pressure, defeating the purpose." },
+      { color: C.teal,   label: "Deterministic",    body: "Same code, same result, every time. Time-dependent tests, random-seed tests, or tests depending on external state are fragile and do not belong in the unit suite." },
+    ];
+    for (let i = 0; i < props.length; i++) {
+      const p = props[i];
+      const y = 1.28 + i * 1.32;
+      s.addShape(pres.shapes.RECTANGLE, { x: 0.5, y, w: 0.06, h: 1.08, fill: { color: p.color } });
+      s.addText(p.label, { x: 0.7, y: y + 0.02, w: 4.0, h: 0.32, fontSize: 12.5, color: p.color, bold: true, margin: 0 });
+      s.addText(p.body,  { x: 0.7, y: y + 0.36, w: 4.05, h: 0.7, fontSize: 10, color: C.pale, margin: 0 });
+    }
+
+    // Right column — test naming + behaviour vs implementation
+    s.addShape(pres.shapes.RECTANGLE, { x: 5.1, y: 0.78, w: 4.55, h: 2.1, fill: { color: C.mid, transparency: 18 }, shadow: shadow() });
+    s.addText("TEST BEHAVIOUR, NOT IMPLEMENTATION", { x: 5.26, y: 0.88, w: 4.2, h: 0.3, fontSize: 10, color: C.iceBlue, bold: true, charSpacing: 2, margin: 0 });
+
+    s.addShape(pres.shapes.RECTANGLE, { x: 5.24, y: 1.22, w: 4.24, h: 0.42, fill: { color: C.red, transparency: 82 } });
+    s.addText("// Tests implementation — BRITTLE", { x: 5.32, y: 1.22, w: 4.1, h: 0.2, fontSize: 8.5, color: C.red, fontFace: "Consolas", margin: 0 });
+    s.addText("it('calls validateEmail() before DB', ...)", { x: 5.32, y: 1.44, w: 4.1, h: 0.18, fontSize: 8.5, color: C.pale, fontFace: "Consolas", margin: 0 });
+
+    s.addShape(pres.shapes.RECTANGLE, { x: 5.24, y: 1.72, w: 4.24, h: 0.42, fill: { color: C.green, transparency: 82 } });
+    s.addText("// Tests behaviour — ROBUST", { x: 5.32, y: 1.72, w: 4.1, h: 0.2, fontSize: 8.5, color: C.green, fontFace: "Consolas", margin: 0 });
+    s.addText("it('rejects form with invalid email', ...)", { x: 5.32, y: 1.94, w: 4.1, h: 0.18, fontSize: 8.5, color: C.pale, fontFace: "Consolas", margin: 0 });
+
+    // Naming convention card
+    s.addShape(pres.shapes.RECTANGLE, { x: 5.1, y: 2.98, w: 4.55, h: 2.35, fill: { color: C.mid, transparency: 18 }, shadow: shadow() });
+    s.addText("TEST NAMING CONVENTION", { x: 5.26, y: 3.08, w: 4.2, h: 0.3, fontSize: 10, color: C.iceBlue, bold: true, charSpacing: 2, margin: 0 });
+
+    const names = [
+      { good: true,  name: "returns 401 when the token has expired" },
+      { good: true,  name: "returns empty array when no records match the query" },
+      { good: false, name: "test auth error case" },
+      { good: false, name: "it works correctly" },
+    ];
+    for (let i = 0; i < names.length; i++) {
+      const n = names[i];
+      const y = 3.46 + i * 0.44;
+      s.addShape(pres.shapes.RECTANGLE, { x: 5.24, y: y + 0.04, w: 0.22, h: 0.22, fill: { color: n.good ? C.green : C.red } });
+      s.addText(n.good ? "✓" : "✕", { x: 5.24, y: y + 0.04, w: 0.22, h: 0.22, fontSize: 9, color: C.white, bold: true, align: "center", valign: "middle", margin: 0 });
+      s.addText(n.name, { x: 5.52, y, w: 4.0, h: 0.3, fontSize: 9, color: n.good ? C.pale : C.muted, fontFace: "Consolas", valign: "middle", margin: 0 });
+    }
+    s.addText("A failing test with a clear name tells you immediately what behaviour broke.", { x: 5.1, y: 5.2, w: 4.55, h: 0.28, fontSize: 9.5, color: C.iceBlue, italic: true, margin: 0 });
+  }
+
+  // ══════════════════════════════════════════════════════════════════
+  // SLIDE 6 — Test Coverage: The 85% Target
+  // ══════════════════════════════════════════════════════════════════
+  {
+    const s = pres.addSlide();
+    s.background = { color: C.offWhite };
+
+    s.addShape(pres.shapes.RECTANGLE, { x: 0, y: 0, w: 10, h: 0.82, fill: { color: C.navy } });
+    s.addText("TEST COVERAGE  —  THE 85% TARGET", { x: 0.4, y: 0, w: 9.2, h: 0.82, fontSize: 13, color: C.white, bold: true, charSpacing: 3, valign: "middle", margin: 0 });
+    s.addText("Coverage is a floor, not a quality measure. The threshold catches the absence of tests — code review enforces their quality.", { x: 0.4, y: 0.9, w: 9.2, h: 0.28, fontSize: 11, color: C.muted, italic: true, margin: 0 });
+
+    // Coverage zones
+    const zones = [
+      { range: "< 85%",   color: C.red,    label: "DANGER ZONE",     body: "Regression risk increases sharply. Changes to untested code produce silent regressions. Refactoring is dangerous. Merge blocked by CI." },
+      { range: "85–95%",  color: C.green,  label: "PRODUCTIVE ZONE", body: "Effort per new tested line is manageable. Protection is substantial. Teams in this range report confident refactoring and low regression rates." },
+      { range: "> 95%",   color: C.amber,  label: "DIMINISHING RETURNS", body: "Marginal coverage often covers code that is genuinely difficult to test (infra error paths, third-party error handling). Tests written here are often brittle." },
+    ];
+    for (let i = 0; i < zones.length; i++) {
+      const z = zones[i];
+      const x = 0.35 + i * 3.18;
+      s.addShape(pres.shapes.RECTANGLE, { x, y: 1.28, w: 3.02, h: 1.52, fill: { color: C.white }, shadow: shadow() });
+      s.addShape(pres.shapes.RECTANGLE, { x, y: 1.28, w: 3.02, h: 0.42, fill: { color: z.color, transparency: 15 } });
+      s.addText(z.range, { x: x + 0.12, y: 1.28, w: 0.88, h: 0.42, fontSize: 14, color: C.white, bold: true, valign: "middle", margin: 0 });
+      s.addText(z.label, { x: x + 1.08, y: 1.3,  w: 1.82, h: 0.38, fontSize: 9,  color: C.white, bold: true, charSpacing: 1, valign: "middle", margin: 0 });
+      s.addText(z.body,  { x: x + 0.14, y: 1.76, w: 2.78, h: 0.98, fontSize: 10, color: C.muted, margin: 0 });
+    }
+
+    // CI config example
+    s.addShape(pres.shapes.RECTANGLE, { x: 0.35, y: 2.95, w: 4.75, h: 2.72, fill: { color: C.navy }, shadow: shadow() });
+    s.addText("COVERAGE GATE IN CI  —  jest (package.json)", { x: 0.5, y: 3.04, w: 4.4, h: 0.26, fontSize: 9, color: C.iceBlue, bold: true, charSpacing: 1, margin: 0 });
+    s.addText(`"jest": {
+  "coverageThreshold": {
+    "global": {
+      "branches":   85,
+      "functions":  85,
+      "lines":      85,
+      "statements": 85
+    }
+  },
+  "collectCoverageFrom": [
+    "src/**/*.{js,ts}",
+    "!src/**/*.spec.*"
+  ]
+}`, { x: 0.5, y: 3.34, w: 4.5, h: 2.22, fontSize: 9, color: C.pale, fontFace: "Consolas", valign: "top", margin: 0 });
+
+    // Agent instruction card
+    s.addShape(pres.shapes.RECTANGLE, { x: 5.25, y: 2.95, w: 4.4, h: 2.72, fill: { color: C.white }, shadow: shadow() });
+    s.addShape(pres.shapes.RECTANGLE, { x: 5.25, y: 2.95, w: 4.4, h: 0.36, fill: { color: C.accent, transparency: 18 } });
+    s.addText("CLAUDE.md INSTRUCTION FOR COVERAGE", { x: 5.38, y: 2.95, w: 4.1, h: 0.36, fontSize: 9, color: C.white, bold: true, charSpacing: 1, valign: "middle", margin: 0 });
+
+    const instructions = [
+      { color: C.accent, text: "Never reduce test coverage below 85% in any PR." },
+      { color: C.teal,   text: "Add tests for every new branch you introduce — including error paths." },
+      { color: C.green,  text: "When changing existing code, verify that current tests still cover the changed lines." },
+      { color: C.amber,  text: "If a line is genuinely untestable, add a coverage-ignore comment and note why in the PR." },
+    ];
+    for (let i = 0; i < instructions.length; i++) {
+      const ins = instructions[i];
+      const y = 3.42 + i * 0.56;
+      s.addShape(pres.shapes.RECTANGLE, { x: 5.38, y: y + 0.1, w: 0.06, h: 0.36, fill: { color: ins.color } });
+      s.addText(ins.text, { x: 5.54, y, w: 3.98, h: 0.5, fontSize: 10, color: C.text, valign: "middle", margin: 0 });
+    }
+  }
+
+  // ══════════════════════════════════════════════════════════════════
+  // SLIDE 7 — The AC-to-Test Pipeline
+  // ══════════════════════════════════════════════════════════════════
+  {
+    const s = pres.addSlide();
+    s.background = { color: C.navy };
+
+    s.addText("THE AC-TO-TEST PIPELINE  —  SPEC TO CODE TO COVERAGE", { x: 0.4, y: 0.22, w: 9.2, h: 0.45, fontSize: 13, color: C.iceBlue, bold: true, charSpacing: 3, margin: 0 });
+
+    // Pipeline flow
+    const pipeline = [
+      { label: "PRD / Spec",           sub: "Module 04",    color: C.steel,  detail: "Acceptance Criteria live here — the authoritative source of what must be tested" },
+      { label: "AC Extracted",         sub: "Human curates", color: C.accent, detail: "Human ensures AC is specific, measurable, unambiguous, and bounded — testable AC" },
+      { label: "Tests Generated",      sub: "Agent writes",  color: C.teal,   detail: "Agent produces test files: one test per AC statement, covering happy path, errors, and edges" },
+      { label: "Code Implemented",     sub: "Agent (TDD)",   color: C.green,  detail: "Agent writes minimum code to pass tests (Green step). No new code without a passing test." },
+      { label: "CI Gate",              sub: "Automated",     color: C.amber,  detail: "Tests run + coverage threshold enforced. PR blocked if below 85% or any test fails." },
+    ];
+
+    for (let i = 0; i < pipeline.length; i++) {
+      const p = pipeline[i];
+      const y = 0.84 + i * 0.9;
+      s.addShape(pres.shapes.RECTANGLE, { x: 0.35, y, w: 9.3, h: 0.78, fill: { color: C.mid, transparency: i % 2 === 0 ? 18 : 35 } });
+      s.addShape(pres.shapes.RECTANGLE, { x: 0.35, y, w: 2.25, h: 0.78, fill: { color: p.color, transparency: 22 } });
+      s.addText(p.label, { x: 0.5, y, w: 2.05, h: 0.42, fontSize: 11, color: C.white, bold: true, valign: "bottom", margin: 0 });
+      s.addText(p.sub,   { x: 0.5, y: y + 0.44, w: 2.05, h: 0.28, fontSize: 9, color: C.iceBlue, valign: "top", margin: 0 });
+      s.addText("→", { x: 2.65, y, w: 0.4, h: 0.78, fontSize: 18, color: p.color, align: "center", valign: "middle", margin: 0 });
+      s.addText(p.detail, { x: 3.1, y, w: 6.42, h: 0.78, fontSize: 10.5, color: C.pale, valign: "middle", margin: 0 });
+    }
+
+    // Testable AC table at bottom
+    s.addShape(pres.shapes.RECTANGLE, { x: 0.35, y: 5.22, w: 9.3, h: 0.28, fill: { color: C.accent, transparency: 70 } });
+    s.addText("What makes AC testable:  specific  ·  measurable  ·  unambiguous  ·  bounded  —  vague AC produces wrong tests at machine speed", {
+      x: 0.35, y: 5.22, w: 9.3, h: 0.28,
+      fontSize: 10, color: C.white, italic: true, align: "center", valign: "middle", margin: 0
     });
   }
 
-  // SLIDE 12 — Discussion + Summary
+  // ══════════════════════════════════════════════════════════════════
+  // SLIDE 8 — Integration and Functional Testing
+  // ══════════════════════════════════════════════════════════════════
   {
-    const s = pres.addSlide(); s.background = { color: C.navy };
-    s.addShape(pres.shapes.RECTANGLE, {x:9.82,y:0,w:0.18,h:5.625,fill:{color:C.accent}});
-    s.addText("DISCUSSION + MODULE SUMMARY", {x:0.4,y:0.22,w:9,h:0.45,fontSize:13,color:C.iceBlue,bold:true,charSpacing:3,margin:0});
-    s.addShape(pres.shapes.RECTANGLE, {x:0.35,y:0.82,w:5.5,h:3.82,fill:{color:C.mid,transparency:20},shadow:shadow()});
-    s.addShape(pres.shapes.RECTANGLE, {x:0.35,y:0.82,w:5.5,h:0.48,fill:{color:C.iceBlue,transparency:15}});
-    s.addText("DISCUSSION QUESTIONS", {x:0.35,y:0.82,w:5.5,h:0.48,fontSize:11,color:C.white,bold:true,charSpacing:2,align:"center",valign:"middle",margin:0});
-    s.addText([
-      "Q1.  In the lint scenario, who is accountable if an agent-generated change breaks production at 2am?",
-      "Q2.  Which SDLC artifact on your team has never been formally reviewed? What would an agent find if you pointed one at it today?",
-      "Q3.  If you deployed an evaluator agent on your PR process this week, what would it need to check?",
-      "Q4.  What question would you most want to ask an agent about your own codebase right now?",
-    ].join("\n\n"), {x:0.5,y:1.4,w:5.1,h:3.1,fontSize:11.5,color:C.pale,margin:0});
+    const s = pres.addSlide();
+    s.background = { color: C.white };
 
-    s.addShape(pres.shapes.RECTANGLE, {x:6.05,y:0.82,w:3.6,h:3.82,fill:{color:C.mid,transparency:20},shadow:shadow()});
-    s.addShape(pres.shapes.RECTANGLE, {x:6.05,y:0.82,w:3.6,h:0.48,fill:{color:C.accent,transparency:10}});
-    s.addText("KEY TAKEAWAYS", {x:6.05,y:0.82,w:3.6,h:0.48,fontSize:11,color:C.white,bold:true,charSpacing:2,align:"center",valign:"middle",margin:0});
-    s.addText([
-      "\u00B7 Agents review ALL SDLC artifacts, not just code",
-      "\u00B7 Match HITL pattern to risk and reversibility",
-      "\u00B7 Evaluator agent catches failures before humans",
-      "\u00B7 Interrupt conditions must be defined upfront",
-      "\u00B7 Agents as educators \u2014 codebase, decisions, process",
-      "\u00B7 PR standards: confidence + reviewer focus fields",
-      "\u00B7 Review SLAs prevent pipeline stalls",
-    ].join("\n\n"), {x:6.2,y:1.4,w:3.35,h:3.1,fontSize:11.5,color:C.pale,margin:0});
+    s.addShape(pres.shapes.RECTANGLE, { x: 0, y: 0, w: 10, h: 0.82, fill: { color: C.navy } });
+    s.addText("INTEGRATION & FUNCTIONAL TESTING  —  COMPONENTS WORKING TOGETHER", { x: 0.4, y: 0, w: 9.2, h: 0.82, fontSize: 13, color: C.white, bold: true, charSpacing: 3, valign: "middle", margin: 0 });
 
-    s.addShape(pres.shapes.RECTANGLE, {x:0.35,y:4.75,w:9.3,h:0.62,fill:{color:C.accent,transparency:18}});
-    s.addText("NEXT  \u00B7  Module 06: Review Cycles, Hygiene & Continuous Improvement  \u2014  ADRs, supervised development, quality gates", {x:0.35,y:4.75,w:9.3,h:0.62,fontSize:11.5,color:C.white,bold:true,align:"center",valign:"middle",margin:0});
+    // Two columns
+    s.addShape(pres.shapes.RECTANGLE, { x: 0.35, y: 0.96, w: 4.55, h: 4.4, fill: { color: C.offWhite }, shadow: shadow() });
+    s.addShape(pres.shapes.RECTANGLE, { x: 0.35, y: 0.96, w: 4.55, h: 0.42, fill: { color: C.teal, transparency: 20 } });
+    s.addText("INTEGRATION TESTS", { x: 0.5, y: 0.96, w: 4.2, h: 0.42, fontSize: 11, color: C.white, bold: true, charSpacing: 2, valign: "middle", margin: 0 });
+
+    const integrationItems = [
+      { label: "What they verify",  body: "Components working together: service + database, service + external API, two services communicating over a message bus." },
+      { label: "How they differ",   body: "Where unit tests mock all dependencies, integration tests use real instances (or close approximations). They verify the interfaces, not the logic." },
+      { label: "When to write",     body: "For every interface between components — data access layer, API client, event consumer. Not for business logic (that is unit tests)." },
+      { label: "Speed",             body: "Seconds per test. Run in CI, but not in the fast pre-commit hook. Keep the pre-commit hook to unit tests only." },
+    ];
+    for (let i = 0; i < integrationItems.length; i++) {
+      const it = integrationItems[i];
+      const y = 1.48 + i * 0.82;
+      s.addShape(pres.shapes.RECTANGLE, { x: 0.5, y: y + 0.06, w: 0.06, h: 0.58, fill: { color: C.teal } });
+      s.addText(it.label, { x: 0.68, y, w: 4.08, h: 0.28, fontSize: 11, color: C.navy, bold: true, margin: 0 });
+      s.addText(it.body,  { x: 0.68, y: y + 0.3, w: 4.08, h: 0.5, fontSize: 9.5, color: C.muted, margin: 0 });
+    }
+
+    s.addShape(pres.shapes.RECTANGLE, { x: 5.1, y: 0.96, w: 4.55, h: 4.4, fill: { color: C.offWhite }, shadow: shadow() });
+    s.addShape(pres.shapes.RECTANGLE, { x: 5.1, y: 0.96, w: 4.55, h: 0.42, fill: { color: C.accent, transparency: 20 } });
+    s.addText("FUNCTIONAL TESTS", { x: 5.25, y: 0.96, w: 4.2, h: 0.42, fontSize: 11, color: C.white, bold: true, charSpacing: 2, valign: "middle", margin: 0 });
+
+    const functionalItems = [
+      { label: "What they verify",  body: "User-facing behaviour from the outside. An API's functional tests verify the contract — request shape, response shape, status codes, and error messages — as a black box." },
+      { label: "API contract tests", body: "Verify that the API's published contract is met, regardless of internal implementation. These tests survive refactoring; they break only when the contract changes." },
+      { label: "Keeping in sync",   body: "Agent instruction: when changing an interface, update integration and functional tests in the same PR. A PR that changes an API response without updating the contract test is incomplete." },
+      { label: "Sync rule in CLAUDE.md", body: "\"When you change an interface, update the integration and functional tests that cover it. Never leave contract tests inconsistent with the implementation.\"" },
+    ];
+    for (let i = 0; i < functionalItems.length; i++) {
+      const it = functionalItems[i];
+      const y = 1.48 + i * 0.82;
+      s.addShape(pres.shapes.RECTANGLE, { x: 5.24, y: y + 0.06, w: 0.06, h: 0.58, fill: { color: C.accent } });
+      s.addText(it.label, { x: 5.42, y, w: 4.08, h: 0.28, fontSize: 11, color: C.navy, bold: true, margin: 0 });
+      s.addText(it.body,  { x: 5.42, y: y + 0.3, w: 4.08, h: 0.5, fontSize: 9.5, color: C.muted, margin: 0 });
+    }
   }
 
-  await pres.writeFile({ fileName: "Module_05_Testing_CICD.pptx" });
-  console.log("\u2705 Module 5 written");
+  // ══════════════════════════════════════════════════════════════════
+  // SLIDE 9 — Regression Testing
+  // ══════════════════════════════════════════════════════════════════
+  {
+    const s = pres.addSlide();
+    s.background = { color: C.navy };
+
+    s.addText("REGRESSION TESTING  —  THE ACCUMULATED SAFETY NET", { x: 0.4, y: 0.22, w: 9.2, h: 0.45, fontSize: 13, color: C.iceBlue, bold: true, charSpacing: 3, margin: 0 });
+
+    // Definition banner
+    s.addShape(pres.shapes.RECTANGLE, { x: 0.35, y: 0.78, w: 9.3, h: 0.72, fill: { color: C.mid, transparency: 18 }, shadow: shadow() });
+    s.addText("A regression test is a test written because a bug was found. Every test in the regression suite corresponds to a real problem that once reached production. Over time, it becomes the most specific and battle-tested part of the test suite.", {
+      x: 0.55, y: 0.84, w: 8.9, h: 0.6,
+      fontSize: 11.5, color: C.white, italic: true, align: "center", valign: "middle", margin: 0
+    });
+
+    // Workflow cards
+    s.addShape(pres.shapes.RECTANGLE, { x: 0.35, y: 1.62, w: 9.3, h: 0.34, fill: { color: C.accent, transparency: 72 } });
+    s.addText("AGENT-ASSISTED REGRESSION WORKFLOW", { x: 0.35, y: 1.62, w: 9.3, h: 0.34, fontSize: 10, color: C.white, bold: true, charSpacing: 2, align: "center", valign: "middle", margin: 0 });
+
+    const workflow = [
+      { n: "1", color: C.red,    label: "Bug reported",        body: "Bug arrives via issue, alert, or customer report. Agent reads the bug report and the relevant code." },
+      { n: "2", color: C.amber,  label: "Failing test written", body: "Agent writes a test that reproduces the bug. The test must fail before any fix is written — this confirms the bug is understood." },
+      { n: "3", color: C.green,  label: "Bug fixed",            body: "Agent fixes the bug. The regression test turns green. Suite runs — no existing tests broken." },
+      { n: "4", color: C.accent, label: "Test committed",       body: "Regression test is committed alongside the fix. The bug can never return silently — the test will catch it." },
+    ];
+    for (let i = 0; i < workflow.length; i++) {
+      const w = workflow[i];
+      const x = 0.35 + i * 2.38;
+      s.addShape(pres.shapes.RECTANGLE, { x, y: 2.06, w: 2.22, h: 3.28, fill: { color: C.mid, transparency: 20 }, shadow: shadow() });
+      s.addShape(pres.shapes.RECTANGLE, { x, y: 2.06, w: 2.22, h: 0.44, fill: { color: w.color, transparency: 15 } });
+      s.addShape(pres.shapes.RECTANGLE, { x: x + 0.1, y: 2.1, w: 0.34, h: 0.34, fill: { color: w.color } });
+      s.addText(w.n, { x: x + 0.1, y: 2.1, w: 0.34, h: 0.34, fontSize: 12, color: C.white, bold: true, align: "center", valign: "middle", margin: 0 });
+      s.addText(w.label, { x: x + 0.52, y: 2.1, w: 1.6, h: 0.4, fontSize: 10, color: C.white, bold: true, valign: "middle", margin: 0 });
+      s.addText(w.body, { x: x + 0.14, y: 2.58, w: 1.98, h: 2.64, fontSize: 10, color: C.pale, margin: 0 });
+      if (i < 3) {
+        s.addText("→", { x: x + 2.22, y: 3.28, w: 0.16, h: 0.4, fontSize: 18, color: w.color, align: "center", valign: "middle", margin: 0 });
+      }
+    }
+
+    // CLAUDE.md instruction
+    s.addShape(pres.shapes.RECTANGLE, { x: 0.35, y: 5.22, w: 9.3, h: 0.28, fill: { color: C.accent, transparency: 70 } });
+    s.addText("CLAUDE.md rule: When fixing a bug, always write a regression test that reproduces the bug before implementing the fix. No fix without a test.", {
+      x: 0.35, y: 5.22, w: 9.3, h: 0.28,
+      fontSize: 10, color: C.white, italic: true, align: "center", valign: "middle", margin: 0
+    });
+  }
+
+  // ══════════════════════════════════════════════════════════════════
+  // SLIDE 10 — End-to-End Testing: Scope and Governance
+  // ══════════════════════════════════════════════════════════════════
+  {
+    const s = pres.addSlide();
+    s.background = { color: C.offWhite };
+
+    s.addShape(pres.shapes.RECTANGLE, { x: 0, y: 0, w: 10, h: 0.82, fill: { color: C.navy } });
+    s.addText("END-TO-END TESTING  —  SCOPE AND GOVERNANCE", { x: 0.4, y: 0, w: 9.2, h: 0.82, fontSize: 13, color: C.white, bold: true, charSpacing: 3, valign: "middle", margin: 0 });
+    s.addText("E2E tests are the most expensive tests you can write. Use them selectively. Govern them explicitly.", { x: 0.4, y: 0.9, w: 9.2, h: 0.28, fontSize: 11.5, color: C.muted, italic: true, margin: 0 });
+
+    // Cost panel left
+    s.addShape(pres.shapes.RECTANGLE, { x: 0.35, y: 1.28, w: 4.55, h: 2.08, fill: { color: C.white }, shadow: shadow() });
+    s.addShape(pres.shapes.RECTANGLE, { x: 0.35, y: 1.28, w: 4.55, h: 0.38, fill: { color: C.red, transparency: 18 } });
+    s.addText("WHY E2E TESTS ARE EXPENSIVE", { x: 0.5, y: 1.28, w: 4.2, h: 0.38, fontSize: 10, color: C.white, bold: true, charSpacing: 1, valign: "middle", margin: 0 });
+    const costs = [
+      { c: C.red,   t: "Slow",       b: "Minutes per test. A full E2E suite can take hours to run." },
+      { c: C.amber, t: "Brittle",    b: "Any change in UI, API contract, or data model can break the test." },
+      { c: C.steel, t: "Cross-team", b: "A test traversing another team's system will break when they change theirs." },
+    ];
+    for (let i = 0; i < costs.length; i++) {
+      const co = costs[i];
+      const y = 1.76 + i * 0.52;
+      s.addShape(pres.shapes.RECTANGLE, { x: 0.5, y: y + 0.1, w: 0.06, h: 0.3, fill: { color: co.c } });
+      s.addText(co.t, { x: 0.68, y, w: 0.7, h: 0.28, fontSize: 11, color: co.c, bold: true, margin: 0 });
+      s.addText(co.b, { x: 1.44, y, w: 3.3, h: 0.28, fontSize: 10, color: C.muted, valign: "middle", margin: 0 });
+    }
+
+    // When to use / not use
+    s.addShape(pres.shapes.RECTANGLE, { x: 5.1, y: 1.28, w: 4.55, h: 2.08, fill: { color: C.white }, shadow: shadow() });
+    s.addShape(pres.shapes.RECTANGLE, { x: 5.1, y: 1.28, w: 4.55, h: 0.38, fill: { color: C.green, transparency: 18 } });
+    s.addText("WHEN E2E COVERAGE IS WARRANTED", { x: 5.25, y: 1.28, w: 4.2, h: 0.38, fontSize: 10, color: C.white, bold: true, charSpacing: 1, valign: "middle", margin: 0 });
+    const when = [
+      "Core user journeys — if broken, the product is unusable",
+      "Flows with regulatory obligations (payment, data handling)",
+      "High-impact cross-team integrations that have previously broken",
+    ];
+    const whenNot = [
+      "Edge cases / error paths — unit and integration tests cover these better",
+      "New features before the implementation is stable",
+      "Flows already fully covered by functional contract tests",
+    ];
+    for (let i = 0; i < when.length; i++) {
+      const y = 1.76 + i * 0.52;
+      s.addShape(pres.shapes.RECTANGLE, { x: 5.24, y: y + 0.1, w: 0.06, h: 0.3, fill: { color: C.green } });
+      s.addText(when[i], { x: 5.42, y, w: 4.08, h: 0.44, fontSize: 10, color: C.muted, valign: "middle", margin: 0 });
+    }
+
+    // Governance model
+    s.addShape(pres.shapes.RECTANGLE, { x: 0.35, y: 3.48, w: 9.3, h: 1.98, fill: { color: C.navy, transparency: 5 }, shadow: shadow() });
+    s.addText("CROSS-TEAM OWNERSHIP MODEL", { x: 0.55, y: 3.56, w: 9.0, h: 0.3, fontSize: 10.5, color: C.iceBlue, bold: true, charSpacing: 2, margin: 0 });
+
+    const govRules = [
+      { color: C.accent, rule: "Before writing an E2E test that traverses another team's system — get explicit agreement from that team that they will help maintain it." },
+      { color: C.teal,   rule: "Document ownership in the test file. Each team is responsible for fixing E2E failures caused by their own changes." },
+      { color: C.green,  rule: "Review the E2E suite quarterly. Prune untended tests; renegotiate ownership for suites that have changed in scope." },
+      { color: C.amber,  rule: "Unowned E2E tests are a smell. Either assign ownership — or delete them. An unowned test that breaks blocks everyone." },
+    ];
+    for (let i = 0; i < govRules.length; i++) {
+      const gr = govRules[i];
+      const y = 3.96 + i * 0.36;
+      s.addShape(pres.shapes.RECTANGLE, { x: 0.5, y: y + 0.08, w: 0.06, h: 0.22, fill: { color: gr.color } });
+      s.addText(gr.rule, { x: 0.68, y, w: 8.82, h: 0.32, fontSize: 10, color: C.pale, valign: "middle", margin: 0 });
+    }
+
+    // Not warranted footnote
+    s.addShape(pres.shapes.RECTANGLE, { x: 0.35, y: 5.28, w: 9.3, h: 0.28, fill: { color: C.muted, transparency: 80 } });
+    s.addText("Not warranted:  " + whenNot.join("  ·  "), {
+      x: 0.35, y: 5.28, w: 9.3, h: 0.28,
+      fontSize: 9, color: C.text, italic: true, align: "center", valign: "middle", margin: 0
+    });
+  }
+
+  // ══════════════════════════════════════════════════════════════════
+  // SLIDE 11 — Lab Exercise
+  // ══════════════════════════════════════════════════════════════════
+  {
+    const s = pres.addSlide();
+    s.background = { color: C.white };
+
+    s.addShape(pres.shapes.RECTANGLE, { x: 0, y: 0, w: 10, h: 0.82, fill: { color: C.navy } });
+    s.addText("LAB EXERCISE", { x: 0.4, y: 0, w: 9.2, h: 0.82, fontSize: 13, color: C.white, bold: true, charSpacing: 3, valign: "middle", margin: 0 });
+    s.addText("Use a real project, a representative sample repository, or the training sample codebase", { x: 0.4, y: 0.9, w: 9.2, h: 0.28, fontSize: 11.5, color: C.muted, italic: true, margin: 0 });
+
+    const steps = [
+      {
+        n: "1", min: "10 min", color: C.accent,
+        title: "Write three testable ACs",
+        desc: "Take a feature from a current project. Rewrite three ACs using the testable format: specific, measurable, unambiguous, bounded. For each AC, write the test name (not code) that would verify it. Do the names make sense without reading the AC? If not, the AC needs to be more specific.",
+      },
+      {
+        n: "2", min: "12 min", color: C.teal,
+        title: "Apply the TDD cycle",
+        desc: "Choose one testable AC. Write the failing test (Red) — verify it fails for the right reason. Write the minimum code to pass it (Green). Refactor the implementation without touching the test. If using an agent, instruct it to follow the TDD cycle explicitly and review each step.",
+      },
+      {
+        n: "3", min: "10 min", color: C.green,
+        title: "Audit coverage and the DoD gate",
+        desc: "Run the test suite with coverage. What is the current percentage? Write (or find) the CI configuration that enforces the 85% threshold. Identify one area below 60%: what AC would drive tests to bring it above 85%?",
+      },
+      {
+        n: "4", min: "8 min", color: C.steel,
+        title: "Scope your E2E tests",
+        desc: "Identify three user journeys. For each: does it warrant E2E coverage? Apply the criteria — core flow, regulatory obligation, high-impact integration. For each that does: who owns it? If it crosses another team's boundary, is there an agreement? Mark unowned tests for governance review.",
+      },
+    ];
+
+    for (let i = 0; i < steps.length; i++) {
+      const st = steps[i];
+      const y = 1.28 + i * 1.0;
+      s.addShape(pres.shapes.RECTANGLE, { x: 0.35, y, w: 9.3, h: 0.9, fill: { color: C.offWhite }, shadow: shadow() });
+      s.addShape(pres.shapes.RECTANGLE, { x: 0.35, y, w: 0.52, h: 0.9, fill: { color: st.color } });
+      s.addText(st.n, { x: 0.35, y, w: 0.52, h: 0.9, fontSize: 18, color: C.white, bold: true, align: "center", valign: "middle", margin: 0 });
+      s.addText(st.title, { x: 0.98, y: y + 0.04, w: 2.4, h: 0.3, fontSize: 12, color: C.navy, bold: true, margin: 0 });
+      s.addShape(pres.shapes.RECTANGLE, { x: 0.98, y: y + 0.38, w: 0.75, h: 0.22, fill: { color: st.color, transparency: 80 } });
+      s.addText(st.min, { x: 0.98, y: y + 0.38, w: 0.75, h: 0.22, fontSize: 10, color: st.color, bold: true, align: "center", valign: "middle", margin: 0 });
+      s.addText(st.desc, { x: 1.86, y: y + 0.06, w: 7.68, h: 0.78, fontSize: 10, color: C.muted, valign: "middle", margin: 0 });
+    }
+  }
+
+  // ══════════════════════════════════════════════════════════════════
+  // SLIDE 12 — Discussion + Key Takeaways + Next Module
+  // ══════════════════════════════════════════════════════════════════
+  {
+    const s = pres.addSlide();
+    s.background = { color: C.navy };
+
+    s.addShape(pres.shapes.RECTANGLE, { x: 0, y: 0, w: 10, h: 0.72, fill: { color: C.mid } });
+    s.addText("MODULE 05  —  DISCUSSION & KEY TAKEAWAYS", { x: 0.4, y: 0, w: 9.2, h: 0.72, fontSize: 13, color: C.white, bold: true, charSpacing: 3, valign: "middle", margin: 0 });
+
+    // Left — discussion questions
+    s.addShape(pres.shapes.RECTANGLE, { x: 0.35, y: 0.88, w: 4.55, h: 4.28, fill: { color: C.mid, transparency: 18 }, shadow: shadow() });
+    s.addText("DISCUSSION", { x: 0.55, y: 1.0, w: 3.5, h: 0.35, fontSize: 11, color: C.iceBlue, bold: true, charSpacing: 3, margin: 0 });
+
+    const questions = [
+      "Your team has been told to reach 85% coverage. How do you distinguish tests that genuinely add protection from tests written only to inflate the number? What would you put in your test review checklist?",
+      "Think of a bug that reached production in the last year. Would a regression test have caught it? What would the AC that drove that test have looked like?",
+      "Where in your current codebase do you have E2E tests that cross another team's boundary? Is there an explicit ownership agreement? What happens when they break?",
+      "TDD has been the recommended practice for 25 years. What has prevented your team from adopting it? Does that barrier still exist if the agent writes the tests?",
+    ];
+
+    for (let i = 0; i < questions.length; i++) {
+      const y = 1.46 + i * 0.94;
+      s.addShape(pres.shapes.RECTANGLE, { x: 0.5, y, w: 0.28, h: 0.28, fill: { color: C.accent } });
+      s.addText("Q" + (i + 1), { x: 0.5, y, w: 0.28, h: 0.28, fontSize: 9, color: C.white, bold: true, align: "center", valign: "middle", margin: 0 });
+      s.addText(questions[i], { x: 0.9, y, w: 3.85, h: 0.84, fontSize: 10, color: C.pale, valign: "middle", margin: 0 });
+    }
+
+    // Right — key takeaways
+    s.addShape(pres.shapes.RECTANGLE, { x: 5.1, y: 0.88, w: 4.55, h: 4.28, fill: { color: C.mid, transparency: 18 }, shadow: shadow() });
+    s.addText("KEY TAKEAWAYS", { x: 5.3, y: 1.0, w: 3.5, h: 0.35, fontSize: 11, color: C.iceBlue, bold: true, charSpacing: 3, margin: 0 });
+
+    const takeaways = [
+      { color: C.accent, text: "TDD was always correct. Agents fix the economics. The failing test first is now the default, not the discipline." },
+      { color: C.teal,   text: "The human's job is not to write tests — it is to write AC precise enough to generate them. AC quality is the binding constraint." },
+      { color: C.green,  text: "85% coverage is a DoD gate enforced in CI. Coverage is a floor for protection; code review is where test quality is enforced." },
+      { color: C.amber,  text: "When fixing a bug, the regression test comes before the fix. No bug is fixed without a test that proves it cannot return silently." },
+      { color: C.steel,  text: "E2E tests require explicit cross-team ownership agreements before being written. An unowned E2E test is a liability, not an asset." },
+    ];
+
+    for (let i = 0; i < takeaways.length; i++) {
+      const t = takeaways[i];
+      const y = 1.46 + i * 0.76;
+      s.addShape(pres.shapes.RECTANGLE, { x: 5.25, y, w: 0.06, h: 0.65, fill: { color: t.color } });
+      s.addText(t.text, { x: 5.42, y, w: 4.1, h: 0.65, fontSize: 10.5, color: C.pale, valign: "middle", margin: 0 });
+    }
+
+    // Next module banner
+    s.addShape(pres.shapes.RECTANGLE, { x: 0, y: 5.3, w: 10, h: 0.325, fill: { color: C.accent } });
+    s.addText("NEXT  ·  Module 06: Spec-Driven Development & PRDs  —  Writing specs that agents can execute", {
+      x: 0.4, y: 5.3, w: 9.2, h: 0.325,
+      fontSize: 11, color: C.white, bold: true, valign: "middle", margin: 0
+    });
+  }
+
+  await pres.writeFile({ fileName: "Module_05_Automated_Testing.pptx" });
+  console.log("✅ Module 5 written");
 }
+
 build().catch(console.error);

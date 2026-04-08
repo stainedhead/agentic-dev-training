@@ -123,7 +123,7 @@ async function build() {
       { icon:FaUsers,       color:C.accent,    title:"Understand the Team Model",          body:"Explain why three equals with rotating roles is the optimal unit for agentic product delivery — and why it avoids the failure modes of traditional team structures." },
       { icon:FaDraftingCompass, color:C.roleA, title:"Execute Each Role with Excellence",  body:"Describe the scope, responsibilities, and agent-collaboration patterns for Solution Architect, Spec Engineer, and DevOps Guardian." },
       { icon:FaExchangeAlt, color:C.roleB,     title:"Operate Role Rotation Effectively",  body:"Design a rotation schedule that builds shared understanding, prevents knowledge silos, and maintains continuity during transitions." },
-      { icon:FaNetworkWired,color:C.roleC,     title:"Navigate System Collaboration",      body:"Manage dependency teams, avoid local optimisations that harm the wider system, and advocate for NFR health and technical debt prevention." },
+      { icon:FaNetworkWired,color:C.roleC,     title:"Navigate System Collaboration",      body:"Manage dependency teams, avoid local optimizations that harm the wider system, and advocate for NFR health and technical debt prevention." },
     ];
 
     const cols = [0.35, 5.1];
@@ -442,7 +442,7 @@ async function build() {
   }
 
   // ══════════════════════════════════════════════════════════════════
-  // SLIDE 8 — System Collaboration & Avoiding Local Optimisation
+  // SLIDE 8 — System Collaboration & Avoiding Local Optimization
   // ══════════════════════════════════════════════════════════════════
   {
     const s = pres.addSlide();
@@ -450,7 +450,7 @@ async function build() {
 
     s.addShape(pres.shapes.RECTANGLE, { x:0, y:0, w:10, h:0.82, fill:{ color:C.navy } });
     s.addText("SYSTEM COLLABORATION  \u2014  NO LOCAL OPTIMISATION", { x:0.4, y:0, w:9, h:0.82, fontSize:13, color:C.white, bold:true, charSpacing:3, valign:"middle", margin:0 });
-    s.addText("A product team that optimises only for its own product will eventually damage the wider system it operates within.", { x:0.4, y:0.9, w:9.2, h:0.3, fontSize:12, color:C.muted, italic:true, margin:0 });
+    s.addText("A product team that optimizes only for its own product will eventually damage the wider system it operates within.", { x:0.4, y:0.9, w:9.2, h:0.3, fontSize:12, color:C.muted, italic:true, margin:0 });
 
     // System diagram
     s.addShape(pres.shapes.OVAL, { x:3.6, y:1.2, w:2.8, h:2.1, fill:{ color:C.pale }, shadow:shadow() });
@@ -476,7 +476,7 @@ async function build() {
       { head:"Platform over duplication",
         body:"Before building capability, check whether the platform team or a shared service already provides it. Local duplicates fragment the system." },
       { head:"NFRs are system-wide, not local",
-        body:"A performance optimisation that creates a bottleneck for consumer teams is not an optimisation. Measure impact at the system level." },
+        body:"A performance optimization that creates a bottleneck for consumer teams is not an optimization. Measure impact at the system level." },
     ];
 
     principles.forEach((p,i) => {
@@ -593,7 +593,7 @@ async function build() {
       { n:"3", t:"Define your NFR floor",              min:"8 min",
         d:"Write the quality contract your team would commit to: minimum test coverage, performance budget, security checklist frequency, complexity limits. These are your non-negotiables. How would you present them to your PO?" },
       { n:"4", t:"Map your system dependencies",       min:"7 min",
-        d:"Draw your product\u2019s dependency graph. Which teams do you consume from? Which consume from you? Where are the highest-risk coupling points? What contracts are missing? What collaboration cadence would prevent local optimisation?" },
+        d:"Draw your product\u2019s dependency graph. Which teams do you consume from? Which consume from you? Where are the highest-risk coupling points? What contracts are missing? What collaboration cadence would prevent local optimization?" },
       { n:"5", t:"Draft your tech debt case",          min:"8 min",
         d:"Identify your single largest source of technical debt. Frame it in business language using one of the three frames: risk, velocity tax, or opportunity cost. Present a 1-sprint investment proposal with expected return." },
       { n:"6", t:"Present: what changes this week?",  min:"7 min",
@@ -628,7 +628,7 @@ async function build() {
       "Q1.  What is the single biggest cultural barrier to adopting the three-person equal-peers model in your organization?",
       "Q2.  If you had to start a new product team from scratch today, who would your three people be? Why?",
       "Q3.  What would it take for your Product Owner to agree to a standing 20% NFR/hygiene allocation? What evidence would change their mind?",
-      "Q4.  What\u2019s one local optimisation your team makes today that you know is harming another team?",
+      "Q4.  What\u2019s one local optimization your team makes today that you know is harming another team?",
     ];
     s.addText(qs.join("\n\n"), { x:0.5, y:1.4, w:5.1, h:2.0, fontSize:11, color:C.pale, margin:0 });
 
@@ -642,7 +642,7 @@ async function build() {
       "\u00B7 All three own everything, always",
       "\u00B7 Agents multiply the team, not replace it",
       "\u00B7 NFR advocacy is every member\u2019s job",
-      "\u00B7 System collaboration prevents local optimisation",
+      "\u00B7 System collaboration prevents local optimization",
     ];
     s.addText(tks.join("\n"), { x:6.2, y:1.4, w:3.35, h:2.0, fontSize:12, color:C.pale, margin:0 });
 

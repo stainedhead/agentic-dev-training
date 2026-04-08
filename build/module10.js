@@ -130,7 +130,7 @@ async function build() {
         do:"Provide machine-readable OpenAPI/JSON Schema for every API the agent will consume",
         dont:"Expect agents to infer API contracts from prose documentation or examples alone" },
       { head:"llms.txt for documentation", color:C.teal,
-        detail:"llms.txt is an emerging standard (like robots.txt) that summarises what an LLM needs to know about a site or service in a compact, LLM-optimised format.",
+        detail:"llms.txt is an emerging standard (like robots.txt) that summarises what an LLM needs to know about a site or service in a compact, LLM-optimized format.",
         do:"Add llms.txt to your services. Keep it current. Reference it in agent skills.",
         dont:"Expect agents to parse full HTML docs, changelogs, or wiki pages for context" },
       { head:"MCP-compatible tool definitions", color:C.accent,
@@ -358,7 +358,7 @@ async function build() {
         activities:["HITL review cycles", "Observability & tracing", "Evaluation baselines", "Drift detection alerts"] },
       { phase:"Secure", color:"D04040", mods:"Module 8",
         activities:["Identity & sandboxing", "OWASP threat mitigation", "Kill switches tested", "Audit trail live"] },
-      { phase:"Optimise", color:C.iceBlue, mods:"Module 9",
+      { phase:"Optimize", color:C.iceBlue, mods:"Module 9",
         activities:["Cost-per-unit measured", "Model routing deployed", "Budget guardrails set", "FinOps dashboard live"] },
     ];
 
@@ -394,7 +394,7 @@ async function build() {
         markers:["CLAUDE.md and Skills in repos", "SDD workflow adopted by some teams", "Basic cost tracking per team", "First agent in CI pipeline"] },
       { level:"Level 3\nManaged", color:C.accent,
         markers:["Design reviews before agent deployment", "Verifier loops and HITL gates standard", "Cost-per-unit tracked for AI features", "ADR process adopted"] },
-      { level:"Level 4\nOptimised", color:C.green,
+      { level:"Level 4\nOptimized", color:C.green,
         markers:["Agents primary authors of code (Spotify model)", "Full observability and drift detection", "FinOps governance with routing and caching", "Security audited quarterly"] },
     ];
 
@@ -436,7 +436,7 @@ async function build() {
       { n:"1", t:"Finalise your architecture", min:"10 min", d:"Draw the complete system: orchestrator/subagents, tools, memory, context sources, HITL gates, kill switch, budget model. For coding-agent track: map your CLAUDE.md, skills, verifier loop, and HITL points." },
       { n:"2", t:"Run the checklist", min:"12 min", d:"Work through every applicable checklist item: \u2713 Pass, \u26A0 Partial, \u2717 Gap. Document every gap with an owner and timeline. Production track: all 12. Coding-agent track: items 01, 04, 05, 06, 07, 10." },
       { n:"3", t:"Write one ADR", min:"8 min", d:"Identify the single most important architectural decision in your system. Write a full ADR: Context, Decision, Consequences. It must be specific, consequential, and irreversible. Swap with a neighbour." },
-      { n:"4", t:"Threat model + FinOps", min:"8 min", d:"Identify your top 3 OWASP threats with mitigations and owners. Estimate $/day at 1,000 runs. Identify the highest-ROI cost optimisation lever. (Coding-agent track: estimate cost-per-session and set a budget cap.)" },
+      { n:"4", t:"Threat model + FinOps", min:"8 min", d:"Identify your top 3 OWASP threats with mitigations and owners. Estimate $/day at 1,000 runs. Identify the highest-ROI cost optimization lever. (Coding-agent track: estimate cost-per-session and set a budget cap.)" },
       { n:"5", t:"Present to peer review", min:"7 min", d:"10-minute presentation. Panel plays enterprise architecture review board. Focus questions: security gaps, cost model, and what happens when the agent fails." },
     ];
 
@@ -465,13 +465,13 @@ async function build() {
       "M01: Chat vs. Agents \u2014 the autonomy spectrum",
       "M02: Core Concepts \u2014 tools, memory, MCP, 12-Factor",
       "M03: Context Engineering \u2014 CLAUDE.md, Skills, strategies",
-      "M04: Spec-Driven Development \u2014 PRD \u2192 Spec \u2192 Plan \u2192 Code",
-      "M05: Testing & CI/CD \u2014 verifiers, judges, feedback loops",
-      "M06: Review Cycles \u2014 HITL, hygiene, continuous improvement",
-      "M07: Observability \u2014 tracing, logging, evaluation, metrics",
-      "M08: Security \u2014 identity, sandboxing, OWASP, kill switches",
-      "M09: FinOps \u2014 token economics, routing, governance",
-      "M10: Design Reviews \u2014 AX, ADRs, maturity model",
+      "M04: Product Documentation \u2014 rules files, PRODUCT.md, ADRs, README",
+      "M05: Automated Testing \u2014 TDD, coverage \u226585%, AC-to-test pipeline",
+      "M06: Spec-Driven Development \u2014 PRD \u2192 Spec \u2192 Plan \u2192 Code",
+      "M07: Review Cycles \u2014 HITL, verifiers, evaluators, feedback loops",
+      "M08: Review Hygiene \u2014 HITL tiers, ADRs, improvement loop",
+      "M09: Observability \u2014 logs, metrics, traces, events, health",
+      "M10: Design Reviews \u2014 design principles, security & FinOps review, 12-point checklist",
     ];
     s.addText(recap.join("\n"), { x:0.5, y:1.4, w:5.1, h:3.1, fontSize:11, color:C.pale, margin:0 });
 

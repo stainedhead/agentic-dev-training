@@ -1,32 +1,10 @@
 const pptxgen = require("pptxgenjs");
-const React = require("react");
-const ReactDOMServer = require("react-dom/server");
-const sharp = require("sharp");
-const { FaFileAlt, FaFolderOpen, FaBolt, FaCompress, FaSearch, FaLayerGroup, FaClock, FaCheckSquare, FaBook, FaCode, FaFilter, FaMemory, FaLightbulb, FaRobot, FaCogs } = require("react-icons/fa");
-
-// ─── Corporate Slate Palette ──────────────────────────────────────────────────
-const C = {
-  navy:    "1C3557",
-  iceBlue: "5B8DB8",
-  pale:    "D4E4F0",
-  white:   "FFFFFF",
-  offWhite:"F3F6F9",
-  accent:  "3A7DC9",
-  teal:    "4A7FA8",
-  mid:     "2E5073",
-  text:    "1E2D3D",
-  muted:   "7A90A8",
-  green:   "3A7E6E",
-  steel:   "8096B0",
-};
-
-const shadow = () => ({ type: "outer", color: "000000", blur: 8, offset: 3, angle: 135, opacity: 0.13 });
-
-async function icon(Component, color = "#FFFFFF", size = 256) {
-  const svg = ReactDOMServer.renderToStaticMarkup(React.createElement(Component, { color, size: String(size) }));
-  const buf = await sharp(Buffer.from(svg)).png().toBuffer();
-  return "image/png;base64," + buf.toString("base64");
-}
+const { C, shadow, icon } = require("./shared");
+const {
+  FaFileAlt, FaBook, FaClipboardList, FaCheckSquare,
+  FaLayerGroup, FaSearch, FaExclamationTriangle, FaLightbulb,
+  FaListAlt, FaCodeBranch, FaDatabase, FaCog
+} = require("react-icons/fa");
 
 async function build() {
   const pres = new pptxgen();
@@ -48,35 +26,35 @@ async function build() {
     s.addText("MODULE 03", { x: 0.4, y: 0.82, w: 1.5, h: 0.38, fontSize: 11, color: C.white, bold: true, align: "center", valign: "middle", margin: 0 });
 
     s.addText("Context\nEngineering", { x: 0.4, y: 1.38, w: 7.5, h: 1.9, fontSize: 52, color: C.white, bold: true, margin: 0 });
-    s.addText("Optimising every token in the agent's context window", { x: 0.4, y: 3.38, w: 7.2, h: 0.52, fontSize: 18, color: C.iceBlue, italic: true, margin: 0 });
-    s.addShape(pres.shapes.RECTANGLE, { x: 0.4, y: 4.0, w: 3.5, h: 0.04, fill: { color: C.accent } });
+    s.addText("The five documents that determine what your agent builds", { x: 0.4, y: 3.38, w: 7.2, h: 0.52, fontSize: 18, color: C.iceBlue, italic: true, margin: 0 });
+    s.addShape(pres.shapes.RECTANGLE, { x: 0.4, y: 4.05, w: 3.5, h: 0.04, fill: { color: C.accent } });
     s.addText([
       { text: "Duration: ", options: { bold: true, color: C.muted } },
       { text: "75–90 min  ", options: { color: C.muted } },
       { text: "  |  ", options: { color: C.muted } },
       { text: "Level: ", options: { bold: true, color: C.muted } },
       { text: "Intermediate", options: { color: C.muted } }
-    ], { x: 0.4, y: 4.2, w: 5, h: 0.38, fontSize: 13, margin: 0 });
+    ], { x: 0.4, y: 4.25, w: 5, h: 0.38, fontSize: 13, margin: 0 });
 
-    // Right visual — context window diagram
-    s.addShape(pres.shapes.RECTANGLE, { x: 7.2, y: 0.65, w: 2.45, h: 4.7, fill: { color: C.mid, transparency: 25 }, shadow: shadow() });
-    s.addText("CONTEXT\nWINDOW", { x: 7.2, y: 0.75, w: 2.45, h: 0.55, fontSize: 10, color: C.iceBlue, bold: true, charSpacing: 2, align: "center", margin: 0 });
+    // Right visual — the five artifact stack
+    s.addShape(pres.shapes.RECTANGLE, { x: 7.1, y: 0.55, w: 2.55, h: 4.8, fill: { color: C.mid, transparency: 25 }, shadow: shadow() });
+    s.addText("THE FIVE\nCONTEXT\nARTIFACTS", { x: 7.1, y: 0.62, w: 2.55, h: 0.75, fontSize: 9, color: C.iceBlue, bold: true, charSpacing: 1, align: "center", margin: 0 });
 
     const layers = [
-      { label: "System Prompt", color: C.accent,  h: 0.52 },
-      { label: "CLAUDE.md",     color: C.teal,    h: 0.42 },
-      { label: "Skills",        color: C.green,   h: 0.42 },
-      { label: "Spec / PRD",    color: C.teal,    h: 0.42 },
-      { label: "Tool Results",  color: C.steel,   h: 0.52 },
-      { label: "Conversation",  color: C.mid,     h: 0.62 },
-      { label: "User Message",  color: C.accent,  h: 0.38 },
+      { label: "Rules File",           sub: "Definition of Done", color: C.accent },
+      { label: "Product Docs",         sub: "Summary · Details · Tech", color: C.teal },
+      { label: "ADRs",                 sub: "Architecture Decisions", color: C.green },
+      { label: "PRD",                  sub: "Requirements + Criteria", color: C.teal },
+      { label: "Plan / Spec",          sub: "Implementation Blueprint", color: C.steel },
     ];
-    let ly = 1.4;
-    layers.forEach(l => {
-      s.addShape(pres.shapes.RECTANGLE, { x: 7.32, y: ly, w: 2.21, h: l.h - 0.04, fill: { color: l.color, transparency: l.color === C.mid ? 30 : 15 } });
-      s.addText(l.label, { x: 7.32, y: ly, w: 2.21, h: l.h - 0.04, fontSize: 9.5, color: C.white, align: "center", valign: "middle", margin: 0 });
-      ly += l.h;
-    });
+    let ly = 1.48;
+    for (let i = 0; i < layers.length; i++) {
+      const l = layers[i];
+      s.addShape(pres.shapes.RECTANGLE, { x: 7.22, y: ly, w: 2.31, h: 0.68, fill: { color: l.color, transparency: 18 } });
+      s.addText(l.label, { x: 7.22, y: ly + 0.04, w: 2.31, h: 0.3, fontSize: 9.5, color: C.white, bold: true, align: "center", valign: "middle", margin: 0 });
+      s.addText(l.sub, { x: 7.22, y: ly + 0.36, w: 2.31, h: 0.26, fontSize: 8, color: C.pale, align: "center", margin: 0 });
+      ly += 0.72;
+    }
   }
 
   // ══════════════════════════════════════════════════════════════════
@@ -91,10 +69,10 @@ async function build() {
     s.addText("By the end of this module you will be able to:", { x: 0.35, y: 0.9, w: 9.3, h: 0.28, fontSize: 11, color: C.muted, italic: true, margin: 0 });
 
     const objs = [
-      { icon: FaFileAlt,    color: C.accent, title: "Write a CLAUDE.md that works",  body: "Apply the <300-line rule, progressive disclosure pattern, and universal-rules principle to craft effective agent instruction files." },
-      { icon: FaFolderOpen, color: C.teal,   title: "Build and use Agent Skills",    body: "Structure SKILL.md folders, write trigger descriptions, and deploy skills for on-demand specialist knowledge injection." },
-      { icon: FaFilter,     color: C.green,  title: "Choose the right context strategy", body: "Select the appropriate pattern — naive injection, just-in-time retrieval, agentic memory, or compaction — for each scenario." },
-      { icon: FaBook,       color: C.steel,  title: "Use product docs as context",   body: "Embed PRDs, specs, ADRs, and DoD as persistent agent context so agents build what was actually intended." },
+      { icon: FaFileAlt,       color: C.accent, title: "Write a rules file that works",      body: "Encode your team's Definition of Done, architecture constraints, and coding standards so the agent self-evaluates before raising a PR." },
+      { icon: FaBook,          color: C.teal,   title: "Build product documentation",        body: "Write a product summary, product details, and technical context that give the agent the 'why' behind every constraint." },
+      { icon: FaCodeBranch,    color: C.green,  title: "Maintain Architecture Decisions",    body: "Write ADRs that prevent agents from undoing settled decisions — and use agent assistance to make ADR maintenance sustainable." },
+      { icon: FaClipboardList, color: C.steel,  title: "Write PRDs and specs agents can use", body: "Craft acceptance criteria precise enough to become tests, and plans detailed enough to remove ambiguous design decisions from the agent." },
     ];
 
     const cols = [0.35, 5.1];
@@ -105,495 +83,501 @@ async function build() {
       s.addShape(pres.shapes.RECTANGLE, { x, y, w: 0.07, h, fill: { color: o.color } });
       const ic = await icon(o.icon, "#" + o.color);
       s.addImage({ data: ic, x: x + 0.18, y: y + 0.22, w: 0.4, h: 0.4 });
-      s.addText(o.title, { x: x + 0.7, y: y + 0.18, w: w - 0.85, h: 0.42, fontSize: 13, color: C.navy, bold: true, margin: 0 });
-      s.addText(o.body,  { x: x + 0.7, y: y + 0.64, w: w - 0.85, h: 1.05, fontSize: 11.5, color: C.muted, margin: 0 });
+      s.addText(o.title, { x: x + 0.7, y: y + 0.18, w: w - 0.85, h: 0.42, fontSize: 12.5, color: C.navy, bold: true, margin: 0 });
+      s.addText(o.body,  { x: x + 0.7, y: y + 0.64, w: w - 0.85, h: 1.05, fontSize: 11, color: C.muted, margin: 0 });
     }
   }
 
   // ══════════════════════════════════════════════════════════════════
-  // SLIDE 3 — What is Context Engineering?
+  // SLIDE 3 — Why Context Determines Output Quality
   // ══════════════════════════════════════════════════════════════════
   {
     const s = pres.addSlide();
     s.background = { color: C.navy };
 
-    s.addText("WHAT IS CONTEXT ENGINEERING?", { x: 0.4, y: 0.22, w: 9, h: 0.45, fontSize: 13, color: C.iceBlue, bold: true, charSpacing: 3, margin: 0 });
+    s.addText("CONTEXT DETERMINES OUTPUT QUALITY", { x: 0.4, y: 0.22, w: 9.2, h: 0.45, fontSize: 13, color: C.iceBlue, bold: true, charSpacing: 3, margin: 0 });
 
-    // The key distinction
-    s.addShape(pres.shapes.RECTANGLE, { x: 0.35, y: 0.82, w: 9.3, h: 1.35, fill: { color: C.mid, transparency: 18 }, shadow: shadow() });
-    s.addText("\u201CPrompt engineering optimises human\u2013LLM interaction.\nContext engineering optimises agent\u2013LLM interaction.\u201D", {
-      x: 0.65, y: 0.95, w: 8.7, h: 0.88,
-      fontSize: 18, color: C.white, italic: true, align: "center", valign: "middle", margin: 0
+    s.addShape(pres.shapes.RECTANGLE, { x: 0.35, y: 0.82, w: 9.3, h: 1.05, fill: { color: C.mid, transparency: 18 }, shadow: shadow() });
+    s.addText("The context window is the agent's entire world. Everything outside it is invisible.\nWhat the agent produces is a direct function of what you gave it to work with.", {
+      x: 0.65, y: 0.88, w: 8.7, h: 0.82,
+      fontSize: 15, color: C.white, italic: true, align: "center", valign: "middle", margin: 0
     });
-    s.addText("\u2014 Thoughtworks, 2025", { x: 0.65, y: 1.92, w: 8.7, h: 0.22, fontSize: 10, color: C.muted, align: "center", margin: 0 });
 
-    const points = [
-      { icon: FaBolt,      color: C.accent,  head: "The Core Discipline",    body: "Context engineering is the art and science of deciding what goes into the agent\u2019s context window, when, and in what form \u2014 to maximize useful work per token." },
-      { icon: FaLayerGroup,color: C.teal,    head: "Why It\u2019s Different from Prompting", body: "Agents run for hundreds of tool calls across long tasks. A single prompt doesn\u2019t cut it. Context must be curated, compacted, and refreshed dynamically." },
-      { icon: FaFilter,    color: C.green,   head: "The Central Constraint", body: "All LLMs have a finite context window. Everything the agent can \u201Csee\u201D must fit. Poor context engineering fills that window with noise instead of signal." },
-      { icon: FaCode,      color: C.steel,   head: "Folder = Context",       body: "Anthropic: \u201CThe folder and file structure of an agent becomes a form of context engineering.\u201D How you organize your project IS how you communicate intent to the agent." },
+    // What happens without each artifact
+    const gaps = [
+      { miss: "No rules file",          error: "Agent decides for itself what 'done' means — consistently wrong in small ways that compound into quality debt." },
+      { miss: "No product docs",        error: "Agent optimizes technically but misses product intent. Correct code for the wrong product." },
+      { miss: "No ADRs",                error: "Agent undoes settled architectural decisions it doesn't know exist. Confident, plausible, expensive mistakes." },
+      { miss: "No PRD",                 error: "Agent implements its best guess of what was wanted. Expensive guessing at machine speed." },
+      { miss: "No plan / spec",         error: "Agent makes design decisions that should have been made by the team. Local optima, global problems." },
     ];
 
-    for (let i = 0; i < 4; i++) {
-      const col = i % 2, row = Math.floor(i / 2);
-      const x = col === 0 ? 0.35 : 5.1, y = 2.35 + row * 1.55, w = 4.55, h = 1.42;
-      const p = points[i];
-      s.addShape(pres.shapes.RECTANGLE, { x, y, w, h, fill: { color: C.mid, transparency: 15 }, shadow: shadow() });
-      s.addShape(pres.shapes.RECTANGLE, { x, y, w: 0.06, h, fill: { color: p.color } });
-      const ic = await icon(p.icon, "#" + p.color);
-      s.addImage({ data: ic, x: x + 0.16, y: y + 0.22, w: 0.36, h: 0.36 });
-      s.addText(p.head, { x: x + 0.62, y: y + 0.12, w: w - 0.76, h: 0.38, fontSize: 12.5, color: p.color, bold: true, margin: 0 });
-      s.addText(p.body, { x: x + 0.62, y: y + 0.54, w: w - 0.76, h: 0.78, fontSize: 11, color: C.pale, margin: 0 });
+    s.addShape(pres.shapes.RECTANGLE, { x: 0.35, y: 2.0, w: 9.3, h: 0.35, fill: { color: C.accent, transparency: 25 } });
+    s.addText("Missing artifact → predictable error class", { x: 0.35, y: 2.0, w: 9.3, h: 0.35, fontSize: 11, color: C.white, bold: true, align: "center", valign: "middle", margin: 0 });
+
+    for (let i = 0; i < gaps.length; i++) {
+      const g = gaps[i];
+      const y = 2.42 + i * 0.6;
+      s.addShape(pres.shapes.RECTANGLE, { x: 0.35, y, w: 9.3, h: 0.54, fill: { color: C.mid, transparency: i % 2 === 0 ? 35 : 50 } });
+      s.addText(g.miss, { x: 0.5, y, w: 2.1, h: 0.54, fontSize: 10.5, color: C.amber, bold: true, valign: "middle", margin: 0 });
+      s.addShape(pres.shapes.RECTANGLE, { x: 2.55, y: y + 0.12, w: 0.02, h: 0.3, fill: { color: C.steel } });
+      s.addText(g.error, { x: 2.7, y, w: 6.8, h: 0.54, fontSize: 10.5, color: C.pale, valign: "middle", margin: 0 });
     }
   }
 
   // ══════════════════════════════════════════════════════════════════
-  // SLIDE 4 — CLAUDE.md: The Agent's Standing Orders
+  // SLIDE 4 — The Rules File
   // ══════════════════════════════════════════════════════════════════
   {
     const s = pres.addSlide();
     s.background = { color: C.white };
 
     s.addShape(pres.shapes.RECTANGLE, { x: 0, y: 0, w: 10, h: 0.82, fill: { color: C.navy } });
-    s.addText("CLAUDE.md  \u2014  THE AGENT\u2019S STANDING ORDERS", { x: 0.4, y: 0, w: 9, h: 0.82, fontSize: 13, color: C.white, bold: true, charSpacing: 3, valign: "middle", margin: 0 });
-    s.addText("The persistent instruction file loaded into every Claude Code session", { x: 0.4, y: 0.9, w: 9.2, h: 0.3, fontSize: 12.5, color: C.muted, italic: true, margin: 0 });
+    s.addText("THE RULES FILE  —  THE AGENT'S STANDING ORDERS", { x: 0.4, y: 0, w: 9.2, h: 0.82, fontSize: 13, color: C.white, bold: true, charSpacing: 3, valign: "middle", margin: 0 });
+    s.addText("CLAUDE.md · .cursorrules · loaded into every session · applies to every task", { x: 0.4, y: 0.9, w: 9.2, h: 0.28, fontSize: 11.5, color: C.muted, italic: true, margin: 0 });
 
-    // Left column — rules
-    const rules = [
-      { head: "Keep it under 300 lines",        color: C.accent, body: "Shorter is better. HumanLayer's production CLAUDE.md is under 60 lines. Claude\u2019s system prompt already consumes ~50 instructions before yours." },
-      { head: "Universal rules only",           color: C.teal,   body: "Only content that applies to every session belongs here. Task-specific rules go in separate referenced files. Irrelevant content actively degrades performance." },
-      { head: "Progressive disclosure",         color: C.green,  body: "Reference `agent_docs/building_the_project.md`, `agent_docs/code_conventions.md` etc. Claude reads them on-demand, not upfront." },
-      { head: "LLMs are in-context learners",   color: C.steel,  body: "If your code follows a consistent style, the agent will follow it without being told. Show don\u2019t tell \u2014 examples outperform rules." },
+    // Left — what belongs
+    const sections = [
+      { head: "Tech stack & conventions",   color: C.accent, body: "Languages, frameworks, naming patterns, formatting. The agent follows consistent style in the codebase — but explicit standards prevent drift on new code." },
+      { head: "Architecture constraints",   color: C.teal,   body: "What layers exist. What is off-limits. What patterns are required. What the agent must never do to the system structure." },
+      { head: "Security rules",             color: C.red,    body: "Never log PII. Never hard-code credentials. Always validate external inputs. These are non-negotiable and belong in every rules file." },
+      { head: "Definition of Done",         color: C.green,  body: "The most important section. The full checklist the agent must satisfy before raising a PR. Without it, the agent decides what 'done' means." },
     ];
 
-    rules.forEach((r, i) => {
-      const y = 1.3 + i * 1.05;
-      s.addShape(pres.shapes.RECTANGLE, { x: 0.35, y, w: 4.9, h: 0.95, fill: { color: C.offWhite }, shadow: shadow() });
-      s.addShape(pres.shapes.RECTANGLE, { x: 0.35, y, w: 0.06, h: 0.95, fill: { color: r.color } });
-      s.addText(r.head, { x: 0.52, y: y + 0.06, w: 4.6, h: 0.32, fontSize: 12.5, color: C.navy, bold: true, margin: 0 });
-      s.addText(r.body, { x: 0.52, y: y + 0.42, w: 4.6, h: 0.46, fontSize: 11, color: C.muted, margin: 0 });
-    });
+    for (let i = 0; i < sections.length; i++) {
+      const r = sections[i];
+      const y = 1.28 + i * 1.02;
+      s.addShape(pres.shapes.RECTANGLE, { x: 0.35, y, w: 4.75, h: 0.92, fill: { color: C.offWhite }, shadow: shadow() });
+      s.addShape(pres.shapes.RECTANGLE, { x: 0.35, y, w: 0.06, h: 0.92, fill: { color: r.color } });
+      s.addText(r.head, { x: 0.52, y: y + 0.06, w: 4.45, h: 0.3, fontSize: 12, color: C.navy, bold: true, margin: 0 });
+      s.addText(r.body, { x: 0.52, y: y + 0.4, w: 4.45, h: 0.46, fontSize: 10.5, color: C.muted, margin: 0 });
+    }
 
-    // Right column — structure diagram
-    s.addShape(pres.shapes.RECTANGLE, { x: 5.5, y: 1.28, w: 4.15, h: 4.05, fill: { color: C.offWhite }, shadow: shadow() });
-    s.addShape(pres.shapes.RECTANGLE, { x: 5.5, y: 1.28, w: 4.15, h: 0.42, fill: { color: C.navy } });
-    s.addText("RECOMMENDED STRUCTURE", { x: 5.5, y: 1.28, w: 4.15, h: 0.42, fontSize: 11, color: C.white, bold: true, charSpacing: 2, align: "center", valign: "middle", margin: 0 });
+    // Right — rules file discipline box
+    s.addShape(pres.shapes.RECTANGLE, { x: 5.45, y: 1.28, w: 4.2, h: 3.8, fill: { color: C.offWhite }, shadow: shadow() });
+    s.addShape(pres.shapes.RECTANGLE, { x: 5.45, y: 1.28, w: 4.2, h: 0.42, fill: { color: C.navy } });
+    s.addText("RULES FILE DISCIPLINE", { x: 5.45, y: 1.28, w: 4.2, h: 0.42, fontSize: 11, color: C.white, bold: true, charSpacing: 2, align: "center", valign: "middle", margin: 0 });
 
-    const struct = [
-      { file: "CLAUDE.md",                   note: "\u2264 60 lines, universal rules only",  color: C.accent },
-      { file: "agent_docs/",                 note: "Task-specific detail (loaded on-demand)", color: C.teal },
-      { file: "  building_the_project.md",   note: "How to build, test, run",                color: C.teal },
-      { file: "  code_conventions.md",       note: "Style, patterns, naming",                color: C.teal },
-      { file: "  service_architecture.md",   note: "System design, dependencies",            color: C.teal },
-      { file: "  database_schema.md",        note: "Data models and relationships",          color: C.teal },
-      { file: "SPEC.md",                     note: "Product requirements (see Module 4)",    color: C.green },
-      { file: "NOTES.md",                    note: "Agent working memory (auto-managed)",    color: C.steel },
+    const discipline = [
+      { n: "1", rule: "Keep it under 300 lines", detail: "Longer files are read but not absorbed. Move task-specific rules to referenced docs loaded just-in-time." },
+      { n: "2", rule: "Universal rules only", detail: "Only what is true for every session. Task-specific standards go in referenced documents." },
+      { n: "3", rule: "Version-control it as code", detail: "Every change through PR review. A DoD change is a policy change — it needs the same scrutiny." },
+      { n: "4", rule: "Run evals on changes", detail: "When you change a rule, run your eval suite. Prompt changes have the same regression risk as code changes." },
     ];
 
-    struct.forEach((f, i) => {
-      const y = 1.82 + i * 0.36;
-      s.addShape(pres.shapes.RECTANGLE, { x: 5.62, y, w: 3.9, h: 0.32, fill: { color: f.color, transparency: i === 0 ? 0 : 85 } });
-      s.addText(f.file, { x: 5.7, y, w: 1.6, h: 0.32, fontSize: 10, color: i === 0 ? C.white : f.color, bold: i === 0, fontFace: "Consolas", valign: "middle", margin: 0 });
-      s.addText(f.note, { x: 7.3, y, w: 2.1, h: 0.32, fontSize: 9.5, color: C.muted, italic: true, valign: "middle", margin: 0 });
-    });
+    for (let i = 0; i < discipline.length; i++) {
+      const d = discipline[i];
+      const y = 1.82 + i * 0.82;
+      s.addShape(pres.shapes.RECTANGLE, { x: 5.57, y, w: 0.32, h: 0.32, fill: { color: C.accent } });
+      s.addText(d.n, { x: 5.57, y, w: 0.32, h: 0.32, fontSize: 12, color: C.white, bold: true, align: "center", valign: "middle", margin: 0 });
+      s.addText(d.rule, { x: 6.0, y: y + 0.01, w: 3.5, h: 0.28, fontSize: 11.5, color: C.navy, bold: true, margin: 0 });
+      s.addText(d.detail, { x: 6.0, y: y + 0.33, w: 3.5, h: 0.38, fontSize: 10, color: C.muted, margin: 0 });
+    }
   }
 
   // ══════════════════════════════════════════════════════════════════
-  // SLIDE 5 — Agent Skills
+  // SLIDE 5 — Definition of Done as Context
   // ══════════════════════════════════════════════════════════════════
   {
     const s = pres.addSlide();
     s.background = { color: C.offWhite };
 
     s.addShape(pres.shapes.RECTANGLE, { x: 0, y: 0, w: 10, h: 0.82, fill: { color: C.navy } });
-    s.addText("AGENT SKILLS  \u2014  ON-DEMAND SPECIALIST KNOWLEDGE", { x: 0.4, y: 0, w: 9, h: 0.82, fontSize: 13, color: C.white, bold: true, charSpacing: 3, valign: "middle", margin: 0 });
-    s.addText("Skills are folders of instructions, scripts, and resources that agents load dynamically  \u2014  Anthropic, Jan 2026", { x: 0.4, y: 0.9, w: 9.2, h: 0.3, fontSize: 11.5, color: C.muted, italic: true, margin: 0 });
+    s.addText("DEFINITION OF DONE  —  THE CONTRACT IN YOUR RULES FILE", { x: 0.4, y: 0, w: 9.2, h: 0.82, fontSize: 13, color: C.white, bold: true, charSpacing: 3, valign: "middle", margin: 0 });
+    s.addText("When the agent knows the DoD, it self-evaluates before raising a PR. When it doesn't, it decides for itself.", { x: 0.4, y: 0.9, w: 9.2, h: 0.28, fontSize: 11.5, color: C.muted, italic: true, margin: 0 });
 
-    // CLAUDE.md vs Skills comparison
-    s.addShape(pres.shapes.RECTANGLE, { x: 0.35, y: 1.28, w: 4.4, h: 1.0, fill: { color: C.white }, shadow: shadow() });
-    s.addShape(pres.shapes.RECTANGLE, { x: 0.35, y: 1.28, w: 4.4, h: 0.42, fill: { color: C.steel } });
-    s.addText("CLAUDE.md", { x: 0.35, y: 1.28, w: 4.4, h: 0.42, fontSize: 13, color: C.white, bold: true, align: "center", valign: "middle", margin: 0 });
-    s.addText("Universal context \u2014 loaded every session, every task", { x: 0.45, y: 1.76, w: 4.2, h: 0.42, fontSize: 11.5, color: C.muted, align: "center", margin: 0 });
-
-    s.addText("vs", { x: 4.78, y: 1.55, w: 0.45, h: 0.42, fontSize: 16, color: C.muted, align: "center", bold: true, margin: 0 });
-
-    s.addShape(pres.shapes.RECTANGLE, { x: 5.25, y: 1.28, w: 4.4, h: 1.0, fill: { color: C.white }, shadow: shadow() });
-    s.addShape(pres.shapes.RECTANGLE, { x: 5.25, y: 1.28, w: 4.4, h: 0.42, fill: { color: C.accent } });
-    s.addText("Skills", { x: 5.25, y: 1.28, w: 4.4, h: 0.42, fontSize: 13, color: C.white, bold: true, align: "center", valign: "middle", margin: 0 });
-    s.addText("Domain-specific context \u2014 loaded on-demand when relevant", { x: 5.35, y: 1.76, w: 4.2, h: 0.42, fontSize: 11.5, color: C.muted, align: "center", margin: 0 });
-
-    // Skill anatomy
-    s.addShape(pres.shapes.RECTANGLE, { x: 0.35, y: 2.45, w: 4.4, h: 2.95, fill: { color: C.white }, shadow: shadow() });
-    s.addShape(pres.shapes.RECTANGLE, { x: 0.35, y: 2.45, w: 4.4, h: 0.4, fill: { color: C.navy } });
-    s.addText("SKILL FOLDER ANATOMY", { x: 0.35, y: 2.45, w: 4.4, h: 0.4, fontSize: 11, color: C.white, bold: true, charSpacing: 2, align: "center", valign: "middle", margin: 0 });
-
-    const anatomy = [
-      { f: "my-skill/",         note: "Self-contained folder",        color: C.accent },
-      { f: "  SKILL.md",        note: "YAML frontmatter + instructions", color: C.accent },
-      { f: "  scripts/",        note: "Executable tools",             color: C.teal },
-      { f: "  reference/",      note: "Supporting docs, examples",    color: C.green },
+    // DoD checklist items
+    const items = [
+      { check: "All new code has unit tests at the appropriate coverage level", color: C.green },
+      { check: "All tests pass locally and in CI before PR is raised", color: C.green },
+      { check: "No new lint or type errors introduced", color: C.green },
+      { check: "No secrets, credentials, or PII in code or config files", color: C.red },
+      { check: "PR description complete: what changed, why, how, alternatives considered", color: C.accent },
+      { check: "Public interfaces documented; internal docs updated if behavior changed", color: C.teal },
+      { check: "No regressions in existing test suite", color: C.green },
+      { check: "Change reviewed against relevant ADRs — no conflicts", color: C.amber },
     ];
-    anatomy.forEach((a, i) => {
-      const y = 2.97 + i * 0.38;
-      s.addShape(pres.shapes.RECTANGLE, { x: 0.47, y, w: 4.15, h: 0.33, fill: { color: a.color, transparency: i === 0 ? 80 : 90 } });
-      s.addText(a.f,    { x: 0.55, y, w: 1.8, h: 0.33, fontSize: 10.5, color: a.color, bold: i === 0, fontFace: "Consolas", valign: "middle", margin: 0 });
-      s.addText(a.note, { x: 2.35, y, w: 2.15, h: 0.33, fontSize: 10, color: C.muted, italic: true, valign: "middle", margin: 0 });
-    });
 
-    s.addShape(pres.shapes.RECTANGLE, { x: 0.47, y: 4.3, w: 4.15, h: 0.88, fill: { color: C.pale } });
-    s.addText("SKILL.md frontmatter:", { x: 0.57, y: 4.34, w: 3.9, h: 0.24, fontSize: 9.5, color: C.navy, bold: true, margin: 0 });
-    s.addText("name: pdf-processor\ndescription: Use PROACTIVELY when user asks about PDFs", {
-      x: 0.57, y: 4.57, w: 3.9, h: 0.52, fontSize: 9.5, color: C.text, fontFace: "Consolas", margin: 0
-    });
+    for (let i = 0; i < items.length; i++) {
+      const item = items[i];
+      const col = i % 2;
+      const row = Math.floor(i / 2);
+      const x = col === 0 ? 0.35 : 5.1;
+      const y = 1.32 + row * 0.97;
+      s.addShape(pres.shapes.RECTANGLE, { x, y, w: 4.6, h: 0.84, fill: { color: C.white }, shadow: shadow() });
+      s.addShape(pres.shapes.RECTANGLE, { x, y, w: 0.06, h: 0.84, fill: { color: item.color } });
+      s.addShape(pres.shapes.RECTANGLE, { x: x + 0.18, y: y + 0.24, w: 0.28, h: 0.28, fill: { color: C.offWhite }, line: { color: item.color, width: 1.5 } });
+      s.addText(item.check, { x: x + 0.58, y, w: 3.9, h: 0.84, fontSize: 10.5, color: C.text, valign: "middle", margin: 0 });
+    }
 
-    // Right — use cases
-    s.addShape(pres.shapes.RECTANGLE, { x: 5.25, y: 2.45, w: 4.4, h: 2.95, fill: { color: C.white }, shadow: shadow() });
-    s.addShape(pres.shapes.RECTANGLE, { x: 5.25, y: 2.45, w: 4.4, h: 0.4, fill: { color: C.navy } });
-    s.addText("SKILL USE CASES", { x: 5.25, y: 2.45, w: 4.4, h: 0.4, fontSize: 11, color: C.white, bold: true, charSpacing: 2, align: "center", valign: "middle", margin: 0 });
-
-    const usecases = [
-      { head: "General capability gaps",       body: "PDF, Excel, PowerPoint creation \u2014 things Claude can\u2019t do well out of the box" },
-      { head: "Org / team workflows",          body: "Brand style guidelines, PR conventions, deployment runbooks" },
-      { head: "Domain expertise",              body: "Your microservice patterns, data model, API conventions" },
-      { head: "Tool interaction patterns",     body: "How to use your internal tools, custom MCP servers, CLI tools" },
-    ];
-    usecases.forEach((u, i) => {
-      const y = 2.97 + i * 0.72;
-      s.addShape(pres.shapes.RECTANGLE, { x: 5.35, y, w: 4.2, h: 0.64, fill: { color: C.offWhite } });
-      s.addText(u.head, { x: 5.45, y: y + 0.05, w: 4.0, h: 0.24, fontSize: 11.5, color: C.navy, bold: true, margin: 0 });
-      s.addText(u.body, { x: 5.45, y: y + 0.32, w: 4.0, h: 0.26, fontSize: 10.5, color: C.muted, margin: 0 });
-    });
+    s.addShape(pres.shapes.RECTANGLE, { x: 0.35, y: 5.18, w: 9.3, h: 0.28, fill: { color: C.accent, transparency: 80 } });
+    s.addText("The DoD belongs in your rules file AND your CI pipeline. The agent self-evaluates; CI enforces.", { x: 0.35, y: 5.18, w: 9.3, h: 0.28, fontSize: 10, color: C.text, align: "center", valign: "middle", italic: true, margin: 0 });
   }
 
   // ══════════════════════════════════════════════════════════════════
-  // SLIDE 6 — The Four Context Strategies
+  // SLIDE 6 — Product Documentation
   // ══════════════════════════════════════════════════════════════════
   {
     const s = pres.addSlide();
     s.background = { color: C.white };
 
-    s.addShape(pres.shapes.RECTANGLE, { x: 0, y: 0, w: 10, h: 0.82, fill: { color: C.teal } });
-    s.addText("THE FOUR CONTEXT STRATEGIES", { x: 0.4, y: 0, w: 9, h: 0.82, fontSize: 13, color: C.white, bold: true, charSpacing: 3, valign: "middle", margin: 0 });
-    s.addText("Choose the right pattern for the right situation \u2014 most production agents combine all four", { x: 0.4, y: 0.9, w: 9.2, h: 0.3, fontSize: 12, color: C.muted, italic: true, margin: 0 });
-
-    const strategies = [
-      {
-        n: "01", icon: FaFileAlt, color: C.navy,   label: "Naive Injection",
-        when: "Small, universally relevant content",
-        how:  "Drop files into context upfront (CLAUDE.md, Skills). Claude reads everything before starting.",
-        pro:  "Simple, reliable, immediate availability",
-        con:  "Fills context window fast with potentially irrelevant content",
-        ex:   "CLAUDE.md, coding conventions, project overview"
-      },
-      {
-        n: "02", icon: FaBolt,    color: C.accent, label: "Just-in-Time Retrieval",
-        when: "Large codebases, long-running tasks",
-        how:  "Agent uses grep/glob/bash to load files dynamically at runtime when needed \u2014 lightweight identifiers held in context.",
-        pro:  "Precise, efficient, scales to massive repos",
-        con:  "Requires agent discipline; slightly slower",
-        ex:   "Claude Code\u2019s codebase navigation, targeted file reads"
-      },
-      {
-        n: "03", icon: FaMemory,  color: C.green,  label: "Agentic Memory",
-        when: "Multi-step tasks crossing context limits",
-        how:  "Agent regularly writes NOTES.md / TODO.md / MEMORY.md, reads them back as needed to persist state.",
-        pro:  "Unlimited effective memory, transparent and auditable",
-        con:  "Requires discipline; notes must be maintained accurately",
-        ex:   "NOTES.md, Claude Code to-do lists, Pokémon-playing Claude"
-      },
-      {
-        n: "04", icon: FaCompress, color: C.steel, label: "Compaction",
-        when: "Context window approaching limit",
-        how:  "Summarise conversation into a fresh context window \u2014 preserve decisions, bugs, implementation details; discard redundant tool outputs.",
-        pro:  "Enables indefinite continuation of long agent runs",
-        con:  "Aggressive compaction loses subtle but critical context",
-        ex:   "Claude Code auto-compaction, tool result clearing"
-      },
-    ];
-
-    strategies.forEach((st, i) => {
-      const x = 0.35 + i * 2.38, y = 1.3;
-      s.addShape(pres.shapes.RECTANGLE, { x, y, w: 2.2, h: 4.12, fill: { color: C.offWhite }, shadow: shadow() });
-      s.addShape(pres.shapes.RECTANGLE, { x, y, w: 2.2, h: 0.58, fill: { color: st.color } });
-      s.addText(st.n, { x, y, w: 0.52, h: 0.58, fontSize: 20, color: C.white, bold: true, align: "center", valign: "middle", margin: 0 });
-      s.addText(st.label, { x: x + 0.54, y, w: 1.62, h: 0.58, fontSize: 12, color: C.white, bold: true, valign: "middle", margin: 0 });
-
-      s.addText("WHEN", { x: x + 0.1, y: y + 0.65, w: 2.0, h: 0.22, fontSize: 8.5, color: st.color, bold: true, charSpacing: 2, margin: 0 });
-      s.addText(st.when, { x: x + 0.1, y: y + 0.87, w: 2.0, h: 0.36, fontSize: 10, color: C.muted, margin: 0 });
-
-      s.addText("HOW", { x: x + 0.1, y: y + 1.3, w: 2.0, h: 0.22, fontSize: 8.5, color: st.color, bold: true, charSpacing: 2, margin: 0 });
-      s.addText(st.how, { x: x + 0.1, y: y + 1.52, w: 2.0, h: 0.68, fontSize: 10, color: C.text, margin: 0 });
-
-      s.addText("\u2713 " + st.pro, { x: x + 0.1, y: y + 2.28, w: 2.0, h: 0.36, fontSize: 10, color: C.green, margin: 0 });
-      s.addText("\u26A0 " + st.con, { x: x + 0.1, y: y + 2.64, w: 2.0, h: 0.36, fontSize: 10, color: C.steel, margin: 0 });
-
-      s.addShape(pres.shapes.RECTANGLE, { x: x + 0.08, y: y + 3.06, w: 2.04, h: 0.88, fill: { color: st.color, transparency: 88 } });
-      s.addText("e.g.", { x: x + 0.15, y: y + 3.1, w: 1.9, h: 0.22, fontSize: 9, color: st.color, bold: true, margin: 0 });
-      s.addText(st.ex, { x: x + 0.15, y: y + 3.3, w: 1.9, h: 0.55, fontSize: 9.5, color: C.muted, italic: true, margin: 0 });
-    });
-  }
-
-  // ══════════════════════════════════════════════════════════════════
-  // SLIDE 7 — Compaction Deep Dive
-  // ══════════════════════════════════════════════════════════════════
-  {
-    const s = pres.addSlide();
-    s.background = { color: C.navy };
-
-    s.addText("COMPACTION  \u2014  DEEP DIVE", { x: 0.4, y: 0.22, w: 9, h: 0.45, fontSize: 13, color: C.iceBlue, bold: true, charSpacing: 3, margin: 0 });
-    s.addText("How agents survive tasks longer than their context window", { x: 0.4, y: 0.72, w: 9, h: 0.36, fontSize: 17, color: C.white, italic: true, margin: 0 });
-
-    // The flow diagram
-    const stages = [
-      { label: "Long\nConversation", color: C.steel,  sub: "Approaching limit" },
-      { label: "Summarise\nHistory",  color: C.accent, sub: "Model compresses" },
-      { label: "Fresh\nContext",      color: C.teal,   sub: "Summary + last 5 files" },
-      { label: "Continue\nTask",      color: C.green,  sub: "Agent carries on" },
-    ];
-
-    stages.forEach((st, i) => {
-      const x = 0.5 + i * 2.38, y = 1.3;
-      s.addShape(pres.shapes.RECTANGLE, { x, y, w: 2.1, h: 1.35, fill: { color: C.mid, transparency: 15 }, shadow: shadow() });
-      s.addShape(pres.shapes.RECTANGLE, { x, y, w: 2.1, h: 0.55, fill: { color: st.color } });
-      s.addText(st.label, { x, y, w: 2.1, h: 0.55, fontSize: 13, color: C.white, bold: true, align: "center", valign: "middle", margin: 0 });
-      s.addText(st.sub,   { x: x + 0.1, y: y + 0.62, w: 1.9, h: 0.55, fontSize: 11, color: C.pale, align: "center", margin: 0 });
-      if (i < stages.length - 1) {
-        s.addText("\u2192", { x: x + 2.1, y: y + 0.45, w: 0.28, h: 0.45, fontSize: 20, color: C.muted, align: "center", margin: 0 });
-      }
-    });
-
-    // Keep vs Discard
-    const keep = [
-      "Architectural decisions made",
-      "Unresolved bugs and blockers",
-      "Implementation choices and reasoning",
-      "Current task state and next steps",
-      "Critical file paths and variable names",
-      "Last 5 files accessed (always preserved)",
-    ];
-    const discard = [
-      "Raw tool call outputs from early in history",
-      "Repeated search results",
-      "Intermediate reasoning chains",
-      "Redundant file reads",
-      "Superseded plans or approaches",
-    ];
-
-    s.addShape(pres.shapes.RECTANGLE, { x: 0.35, y: 2.82, w: 4.55, h: 2.6, fill: { color: C.mid, transparency: 18 } });
-    s.addShape(pres.shapes.RECTANGLE, { x: 0.35, y: 2.82, w: 4.55, h: 0.4, fill: { color: C.green, transparency: 15 } });
-    s.addText("\u2713  WHAT TO KEEP  (maximize recall)", { x: 0.45, y: 2.82, w: 4.35, h: 0.4, fontSize: 11, color: C.white, bold: true, valign: "middle", margin: 0 });
-    s.addText(keep.map(k => `\u2022 ${k}`).join("\n"), { x: 0.5, y: 3.28, w: 4.3, h: 2.0, fontSize: 11, color: C.pale, margin: 0 });
-
-    s.addShape(pres.shapes.RECTANGLE, { x: 5.1, y: 2.82, w: 4.55, h: 2.6, fill: { color: C.mid, transparency: 18 } });
-    s.addShape(pres.shapes.RECTANGLE, { x: 5.1, y: 2.82, w: 4.55, h: 0.4, fill: { color: C.steel, transparency: 15 } });
-    s.addText("\u2717  WHAT TO DISCARD  (improve precision)", { x: 5.2, y: 2.82, w: 4.35, h: 0.4, fontSize: 11, color: C.white, bold: true, valign: "middle", margin: 0 });
-    s.addText(discard.map(d => `\u2022 ${d}`).join("\n"), { x: 5.2, y: 3.28, w: 4.3, h: 2.0, fontSize: 11, color: C.pale, margin: 0 });
-
-    s.addText("Lightest-touch compaction: tool result clearing \u2014 raw results from early history rarely need to be re-read. Available now in Claude API as a native feature.", {
-      x: 0.35, y: 5.3, w: 9.3, h: 0.27, fontSize: 10, color: C.muted, italic: true, margin: 0
-    });
-  }
-
-  // ══════════════════════════════════════════════════════════════════
-  // SLIDE 8 — Product Documentation as Context
-  // ══════════════════════════════════════════════════════════════════
-  {
-    const s = pres.addSlide();
-    s.background = { color: C.offWhite };
-
     s.addShape(pres.shapes.RECTANGLE, { x: 0, y: 0, w: 10, h: 0.82, fill: { color: C.navy } });
-    s.addText("PRODUCT DOCUMENTATION AS CONTEXT", { x: 0.4, y: 0, w: 9, h: 0.82, fontSize: 13, color: C.white, bold: true, charSpacing: 3, valign: "middle", margin: 0 });
-    s.addText("The agent builds what it can see. If your intent isn\u2019t in context, it will guess.", { x: 0.4, y: 0.9, w: 9.2, h: 0.3, fontSize: 12.5, color: C.muted, italic: true, margin: 0 });
+    s.addText("PRODUCT DOCUMENTATION  —  THE 'WHY' BEHIND EVERY CONSTRAINT", { x: 0.4, y: 0, w: 9.2, h: 0.82, fontSize: 13, color: C.white, bold: true, charSpacing: 3, valign: "middle", margin: 0 });
+    s.addText("Without product docs, agents optimize technically but miss product intent — correct code for the wrong product.", { x: 0.4, y: 0.9, w: 9.2, h: 0.28, fontSize: 11.5, color: C.muted, italic: true, margin: 0 });
 
     const docs = [
       {
-        icon: FaBook, color: C.accent, label: "SPEC.md / PRD",
-        what: "Product requirements as a persistent file in the repo. The agent reads it at the start of every session.",
-        why:  "Without spec context, agents optimise for the wrong outcomes. A spec gives the agent the \u2018why\u2019 behind every feature.",
-        how:  "Commit SPEC.md to git. The agent can query history with git blame to understand when requirements changed."
+        title: "Product Summary",
+        color: C.accent,
+        icon: FaBook,
+        desc: "What the product does, who uses it, and what it must never do. One to two paragraphs. The agent reads this first.",
+        contains: ["What the product does and why it exists", "Who the primary users are and their goals", "3 non-negotiables: what must never happen", "Fits on a single screen — if it doesn't, it's too long"],
       },
       {
-        icon: FaCheckSquare, color: C.teal, label: "Definition of Done",
-        what: "Explicit, verifiable acceptance criteria for every feature \u2014 written before coding starts.",
-        why:  "Without DoD, \u201Cdone\u201D is whatever the agent decides. With it, the agent has a concrete completion target.",
-        how:  "Embed DoD directly in SPEC.md. Agent uses it to write tests, verify output, and know when to stop."
+        title: "Product Details",
+        color: C.teal,
+        icon: FaListAlt,
+        desc: "Functional and non-functional requirements, user personas, integrations, performance baselines, and accepted trade-offs.",
+        contains: ["User personas and their primary workflows", "Key integrations and their constraints", "Performance and availability baselines", "Known limitations and their accepted trade-offs"],
       },
       {
-        icon: FaFileAlt, color: C.green, label: "Architecture Decision Records",
-        what: "Persistent records of architectural choices and their reasoning. Spotify captures these from Slack threads via agents.",
-        why:  "Agents making code changes need to understand existing architectural constraints to avoid breaking invariants.",
-        how:  "Maintain an `adr/` folder. Reference in CLAUDE.md so agents load relevant ADRs just-in-time."
-      },
-      {
-        icon: FaCogs, color: C.steel, label: "API Contracts & Schemas",
-        what: "OpenAPI specs, database schemas, type definitions \u2014 the machine-readable contracts your system depends on.",
-        why:  "Agents with access to contracts hallucinate far less. They can validate their own output against the schema.",
-        how:  "Use MCP servers like Context7 for real-time documentation. Or reference static schema files via just-in-time retrieval."
+        title: "Technical Details",
+        color: C.green,
+        icon: FaCog,
+        desc: "Architecture overview, bounded contexts, integration contracts, security model, data classification, deployment topology.",
+        contains: ["Bounded contexts and their responsibilities", "Technology choices and the reasons for them", "Security model and data classification", "What a new senior engineer reads in week one"],
       },
     ];
 
-    const cols = [0.35, 5.1];
-    for (let i = 0; i < docs.length; i++) {
+    for (let i = 0; i < 3; i++) {
       const d = docs[i];
-      const x = cols[i % 2], y = 1.28 + Math.floor(i / 2) * 2.05, w = 4.55, h = 1.9;
-      s.addShape(pres.shapes.RECTANGLE, { x, y, w, h, fill: { color: C.white }, shadow: shadow() });
-      s.addShape(pres.shapes.RECTANGLE, { x, y, w: 0.07, h, fill: { color: d.color } });
+      const x = 0.35 + i * 3.2;
       const ic = await icon(d.icon, "#" + d.color);
-      s.addImage({ data: ic, x: x + 0.18, y: y + 0.2, w: 0.38, h: 0.38 });
-      s.addText(d.label, { x: x + 0.68, y: y + 0.12, w: w - 0.82, h: 0.38, fontSize: 13, color: d.color, bold: true, margin: 0 });
-      s.addText(d.what,  { x: x + 0.68, y: y + 0.54, w: w - 0.82, h: 0.38, fontSize: 10.5, color: C.text, margin: 0 });
-      s.addText(d.how,   { x: x + 0.68, y: y + 0.96, w: w - 0.82, h: 0.72, fontSize: 10.5, color: C.muted, italic: true, margin: 0 });
+      s.addShape(pres.shapes.RECTANGLE, { x, y: 1.28, w: 3.0, h: 3.95, fill: { color: C.offWhite }, shadow: shadow() });
+      s.addShape(pres.shapes.RECTANGLE, { x, y: 1.28, w: 3.0, h: 0.48, fill: { color: d.color, transparency: 15 } });
+      s.addImage({ data: ic, x: x + 0.15, y: 1.34, w: 0.32, h: 0.32 });
+      s.addText(d.title, { x: x + 0.55, y: 1.28, w: 2.35, h: 0.48, fontSize: 12.5, color: C.navy, bold: true, valign: "middle", margin: 0 });
+      s.addText(d.desc, { x: x + 0.12, y: 1.82, w: 2.76, h: 0.72, fontSize: 10, color: C.muted, italic: true, margin: 0 });
+      for (let j = 0; j < d.contains.length; j++) {
+        const cy = 2.62 + j * 0.55;
+        s.addShape(pres.shapes.RECTANGLE, { x: x + 0.12, y: cy + 0.07, w: 0.08, h: 0.08, fill: { color: d.color } });
+        s.addText(d.contains[j], { x: x + 0.28, y: cy, w: 2.6, h: 0.48, fontSize: 10, color: C.text, valign: "middle", margin: 0 });
+      }
+    }
+
+    s.addShape(pres.shapes.RECTANGLE, { x: 0.35, y: 5.3, w: 9.3, h: 0.22, fill: { color: C.navy, transparency: 85 } });
+    s.addText("All three levels live in the repository (PRODUCT.md or docs/) and are referenced from the rules file for just-in-time loading.", { x: 0.35, y: 5.3, w: 9.3, h: 0.22, fontSize: 9.5, color: C.muted, italic: true, align: "center", valign: "middle", margin: 0 });
+  }
+
+  // ══════════════════════════════════════════════════════════════════
+  // SLIDE 7 — Architecture Decision Records
+  // ══════════════════════════════════════════════════════════════════
+  {
+    const s = pres.addSlide();
+    s.background = { color: C.navy };
+
+    s.addText("ARCHITECTURE DECISION RECORDS  —  WHAT THE AGENT MUST NOT UNDO", { x: 0.4, y: 0.22, w: 9.2, h: 0.45, fontSize: 13, color: C.iceBlue, bold: true, charSpacing: 3, margin: 0 });
+
+    // The key problem
+    s.addShape(pres.shapes.RECTANGLE, { x: 0.35, y: 0.8, w: 9.3, h: 0.88, fill: { color: C.mid, transparency: 18 }, shadow: shadow() });
+    s.addText("An agent that does not know about ADR-012 will see the Redis session code and consider migrating it back to the database.\nIt does not know this was settled. Without the ADR, it makes a confident, plausible, and expensive mistake.", {
+      x: 0.6, y: 0.85, w: 8.8, h: 0.76,
+      fontSize: 12.5, color: C.pale, italic: true, align: "center", valign: "middle", margin: 0
+    });
+
+    // ADR format left
+    s.addShape(pres.shapes.RECTANGLE, { x: 0.35, y: 1.82, w: 4.55, h: 3.55, fill: { color: C.mid, transparency: 25 }, shadow: shadow() });
+    s.addShape(pres.shapes.RECTANGLE, { x: 0.35, y: 1.82, w: 4.55, h: 0.38, fill: { color: C.accent } });
+    s.addText("ADR FORMAT", { x: 0.35, y: 1.82, w: 4.55, h: 0.38, fontSize: 11, color: C.white, bold: true, charSpacing: 2, align: "center", valign: "middle", margin: 0 });
+
+    const adrFields = [
+      { field: "# ADR-[n]: Short descriptive title", style: "header" },
+      { field: "Status: Accepted | Deprecated | Superseded by ADR-[n]", style: "meta" },
+      { field: "Context — what situation forced this decision?", style: "section" },
+      { field: "Decision — what was chosen and why?", style: "section" },
+      { field: "Alternatives considered — what was rejected?", style: "section" },
+      { field: "Consequences — what is now easier? What is prohibited?", style: "section" },
+      { field: "Review trigger — when should this be revisited?", style: "section" },
+    ];
+
+    for (let i = 0; i < adrFields.length; i++) {
+      const f = adrFields[i];
+      const y = 2.28 + i * 0.44;
+      const isHeader = f.style === "header";
+      s.addShape(pres.shapes.RECTANGLE, { x: 0.48, y, w: 4.28, h: 0.38, fill: { color: isHeader ? C.navy : C.mid, transparency: isHeader ? 0 : 60 } });
+      s.addText(f.field, { x: 0.58, y, w: 4.08, h: 0.38, fontSize: 9.5, color: isHeader ? C.iceBlue : C.pale, fontFace: isHeader ? "Consolas" : undefined, valign: "middle", margin: 0 });
+    }
+
+    // Right — discipline
+    const adrRules = [
+      { icon: FaDatabase, color: C.teal,  head: "Store in adr/ folder",          body: "Version-controlled alongside the code. One file per decision. Reference the folder from your rules file." },
+      { icon: FaSearch,   color: C.green, head: "Never delete — deprecate",       body: "When a decision is superseded, update the status and link forward to the new ADR. History matters." },
+      { icon: FaLightbulb, color: C.amber, head: "Agent-assisted drafting",       body: "Discuss the decision in Slack. Agent drafts the ADR. Human reviews and merges. Minutes, not hours." },
+    ];
+
+    for (let i = 0; i < 3; i++) {
+      const r = adrRules[i];
+      const y = 1.82 + i * 1.22;
+      const ic = await icon(r.icon, "#" + r.color);
+      s.addShape(pres.shapes.RECTANGLE, { x: 5.2, y, w: 4.45, h: 1.1, fill: { color: C.mid, transparency: 15 }, shadow: shadow() });
+      s.addShape(pres.shapes.RECTANGLE, { x: 5.2, y, w: 0.06, h: 1.1, fill: { color: r.color } });
+      s.addImage({ data: ic, x: 5.34, y: y + 0.2, w: 0.38, h: 0.38 });
+      s.addText(r.head, { x: 5.82, y: y + 0.08, w: 3.7, h: 0.34, fontSize: 12, color: r.color, bold: true, margin: 0 });
+      s.addText(r.body, { x: 5.82, y: y + 0.46, w: 3.7, h: 0.55, fontSize: 10.5, color: C.pale, margin: 0 });
     }
   }
 
   // ══════════════════════════════════════════════════════════════════
-  // SLIDE 9 — Context Anti-Patterns
+  // SLIDE 8 — Product Requirements Documents
+  // ══════════════════════════════════════════════════════════════════
+  {
+    const s = pres.addSlide();
+    s.background = { color: C.offWhite };
+
+    s.addShape(pres.shapes.RECTANGLE, { x: 0, y: 0, w: 10, h: 0.82, fill: { color: C.navy } });
+    s.addText("THE PRD  —  REQUIREMENTS THE AGENT CAN BUILD TO", { x: 0.4, y: 0, w: 9.2, h: 0.82, fontSize: 13, color: C.white, bold: true, charSpacing: 3, valign: "middle", margin: 0 });
+    s.addText("A PRD without testable acceptance criteria is a wish list. An agent given a wish list guesses.", { x: 0.4, y: 0.9, w: 9.2, h: 0.28, fontSize: 11.5, color: C.muted, italic: true, margin: 0 });
+
+    const prdParts = [
+      { n:"1", title:"Problem statement",      color: C.accent, body: "What situation or user need is this change addressing? The agent needs the 'why' to make sensible trade-off decisions." },
+      { n:"2", title:"Acceptance criteria",    color: C.green,  body: "Specific, testable conditions that define success. Each criterion becomes the basis for a test. If it can't be tested, rewrite it." },
+      { n:"3", title:"Non-goals",              color: C.teal,   body: "What this change explicitly does not do. Prevents scope creep and stops the agent from solving adjacent problems it was not asked to solve." },
+      { n:"4", title:"Constraints",            color: C.amber,  body: "Technical, regulatory, or business constraints that govern implementation. Security requirements, SLA targets, compatibility rules." },
+      { n:"5", title:"Links to external docs", color: C.steel,  body: "API specs, compliance documents, design files, research. If the agent can't follow the link, either bring the content in or summarise it in the PRD." },
+    ];
+
+    for (let i = 0; i < prdParts.length; i++) {
+      const p = prdParts[i];
+      const col = i % 2;
+      const row = Math.floor(i / 2);
+      let x, y, w;
+      if (i === 4) { x = 2.88; y = 4.05; w = 4.25; }
+      else { x = col === 0 ? 0.35 : 5.1; y = 1.28 + row * 1.38; w = 4.55; }
+      s.addShape(pres.shapes.RECTANGLE, { x, y, w, h: 1.22, fill: { color: C.white }, shadow: shadow() });
+      s.addShape(pres.shapes.RECTANGLE, { x, y, w: 0.06, h: 1.22, fill: { color: p.color } });
+      s.addShape(pres.shapes.RECTANGLE, { x: x + 0.18, y: y + 0.16, w: 0.32, h: 0.32, fill: { color: p.color } });
+      s.addText(p.n, { x: x + 0.18, y: y + 0.16, w: 0.32, h: 0.32, fontSize: 11, color: C.white, bold: true, align: "center", valign: "middle", margin: 0 });
+      s.addText(p.title, { x: x + 0.62, y: y + 0.1, w: w - 0.76, h: 0.34, fontSize: 12, color: C.navy, bold: true, margin: 0 });
+      s.addText(p.body, { x: x + 0.62, y: y + 0.48, w: w - 0.76, h: 0.66, fontSize: 10.5, color: C.muted, margin: 0 });
+    }
+  }
+
+  // ══════════════════════════════════════════════════════════════════
+  // SLIDE 9 — Acceptance Criteria: Vague vs. Precise
   // ══════════════════════════════════════════════════════════════════
   {
     const s = pres.addSlide();
     s.background = { color: C.white };
 
     s.addShape(pres.shapes.RECTANGLE, { x: 0, y: 0, w: 10, h: 0.82, fill: { color: C.navy } });
-    s.addText("CONTEXT ANTI-PATTERNS  \u2014  WHAT BREAKS AGENTS", { x: 0.4, y: 0, w: 9, h: 0.82, fontSize: 13, color: C.white, bold: true, charSpacing: 3, valign: "middle", margin: 0 });
-    s.addText("These are the most common causes of unreliable, hallucinating, or scope-creeping agents", { x: 0.4, y: 0.9, w: 9.2, h: 0.3, fontSize: 12, color: C.muted, italic: true, margin: 0 });
+    s.addText("ACCEPTANCE CRITERIA  —  VAGUE VS. PRECISE", { x: 0.4, y: 0, w: 9.2, h: 0.82, fontSize: 13, color: C.white, bold: true, charSpacing: 3, valign: "middle", margin: 0 });
+    s.addText("If it can't be expressed as a test, it isn't an acceptance criterion — it's a hope.", { x: 0.4, y: 0.9, w: 9.2, h: 0.28, fontSize: 11.5, color: C.muted, italic: true, margin: 0 });
 
-    const antipatterns = [
-      { n:"01", head: "Bloated CLAUDE.md",           fix: "Keep to <300 lines of universally applicable rules. Move task-specific content to agent_docs/.",     impact: "Agent ignores instructions it deems irrelevant \u2014 including the ones you care about most." },
-      { n:"02", head: "No Definition of Done",       fix: "Add explicit acceptance criteria per feature. Without them, the agent decides when it\u2019s done.",   impact: "Agent marks tasks complete prematurely or keeps going past what you wanted." },
-      { n:"03", head: "Stale context in long tasks", fix: "Implement compaction or use tool result clearing. Never let context grow unbounded.",                  impact: "Performance degrades quadratically. Later tool calls contradict earlier ones." },
-      { n:"04", head: "No spec in context",          fix: "Commit SPEC.md to the repo. Reference it in CLAUDE.md so it\u2019s always available.",                 impact: "Agent builds the technically correct thing rather than the product thing." },
-      { n:"05", head: "Vague non-goals",             fix: "State non-goals explicitly. Agents cannot infer scope from omission \u2014 only from explicit instruction.", impact: "Agent adds auth, logging, tests, or features you explicitly didn\u2019t want." },
-      { n:"06", head: "Mixing concerns in context",  fix: "Separate business specs from technical specs. Keep each context source focused and purposeful.",        impact: "Agent confuses requirements and implementation, producing inconsistent output." },
+    const pairs = [
+      {
+        vague: "The user should be able to see their account balance.",
+        precise: "GET /account/{id}/balance returns the current balance in GBP to 2 decimal places within 200ms for authenticated users, or HTTP 401 for unauthenticated requests.",
+      },
+      {
+        vague: "The form should validate user input.",
+        precise: "Submitting the form with a missing required field displays an inline error message adjacent to that field within 100ms. The form does not submit. No network request is made.",
+      },
+      {
+        vague: "The import should handle large files.",
+        precise: "Files up to 50MB import without error. Files exceeding 50MB return a 413 response with error code FILE_TOO_LARGE before any data is processed. Memory usage does not exceed 256MB during import.",
+      },
     ];
 
-    const cols = [0.35, 5.1];
-    antipatterns.forEach((ap, i) => {
-      const x = cols[i % 2], y = 1.28 + Math.floor(i / 3) * 2.1 + (i % 3) * 0.0;
-      // Actually, let's do 3 per column
-    });
+    for (let i = 0; i < 3; i++) {
+      const p = pairs[i];
+      const y = 1.28 + i * 1.35;
 
-    // 3 per column layout
-    [[0,1,2],[3,4,5]].forEach((group, col) => {
-      group.forEach((idx, row) => {
-        const ap = antipatterns[idx];
-        const x = col === 0 ? 0.35 : 5.1, y = 1.28 + row * 1.4, w = 4.55, h = 1.3;
-        s.addShape(pres.shapes.RECTANGLE, { x, y, w, h, fill: { color: C.offWhite }, shadow: shadow() });
-        s.addShape(pres.shapes.RECTANGLE, { x, y, w: 0.45, h, fill: { color: "E8505B", transparency: 10 } });
-        s.addText(ap.n, { x, y, w: 0.45, h, fontSize: 14, color: C.white, bold: true, align: "center", valign: "middle", margin: 0 });
-        s.addText(ap.head, { x: x + 0.55, y: y + 0.06, w: w - 0.65, h: 0.32, fontSize: 12, color: C.navy, bold: true, margin: 0 });
-        s.addText("\u26A0 " + ap.impact, { x: x + 0.55, y: y + 0.42, w: w - 0.65, h: 0.38, fontSize: 10.5, color: "B03040", margin: 0 });
-        s.addText("\u2713 " + ap.fix,    { x: x + 0.55, y: y + 0.84, w: w - 0.65, h: 0.38, fontSize: 10.5, color: C.green,  margin: 0 });
-      });
-    });
+      // Vague
+      s.addShape(pres.shapes.RECTANGLE, { x: 0.35, y, w: 4.5, h: 1.18, fill: { color: C.offWhite }, shadow: shadow() });
+      s.addShape(pres.shapes.RECTANGLE, { x: 0.35, y, w: 4.5, h: 0.3, fill: { color: C.red, transparency: 25 } });
+      s.addText("✗  VAGUE", { x: 0.42, y, w: 4.35, h: 0.3, fontSize: 10, color: C.white, bold: true, valign: "middle", margin: 0 });
+      s.addText(p.vague, { x: 0.48, y: y + 0.35, w: 4.25, h: 0.76, fontSize: 10.5, color: C.text, margin: 0 });
+
+      // Arrow
+      s.addText("→", { x: 4.9, y: y + 0.45, w: 0.4, h: 0.36, fontSize: 20, color: C.accent, align: "center", margin: 0 });
+
+      // Precise
+      s.addShape(pres.shapes.RECTANGLE, { x: 5.25, y, w: 4.4, h: 1.18, fill: { color: C.offWhite }, shadow: shadow() });
+      s.addShape(pres.shapes.RECTANGLE, { x: 5.25, y, w: 4.4, h: 0.3, fill: { color: C.green, transparency: 25 } });
+      s.addText("✓  PRECISE  (testable)", { x: 5.32, y, w: 4.26, h: 0.3, fontSize: 10, color: C.white, bold: true, valign: "middle", margin: 0 });
+      s.addText(p.precise, { x: 5.38, y: y + 0.35, w: 4.12, h: 0.76, fontSize: 10, color: C.text, margin: 0 });
+    }
   }
 
   // ══════════════════════════════════════════════════════════════════
-  // SLIDE 10 — Context Engineering Checklist
+  // SLIDE 10 — Plans and Specs
   // ══════════════════════════════════════════════════════════════════
   {
     const s = pres.addSlide();
     s.background = { color: C.navy };
 
-    s.addText("CONTEXT ENGINEERING CHECKLIST", { x: 0.4, y: 0.22, w: 9, h: 0.45, fontSize: 13, color: C.iceBlue, bold: true, charSpacing: 3, margin: 0 });
-    s.addText("Apply this before every agent deployment", { x: 0.4, y: 0.72, w: 9, h: 0.36, fontSize: 17, color: C.white, italic: true, margin: 0 });
+    s.addText("PLANS AND SPECS  —  THE IMPLEMENTATION BLUEPRINT", { x: 0.4, y: 0.22, w: 9.2, h: 0.45, fontSize: 13, color: C.iceBlue, bold: true, charSpacing: 3, margin: 0 });
+    s.addText("Where the PRD says what must be accomplished, the plan says how. It removes design decisions from the agent.", { x: 0.4, y: 0.74, w: 9.2, h: 0.3, fontSize: 12, color: C.pale, italic: true, margin: 0 });
 
-    const checks = [
-      { cat: "CLAUDE.md",       color: C.accent, items: ["Under 300 lines?", "Only universal rules (no task-specific content)?", "References agent_docs/ for detail?", "Has a linter/formatter stop hook?"] },
-      { cat: "Spec & DoD",      color: C.teal,   items: ["SPEC.md committed to repo?", "Acceptance criteria explicit for each feature?", "Non-goals stated positively?", "ADRs in adr/ folder?"] },
-      { cat: "Context Strategy",color: C.green,  items: ["Identified which of 4 strategies applies?", "NOTES.md pattern for multi-step tasks?", "Compaction threshold defined?", "Tool result clearing enabled?"] },
-      { cat: "Skills",          color: C.steel,  items: ["Skills created for domain knowledge?", "Trigger descriptions precise?", "SKILL.md under 200 lines?", "Tested that Claude triggers correctly?"] },
+    // Left — what the plan contains
+    s.addShape(pres.shapes.RECTANGLE, { x: 0.35, y: 1.18, w: 4.55, h: 4.15, fill: { color: C.mid, transparency: 20 }, shadow: shadow() });
+    s.addShape(pres.shapes.RECTANGLE, { x: 0.35, y: 1.18, w: 4.55, h: 0.4, fill: { color: C.teal } });
+    s.addText("WHAT A GOOD PLAN CONTAINS", { x: 0.35, y: 1.18, w: 4.55, h: 0.4, fontSize: 11, color: C.white, bold: true, charSpacing: 2, align: "center", valign: "middle", margin: 0 });
+
+    const planItems = [
+      "Files to change — explicit list of files modified, created, or deleted",
+      "Changes per file — what each change does at function/class level",
+      "New components — names, responsibilities, and interfaces",
+      "Data changes — schema migrations, API contracts, config changes",
+      "Test strategy — what tests to write and what each covers",
+      "Implementation sequence — order of changes with dependencies noted",
+      "Open questions — decisions the team has not yet made",
+    ];
+    for (let i = 0; i < planItems.length; i++) {
+      const y = 1.68 + i * 0.49;
+      s.addShape(pres.shapes.RECTANGLE, { x: 0.5, y: y + 0.12, w: 0.1, h: 0.1, fill: { color: C.teal } });
+      s.addText(planItems[i], { x: 0.72, y, w: 4.05, h: 0.45, fontSize: 10.5, color: C.pale, valign: "middle", margin: 0 });
+    }
+
+    // Right — depth calibration
+    s.addShape(pres.shapes.RECTANGLE, { x: 5.2, y: 1.18, w: 4.45, h: 4.15, fill: { color: C.mid, transparency: 20 }, shadow: shadow() });
+    s.addShape(pres.shapes.RECTANGLE, { x: 5.2, y: 1.18, w: 4.45, h: 0.4, fill: { color: C.accent } });
+    s.addText("DEPTH CALIBRATES CONFIDENCE", { x: 5.2, y: 1.18, w: 4.45, h: 0.4, fontSize: 11, color: C.white, bold: true, charSpacing: 2, align: "center", valign: "middle", margin: 0 });
+
+    const depths = [
+      { level: "Detailed plan", color: C.green, when: "High-stakes changes\nNew domains\nNew team members", gives: "Specific signatures, field names, test cases. Agent has almost no independent design decisions." },
+      { level: "Standard plan", color: C.teal,  when: "Well-understood changes\nExisting patterns", gives: "Component names, responsibilities, interfaces. Agent fills in implementation within defined boundaries." },
+      { level: "Light plan",    color: C.steel, when: "Low-risk changes\nAgent-familiar domain", gives: "Direction and constraints. Agent makes implementation decisions within known patterns." },
     ];
 
-    checks.forEach((cat, i) => {
-      const col = i % 2, row = Math.floor(i / 2);
-      const x = col === 0 ? 0.35 : 5.15, y = 1.28 + row * 2.05, w = 4.6, h = 1.9;
-      s.addShape(pres.shapes.RECTANGLE, { x, y, w, h, fill: { color: C.mid, transparency: 18 }, shadow: shadow() });
-      s.addShape(pres.shapes.RECTANGLE, { x, y, w, h: 0.42, fill: { color: cat.color, transparency: 10 } });
-      s.addText(cat.cat, { x, y, w, h: 0.42, fontSize: 12, color: C.white, bold: true, charSpacing: 2, align: "center", valign: "middle", margin: 0 });
-      cat.items.forEach((item, j) => {
-        s.addShape(pres.shapes.RECTANGLE, { x: x + 0.12, y: y + 0.5 + j * 0.34, w: 0.28, h: 0.26, fill: { color: C.mid, transparency: 5 } });
-        s.addText("\u25A1", { x: x + 0.12, y: y + 0.5 + j * 0.34, w: 0.28, h: 0.26, fontSize: 12, color: cat.color, align: "center", valign: "middle", margin: 0 });
-        s.addText(item, { x: x + 0.48, y: y + 0.5 + j * 0.34, w: w - 0.6, h: 0.28, fontSize: 11, color: C.pale, valign: "middle", margin: 0 });
-      });
-    });
+    for (let i = 0; i < 3; i++) {
+      const d = depths[i];
+      const y = 1.68 + i * 1.2;
+      s.addShape(pres.shapes.RECTANGLE, { x: 5.32, y, w: 4.2, h: 1.08, fill: { color: C.mid, transparency: 40 } });
+      s.addShape(pres.shapes.RECTANGLE, { x: 5.32, y, w: 0.06, h: 1.08, fill: { color: d.color } });
+      s.addText(d.level, { x: 5.48, y: y + 0.04, w: 4.0, h: 0.3, fontSize: 12, color: d.color, bold: true, margin: 0 });
+      s.addText("When: " + d.when, { x: 5.48, y: y + 0.36, w: 1.82, h: 0.64, fontSize: 9.5, color: C.pale, margin: 0 });
+      s.addShape(pres.shapes.RECTANGLE, { x: 7.25, y: y + 0.1, w: 0.02, h: 0.85, fill: { color: C.steel, transparency: 50 } });
+      s.addText(d.gives, { x: 7.35, y: y + 0.1, w: 2.05, h: 0.88, fontSize: 9.5, color: C.muted, margin: 0 });
+    }
   }
 
   // ══════════════════════════════════════════════════════════════════
-  // SLIDE 11 — Lab Exercise
+  // SLIDE 11 — Just-in-Time Context Assembly
+  // ══════════════════════════════════════════════════════════════════
+  {
+    const s = pres.addSlide();
+    s.background = { color: C.offWhite };
+
+    s.addShape(pres.shapes.RECTANGLE, { x: 0, y: 0, w: 10, h: 0.82, fill: { color: C.navy } });
+    s.addText("JUST-IN-TIME CONTEXT ASSEMBLY", { x: 0.4, y: 0, w: 9.2, h: 0.82, fontSize: 13, color: C.white, bold: true, charSpacing: 3, valign: "middle", margin: 0 });
+    s.addText("Load what is relevant to the current task. The context window is finite and expensive — fill it with signal, not noise.", { x: 0.4, y: 0.9, w: 9.2, h: 0.28, fontSize: 11.5, color: C.muted, italic: true, margin: 0 });
+
+    const phases = [
+      { phase: "Session start",              color: C.accent, load: "Rules file · Product summary" },
+      { phase: "Before any task",            color: C.teal,   load: "Relevant ADRs · PRD for this task" },
+      { phase: "Before writing code",        color: C.green,  load: "Plan section for this component · Relevant existing code" },
+      { phase: "When a test fails",          color: C.amber,  load: "Failing test · Relevant spec section · Relevant code" },
+      { phase: "When agent is uncertain",    color: C.steel,  load: "The specific ADR or constraint document that resolves the question" },
+    ];
+
+    for (let i = 0; i < phases.length; i++) {
+      const p = phases[i];
+      const y = 1.28 + i * 0.82;
+      s.addShape(pres.shapes.RECTANGLE, { x: 0.35, y, w: 9.3, h: 0.72, fill: { color: C.white }, shadow: shadow() });
+      s.addShape(pres.shapes.RECTANGLE, { x: 0.35, y, w: 2.4, h: 0.72, fill: { color: p.color, transparency: 20 } });
+      s.addText(p.phase, { x: 0.5, y, w: 2.2, h: 0.72, fontSize: 11.5, color: C.navy, bold: true, valign: "middle", margin: 0 });
+      s.addText("→", { x: 2.8, y, w: 0.35, h: 0.72, fontSize: 18, color: p.color, align: "center", valign: "middle", margin: 0 });
+      s.addText(p.load, { x: 3.22, y, w: 6.3, h: 0.72, fontSize: 11.5, color: C.text, valign: "middle", margin: 0 });
+    }
+
+    s.addShape(pres.shapes.RECTANGLE, { x: 0.35, y: 5.35, w: 9.3, h: 0.18, fill: { color: C.navy, transparency: 85 } });
+    s.addText("What to exclude: sections unrelated to the current task · historical PRDs · unrelated test output · ADRs for untouched systems", { x: 0.35, y: 5.35, w: 9.3, h: 0.18, fontSize: 9.5, color: C.muted, italic: true, align: "center", valign: "middle", margin: 0 });
+  }
+
+  // ══════════════════════════════════════════════════════════════════
+  // SLIDE 12 — Lab Exercise
   // ══════════════════════════════════════════════════════════════════
   {
     const s = pres.addSlide();
     s.background = { color: C.white };
 
-    s.addShape(pres.shapes.RECTANGLE, { x: 0, y: 0, w: 10, h: 0.82, fill: { color: C.teal } });
-    s.addText("LAB EXERCISE  \u00B7  30 MINUTES", { x: 0.4, y: 0, w: 9, h: 0.82, fontSize: 13, color: C.white, bold: true, charSpacing: 3, valign: "middle", margin: 0 });
-    s.addText("Write a CLAUDE.md and Skill for Your Team", { x: 0.4, y: 0.95, w: 9.2, h: 0.48, fontSize: 19, color: C.navy, bold: true, margin: 0 });
+    s.addShape(pres.shapes.RECTANGLE, { x: 0, y: 0, w: 10, h: 0.82, fill: { color: C.navy } });
+    s.addText("LAB EXERCISE", { x: 0.4, y: 0, w: 9.2, h: 0.82, fontSize: 13, color: C.white, bold: true, charSpacing: 3, valign: "middle", margin: 0 });
+    s.addText("Engineering context for a real agent task on your own product or a representative scenario", { x: 0.4, y: 0.9, w: 9.2, h: 0.28, fontSize: 11.5, color: C.muted, italic: true, margin: 0 });
 
     const steps = [
-      { n: "1", t: "Audit your current context", min: "5 min",
-        d: "If you already have a CLAUDE.md or .cursorrules, open it. How many lines? What percentage is universally applicable? What\u2019s task-specific? What\u2019s missing entirely?" },
-      { n: "2", t: "Write your CLAUDE.md",        min: "10 min",
-        d: "Draft a 40\u201360-line CLAUDE.md for your team. Include: project overview, non-negotiable rules, reference to agent_docs/. No task-specific content. Swap with a neighbour for critique." },
-      { n: "3", t: "Design a Skill",              min: "8 min",
-        d: "Identify one domain knowledge gap (deployment process, data model, API conventions). Write the YAML frontmatter and first 20 lines of a SKILL.md that addresses it. Focus the trigger description carefully." },
-      { n: "4", t: "Context strategy mapping",   min: "7 min",
-        d: "For the agent workflow you designed in Module 2\u2019s lab: map each piece of context to one of the 4 strategies. Which content is naive injection? Which is JIT? Where would compaction trigger?" },
+      { n:"1", t:"Write a product summary",    min:"8 min",  d:"Draft a product summary for a system you work on. Include what it does, who uses it, and the three things it must never do. Swap with a neighbour — can they make a sound architecture decision from your summary alone?" },
+      { n:"2", t:"Write two ADRs",             min:"10 min", d:"Identify two architectural decisions in your system that would surprise or constrain an agent. Write one ADR for each. For each: what would a well-intentioned agent get wrong without this ADR?" },
+      { n:"3", t:"Write a Definition of Done", min:"7 min",  d:"Write the DoD for one task type on your team (a new API endpoint, a migration, a UI component). Be specific enough that an agent can self-evaluate against it without asking a clarifying question." },
+      { n:"4", t:"Write acceptance criteria",  min:"7 min",  d:"Take a real upcoming feature. Write acceptance criteria as specific, testable conditions. For each criterion: can you write a test that verifies it? If not, rewrite it until you can." },
+      { n:"5", t:"Identify context gaps",      min:"3 min",  d:"What external documentation would the agent need to implement this feature correctly? Is each one accessible from the repository? If not, what is the plan?" },
     ];
 
-    steps.forEach((st, i) => {
-      const y = 1.55 + i * 0.97;
-      s.addShape(pres.shapes.RECTANGLE, { x: 0.35, y, w: 9.3, h: 0.87, fill: { color: C.offWhite }, shadow: shadow() });
-      s.addShape(pres.shapes.RECTANGLE, { x: 0.35, y, w: 0.55, h: 0.87, fill: { color: C.teal } });
-      s.addText(st.n, { x: 0.35, y, w: 0.55, h: 0.87, fontSize: 22, color: C.white, bold: true, align: "center", valign: "middle", margin: 0 });
-      s.addText(st.t, { x: 1.0, y: y + 0.06, w: 2.4, h: 0.32, fontSize: 13, color: C.teal, bold: true, margin: 0 });
-      s.addText(`(${st.min})`, { x: 3.4, y: y + 0.06, w: 0.9, h: 0.32, fontSize: 11, color: C.muted, italic: true, margin: 0 });
-      s.addText(st.d, { x: 1.0, y: y + 0.44, w: 8.55, h: 0.38, fontSize: 11, color: C.muted, margin: 0 });
-    });
+    for (let i = 0; i < steps.length; i++) {
+      const st = steps[i];
+      const y = 1.28 + i * 0.84;
+      s.addShape(pres.shapes.RECTANGLE, { x: 0.35, y, w: 9.3, h: 0.75, fill: { color: C.offWhite }, shadow: shadow() });
+      s.addShape(pres.shapes.RECTANGLE, { x: 0.35, y, w: 0.5, h: 0.75, fill: { color: C.accent } });
+      s.addText(st.n, { x: 0.35, y, w: 0.5, h: 0.75, fontSize: 16, color: C.white, bold: true, align: "center", valign: "middle", margin: 0 });
+      s.addText(st.t, { x: 0.96, y: y + 0.04, w: 2.5, h: 0.3, fontSize: 12, color: C.navy, bold: true, margin: 0 });
+      s.addText(st.min, { x: 0.96, y: y + 0.38, w: 1.0, h: 0.26, fontSize: 10, color: C.accent, bold: true, margin: 0 });
+      s.addText(st.d, { x: 2.1, y: y + 0.08, w: 7.45, h: 0.58, fontSize: 10.5, color: C.muted, valign: "middle", margin: 0 });
+    }
   }
 
   // ══════════════════════════════════════════════════════════════════
-  // SLIDE 12 — Discussion + Summary
+  // SLIDE 13 — Discussion + Key Takeaways
   // ══════════════════════════════════════════════════════════════════
   {
     const s = pres.addSlide();
     s.background = { color: C.navy };
 
-    s.addShape(pres.shapes.RECTANGLE, { x: 9.82, y: 0, w: 0.18, h: 5.625, fill: { color: C.accent } });
-    s.addText("DISCUSSION + MODULE SUMMARY", { x: 0.4, y: 0.22, w: 9, h: 0.45, fontSize: 13, color: C.iceBlue, bold: true, charSpacing: 3, margin: 0 });
+    s.addShape(pres.shapes.RECTANGLE, { x: 0, y: 0, w: 10, h: 0.72, fill: { color: C.mid } });
+    s.addText("MODULE 03  —  DISCUSSION & KEY TAKEAWAYS", { x: 0.4, y: 0, w: 9.2, h: 0.72, fontSize: 13, color: C.white, bold: true, charSpacing: 3, valign: "middle", margin: 0 });
 
-    s.addShape(pres.shapes.RECTANGLE, { x: 0.35, y: 0.82, w: 5.5, h: 3.82, fill: { color: C.mid, transparency: 20 }, shadow: shadow() });
-    s.addShape(pres.shapes.RECTANGLE, { x: 0.35, y: 0.82, w: 5.5, h: 0.48, fill: { color: C.iceBlue, transparency: 15 } });
-    s.addText("DISCUSSION QUESTIONS", { x: 0.35, y: 0.82, w: 5.5, h: 0.48, fontSize: 11, color: C.white, bold: true, charSpacing: 2, align: "center", valign: "middle", margin: 0 });
-    const qs = [
-      "Q1.  What\u2019s the worst case of bloated context you\u2019ve seen cause an agent to fail or hallucinate?",
-      "Q2.  What piece of your team\u2019s domain knowledge would make the highest-impact Skill to create?",
-      "Q3.  Where in your current workflow does a missing Definition of Done cause the most rework?",
-      "Q4.  Which of the 4 context strategies is your team currently NOT using? What\u2019s the cost?",
+    // Left — discussion questions
+    s.addShape(pres.shapes.RECTANGLE, { x: 0.35, y: 0.88, w: 4.55, h: 4.45, fill: { color: C.mid, transparency: 18 }, shadow: shadow() });
+    s.addText("DISCUSSION", { x: 0.55, y: 1.0, w: 3.5, h: 0.35, fontSize: 11, color: C.iceBlue, bold: true, charSpacing: 3, margin: 0 });
+
+    const questions = [
+      "What is the most important thing a new developer needs to know about your codebase? Is it written down anywhere?",
+      "How long would it take a new agent — given your current documentation — to understand your product well enough to implement a feature correctly?",
+      "Which of the five context artifacts does your team most consistently skip? What class of agent errors would that produce?",
+      "If you wrote acceptance criteria specific enough to become tests for your last three features, would they pass?",
     ];
-    s.addText(qs.join("\n\n"), { x: 0.5, y: 1.4, w: 5.1, h: 3.1, fontSize: 11.5, color: C.pale, margin: 0 });
+    for (let i = 0; i < questions.length; i++) {
+      const y = 1.46 + i * 0.92;
+      s.addShape(pres.shapes.RECTANGLE, { x: 0.5, y, w: 0.28, h: 0.28, fill: { color: C.accent } });
+      s.addText(`Q${i+1}`, { x: 0.5, y, w: 0.28, h: 0.28, fontSize: 9, color: C.white, bold: true, align: "center", valign: "middle", margin: 0 });
+      s.addText(questions[i], { x: 0.9, y, w: 3.85, h: 0.82, fontSize: 10.5, color: C.pale, valign: "middle", margin: 0 });
+    }
 
-    s.addShape(pres.shapes.RECTANGLE, { x: 6.05, y: 0.82, w: 3.6, h: 3.82, fill: { color: C.mid, transparency: 20 }, shadow: shadow() });
-    s.addShape(pres.shapes.RECTANGLE, { x: 6.05, y: 0.82, w: 3.6, h: 0.48, fill: { color: C.accent, transparency: 10 } });
-    s.addText("KEY TAKEAWAYS", { x: 6.05, y: 0.82, w: 3.6, h: 0.48, fontSize: 11, color: C.white, bold: true, charSpacing: 2, align: "center", valign: "middle", margin: 0 });
-    const tks = [
-      "\u00B7 Context engineering = agent engineering",
-      "\u00B7 CLAUDE.md: <300 lines, universal rules only",
-      "\u00B7 Skills: on-demand specialist knowledge",
-      "\u00B7 4 strategies: inject, JIT, memory, compact",
-      "\u00B7 Spec, DoD, ADRs belong in context",
-      "\u00B7 No DoD = agent decides when it\u2019s done",
-      "\u00B7 Anti-patterns are predictable \u2014 avoid them early",
+    // Right — key takeaways
+    s.addShape(pres.shapes.RECTANGLE, { x: 5.1, y: 0.88, w: 4.55, h: 4.45, fill: { color: C.mid, transparency: 18 }, shadow: shadow() });
+    s.addText("KEY TAKEAWAYS", { x: 5.3, y: 1.0, w: 3.5, h: 0.35, fontSize: 11, color: C.iceBlue, bold: true, charSpacing: 3, margin: 0 });
+
+    const takeaways = [
+      { color: C.accent, text: "Context determines output quality more than model choice. The five artifacts are your primary lever." },
+      { color: C.teal,   text: "The Definition of Done belongs in the rules file. Without it, the agent decides what 'done' means." },
+      { color: C.green,  text: "ADRs prevent agents from undoing settled decisions. What's not written down doesn't exist for the agent." },
+      { color: C.amber,  text: "A PRD without testable acceptance criteria is a wish list. Vague input produces vague output at machine speed." },
+      { color: C.steel,  text: "Documentation debt is now technical debt. It has a direct, measurable impact on agentic development quality." },
     ];
-    s.addText(tks.join("\n\n"), { x: 6.2, y: 1.4, w: 3.35, h: 3.1, fontSize: 11.5, color: C.pale, margin: 0 });
+    for (let i = 0; i < takeaways.length; i++) {
+      const t = takeaways[i];
+      const y = 1.46 + i * 0.76;
+      s.addShape(pres.shapes.RECTANGLE, { x: 5.25, y, w: 0.06, h: 0.65, fill: { color: t.color } });
+      s.addText(t.text, { x: 5.42, y, w: 4.1, h: 0.65, fontSize: 10.5, color: C.pale, valign: "middle", margin: 0 });
+    }
 
-    s.addShape(pres.shapes.RECTANGLE, { x: 0.35, y: 4.75, w: 9.3, h: 0.62, fill: { color: C.accent, transparency: 18 } });
-    s.addText("NEXT  \u00B7  Module 04: Spec-Driven Development & PRDs  \u2014  Writing requirements agents can actually execute", {
-      x: 0.35, y: 4.75, w: 9.3, h: 0.62, fontSize: 11.5, color: C.white, bold: true, align: "center", valign: "middle", margin: 0
-    });
+    // Next module banner
+    s.addShape(pres.shapes.RECTANGLE, { x: 0, y: 5.3, w: 10, h: 0.325, fill: { color: C.accent } });
+    s.addText("NEXT:  Module 04 — Spec-Driven Development & PRDs  |  Writing the documents that agents build to", { x: 0.4, y: 5.3, w: 9.2, h: 0.325, fontSize: 11, color: C.white, bold: true, valign: "middle", margin: 0 });
   }
 
   await pres.writeFile({ fileName: "Module_03_Context_Engineering.pptx" });
   console.log("✅ Module 3 written");
 }
 
-build().catch(console.error);
+build().catch(err => { console.error(err); process.exit(1); });

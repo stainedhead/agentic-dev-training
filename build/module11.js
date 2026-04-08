@@ -292,7 +292,7 @@ async function build() {
     const oldRole = [
       "Write code to satisfy a ticket",
       "Implement what the PM specifies",
-      "Optimise for story points delivered",
+      "Optimize for story points delivered",
       "Hand off and move to next ticket",
       "System knowledge stays in one person\u2019s head",
       "Quality is a test run before shipping",
@@ -300,7 +300,7 @@ async function build() {
     const newRole = [
       "Guide the product\u2019s evolution intelligently",
       "Co-author the spec with context the PM doesn\u2019t have",
-      "Optimise for user outcomes and system health",
+      "Optimize for user outcomes and system health",
       "Own the outcome end-to-end",
       "System knowledge is documented, shared, agent-accessible",
       "Quality is a continuous practice, not a gate",
@@ -501,7 +501,7 @@ async function build() {
     const principles = [
       {
         head: "Context-rich agents make better decisions",
-        body: "An agent with PRODUCT.md, ADRs, user personas, and architecture docs in context will self-correct toward the right solution. Without context, it optimises for the technically correct solution, not the product-correct one.",
+        body: "An agent with PRODUCT.md, ADRs, user personas, and architecture docs in context will self-correct toward the right solution. Without context, it optimizes for the technically correct solution, not the product-correct one.",
         color: C.accent
       },
       {

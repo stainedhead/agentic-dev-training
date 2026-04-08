@@ -6,7 +6,7 @@ By the end of this module you will be able to:
 - Explain why three equal peers with rotating roles is the optimal unit for agentic product delivery
 - Describe the scope and responsibilities of each of the three roles: Solution Architect, Spec Engineer, and DevOps Guardian
 - Design a role rotation schedule that builds shared understanding and prevents knowledge silos
-- Navigate system-level collaboration and avoid local optimisations that harm the wider organization
+- Navigate system-level collaboration and avoid local optimizations that harm the wider organization
 - Advocate for NFR health and technical debt prevention using business language
  
 ---
@@ -149,9 +149,9 @@ Retrospective + Capture (Whole team: ADRs, PRODUCT.md, hygiene)
  
 No step is skipped. No implementation starts without an approved PRD. No PR merges without DevOps Guardian review.
  
-### System Collaboration — No Local Optimisation
+### System Collaboration — No Local Optimization
  
-A product team that optimises only for its own product will eventually damage the wider system it operates within.
+A product team that optimizes only for its own product will eventually damage the wider system it operates within.
  
 **API contracts before implementation.** Agree on interfaces with dependency teams before writing a line of code. Breaking changes need upstream coordination, not last-minute surprises.
  
@@ -159,7 +159,7 @@ A product team that optimises only for its own product will eventually damage th
  
 **Platform over duplication.** Before building a capability, check whether the platform team or a shared service already provides it. Local duplicates fragment the system and create maintenance burden.
  
-**NFRs are system-wide, not local.** A performance optimisation that creates a bottleneck for consumer teams is not an optimisation. Measure impact at the system level, not at the product level.
+**NFRs are system-wide, not local.** A performance optimization that creates a bottleneck for consumer teams is not an optimization. Measure impact at the system level, not at the product level.
  
 ### Structural Protections Against Technical Debt
  
@@ -213,7 +213,7 @@ A product team that optimises only for its own product will eventually damage th
  
 3. **Define your NFR floor** (8 min) — Write the quality contract your team would commit to: minimum test coverage, performance budget, security checklist frequency, complexity limits. How would you present this to your PO?
  
-4. **Map your system dependencies** (7 min) — Draw your product's dependency graph. Which teams do you consume from? Which consume from you? What contracts are missing? What collaboration cadence would prevent local optimisation?
+4. **Map your system dependencies** (7 min) — Draw your product's dependency graph. Which teams do you consume from? Which consume from you? What contracts are missing? What collaboration cadence would prevent local optimization?
  
 5. **Draft your tech debt case** (8 min) — Identify your single largest source of tech debt. Frame it in business language using one of the three frames: risk, velocity tax, or opportunity cost. Draft a one-sprint investment proposal with expected return.
  

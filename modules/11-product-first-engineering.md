@@ -89,7 +89,7 @@ Andrew Ng (YC AI Startup School, 2025): "For the first time in my life, managers
 |-----------------------------|--------------------------|
 | Write code to satisfy a ticket | Guide the product's evolution intelligently |
 | Implement what the PM specifies | Co-author the spec with context the PM lacks |
-| Optimise for story points delivered | Optimise for user outcomes and system health |
+| Optimize for story points delivered | Optimize for user outcomes and system health |
 | Hand off and move to the next ticket | Own the outcome end to end |
 | System knowledge lives in one person's head | System knowledge is documented, shared, agent-accessible |
 | Quality is a test run before shipping | Quality is a continuous practice |

@@ -13,6 +13,46 @@ A 12-module enterprise developer training programme on agentic AI practices. Eac
 
 ---
 
+## Programme Context — Read Before Any Content Work
+
+**Always read `PRODUCT.md` before writing or reviewing any module content, slide script, or exercise.**
+
+`PRODUCT.md` is the authoritative source for:
+- The programme's vision and the problem it exists to solve
+- The primary audience and what they need
+- The core argument that every module must be legible as part of
+- The programme design principles that govern all content decisions
+- The three-phase arc (Foundations → Automated Practices → Human Depth)
+- The non-negotiables that define the quality floor for every module
+
+### Using PRODUCT.md as a content guide
+
+When writing or reviewing any module content, check your work against the following from PRODUCT.md:
+
+1. **Core argument** — Does this content contribute to the machine-speed automated review → freed human capacity → deeper structured reviews argument? If not, does it belong?
+2. **Both sides of every practice** — Does the content name both what automation now handles AND what this frees humans to do? Both halves must appear together.
+3. **Never make the agent the subject** — Is the module about its SDLC topic (review, observability, security, FinOps, design) or has it drifted into "how to use Claude"?
+4. **XP/DevOps/Clean Architecture connection** — Does the module explicitly name the prior-generation movement that advocated for this practice, and explain why teams that resisted it then encounter it now as a prerequisite?
+5. **Enterprise-first** — Are governance, compliance, audit, and at-scale failure modes addressed as sections, not footnotes?
+
+### Updating PRODUCT.md
+
+**Any change in direction, new framing, added context, or refined argument from a working session must be written back to `PRODUCT.md` before that session ends.**
+
+PRODUCT.md is a living document. When the programme's thinking evolves — a new way of framing the core argument, a refined understanding of the audience, a new source or case study that materially changes how a practice should be presented — that evolution belongs in PRODUCT.md so it is available to every future session and every future agent working on this programme.
+
+Specifically, update PRODUCT.md when:
+- A new framing or example is found that makes the core argument clearer
+- The audience profile is refined based on delivery experience
+- A module's role in the programme arc is changed or clarified
+- A new primary source is identified that materially influences how a topic is framed
+- A design principle is added, removed, or refined
+- A non-negotiable quality floor is identified or changed
+
+When updating PRODUCT.md: make the minimum necessary change to capture the new direction. Do not rewrite sections that are not affected. Append to the Maintenance section noting what changed and why if the change is significant.
+
+---
+
 ## Repository Structure
 
 ```
@@ -129,15 +169,28 @@ s.addImage({ data: ic, x: 0.5, y: 0.5, w: 0.4, h: 0.4 });
 
 ---
 
-## Standard 12-Slide Structure
+## Standard Slide Structure (12–16 slides)
+
+Decks run between 12 and 16 slides. Aim for 12 — add slides only when the topic genuinely requires more depth to cover fully. Never pad to reach a target count; never compress content so tightly that a slide becomes unreadable.
 
 | Slide | Purpose | Background |
 |-------|---------|-----------|
 | 1 | Title — module number, topic, duration, right-side visual | `C.navy` |
 | 2 | Learning Objectives — 4 icon cards (2×2 grid) | `C.offWhite` |
-| 3–10 | Content slides — concepts, frameworks, case studies, tables | varies |
-| 11 | Lab Exercise — numbered steps with timing | `C.white` |
-| 12 | Discussion Questions (left) + Key Takeaways (right) + Next Module banner | `C.navy` |
+| 3–(N-2) | Content slides — concepts, frameworks, case studies, tables | varies |
+| N-1 | Lab Exercise — numbered steps with timing | `C.white` |
+| N | Discussion Questions (left) + Key Takeaways (right) + Next Module banner | `C.navy` |
+
+**When to add slides beyond 12:**
+- A concept requires a worked example on its own slide to be legible
+- A table or framework is too dense to share a slide with other content
+- A case study (e.g. Spotify, DORA data) warrants its own slide to land properly
+- The lab exercise has enough distinct steps that a single slide would be cramped
+
+**When not to add slides:**
+- To give a topic "more weight" — weight comes from depth, not count
+- Because content exists in the markdown guide — the deck covers the key ideas; the guide covers the detail
+- To accommodate text that should instead be cut or moved to speaker notes
 
 ---
 
@@ -226,6 +279,14 @@ git commit -m "fix: correct text in module 03 slide 7"
 ### Update content in a markdown guide
 Edit `modules/NN-name.md` directly — these are plain text, no build step needed.
 
+### Capture a change in programme direction
+When a working session produces a new framing, refined argument, new source, or changed design principle:
+1. Read `PRODUCT.md`
+2. Identify the section(s) affected (Vision, Core Argument, Design Principles, Non-Negotiables, etc.)
+3. Edit that section with the minimum change that accurately captures the new direction
+4. Append to the Maintenance section at the bottom: what changed, date, and why
+5. Do not rewrite unaffected sections
+
 ---
 
 ## Module List
@@ -235,12 +296,12 @@ Edit `modules/NN-name.md` directly — these are plain text, no build step neede
 | 01 | Chat vs. Agents | module01.js | Module_01_Chat_vs_Agents.pptx |
 | 02 | Core Agentic Concepts & Terms | module02.js | Module_02_Core_Concepts.pptx |
 | 03 | Context Engineering | module03.js | Module_03_Context_Engineering.pptx |
-| 04 | Spec-Driven Development & PRDs | module04.js | Module_04_SDD_PRDs.pptx |
-| 05 | Automated Testing, TDD & CI/CD | module05.js | Module_05_Testing_CICD.pptx |
-| 06 | Review Cycles, Hygiene & CI | module06.js | Module_06_Review_Hygiene.pptx |
-| 07 | Observability | module07.js | Module_07_Observability.pptx |
-| 08 | Reliability & Security Engineering | module08.js | Module_08_Security_Reliability.pptx |
-| 09 | FinOps for Agentic Systems | module09.js | Module_09_FinOps.pptx |
+| 04 | Product Documentation | module04.js | Module_04_Product_Documentation.pptx |
+| 05 | Automated Testing | module05.js | Module_05_Automated_Testing.pptx |
+| 06 | Spec-Driven Development & PRDs | module06.js | Module_06_SDD_PRDs.pptx |
+| 07 | Review Cycles: Automated Reviews Across the SDLC | module07.js | Module_07_Review_Cycles.pptx |
+| 08 | Review Hygiene & Continuous Improvement | module08.js | Module_08_Review_Hygiene.pptx |
+| 09 | Observability | module09.js | Module_09_Observability.pptx |
 | 10 | Design Reviews | module10.js | Module_10_Design_Reviews.pptx |
 | 11 | Product-First Engineering | module11.js | Module_11_Product_First.pptx |
 | 12 | The Three-Person Product Team | module12.js | Module_12_Three_Person_Team.pptx |
